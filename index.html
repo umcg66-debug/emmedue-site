@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Emmedue — международная система панелей для быстрой, энергоэффективной и сейсмостойкой застройки. Проектирование, овощехранилища, сыроварни.">
-  <title>Emmedue — ТеплоСтройНовация | Строительство и Проектирование</title>
-  <!-- Фавиконка (убедитесь, что файл logo.png загружен в репозиторий) -->
+  <meta name="description" content="Emmedue — международная система панелей для быстрой, энергоэффективной и сейсмостойкой застройки. Запросите инвестиционный пакет.">
+  <title>Emmedue — системы панелей для инвесторов | ТеплоСтройНовация</title>
+  <!-- Убедитесь, что файл logo.png есть в репозитории -->
   <link rel="icon" type="image/png" href="logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -14,101 +14,113 @@
     .page-content.active { display: block; }
     .nav-link { transition: all 0.2s; }
     .nav-link.active { background-color: #e5e7eb; font-weight: 600; }
-    /* Анимации */
     .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
-<body class="bg-white text-gray-800">
+<body class="bg-white">
 
 <!-- Navbar -->
 <header class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
-      <!-- Логотип -->
-      <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="showPage('home')">
-        <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
-        <div class="text-xl md:text-2xl font-bold text-blue-600 hidden lg:block">ТеплоСтройНовация</div>
-      </div>
-
-      <!-- Меню -->
-      <nav class="hidden xl:flex space-x-1 items-center overflow-x-auto">
-        <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
-        <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
-        <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Продукты</button>
+      <div class="flex items-center gap-4">
+        <!-- ЛОГОТИП -->
+        <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('home')">
+          <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
+          <div class="text-xl md:text-2xl font-bold text-blue-600 hidden sm:block">ТеплоСтройНовация</div>
+        </div>
         
-        <!-- НОВЫЕ ПУНКТЫ МЕНЮ -->
-        <button onclick="showPage('design')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100">Проектирование</button>
-        <button onclick="showPage('agro')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100 flex items-center gap-1">
-           🌱 АгроСтрой
-        </button>
+        <!-- МЕНЮ (Добавлены новые пункты) -->
+        <nav class="hidden xl:flex space-x-1 items-center">
+          <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
+          <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
+          <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Продукты</button>
+          
+          <!-- НОВЫЕ КНОПКИ -->
+          <button onclick="showPage('design')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100">Проектирование</button>
+          <button onclick="showPage('agro')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100">🌱 АгроСтрой</button>
 
-        <button onclick="showPage('comparison')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Сравнение</button>
-        <button onclick="showPage('investor')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Инвестору</button>
-        <button onclick="showPage('gallery')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Кейсы</button>
-        <button onclick="showPage('contact')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Контакты</button>
-      </nav>
-
-      <!-- Мобильное меню (гамбургер) - placeholder -->
-      <div class="xl:hidden">
-        <button class="text-gray-600 hover:text-blue-600 p-2" onclick="alert('Мобильное меню в разработке. Поверните экран.')">☰</button>
+          <button onclick="showPage('comparison')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Сравнение</button>
+          <button onclick="showPage('investor')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Инвестору</button>
+          <button onclick="showPage('gallery')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Кейсы</button>
+          <button onclick="showPage('docs')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Техдоки</button>
+          <button onclick="showPage('contact')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Контакты</button>
+        </nav>
+      </div>
+      <div class="hidden sm:flex items-center gap-3">
+        <button class="text-sm font-medium hover:text-blue-600">RU</button>
+        <button class="text-sm font-medium hover:text-blue-600">EN</button>
       </div>
     </div>
   </div>
 </header>
 
-<div class="flex-1 min-h-screen">
-  
-  <!-- HOME PAGE -->
+<div class="flex-1">
+  <!-- HOME PAGE (Ваша старая главная) -->
   <div id="home" class="page-content active">
     <section class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 relative overflow-hidden">
       <div class="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20"></div>
+      <div class="absolute bottom-0 left-0 w-96 h-96 bg-indigo-100 rounded-full filter blur-3xl opacity-20"></div>
       
       <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div class="animate-fade-in">
             <div class="inline-block px-4 py-2 bg-blue-100 rounded-full mb-6">
-              <span class="text-xs font-semibold text-blue-700">🚀 Революционная технология Emmedue</span>
+              <span class="text-xs font-semibold text-blue-700">🚀 Революционная технология в строительстве</span>
             </div>
             
             <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
               Строим быстрее, дешевле и устойчивее
             </h1>
 
-            <!-- СЛОГАН -->
+            <!-- СЛОГАН с иконкой -->
             <div class="mb-8 animate-fade-in">
               <div class="flex items-center gap-3">
                 <div class="bg-gradient-to-tr from-blue-500 to-indigo-500 p-3 rounded-full shadow-lg animate-pulse flex-shrink-0">
-                  <svg class="w-6 h-6 text-white" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-7 h-7 text-white" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="4" y="12" width="24" height="12" rx="3" fill="#475569"/>
                     <rect x="8" y="15" width="16" height="6" rx="2" fill="#22D3EE"/>
                     <rect x="4" y="12" width="24" height="12" rx="3" stroke="#3B82F6" stroke-width="2"/>
                     <path d="M10 18c0-2 4-2 4 0s4-2 4 0 4-2 4 0" stroke="#F59E42" stroke-width="2" stroke-linecap="round"/>
                   </svg>
                 </div>
-                <span class="block text-lg md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 drop-shadow-lg">
+                <span class="block text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 drop-shadow-lg">
                   Монолитный железобетон + встроенная теплоизоляция
                 </span>
               </div>
-              <div class="ml-14 mt-1 text-base md:text-lg font-semibold text-gray-600 italic">без единого мостика холода</div>
+              <div class="ml-16 mt-2 text-lg md:text-xl font-semibold text-gray-700 italic">без единого мостика холода</div>
+              <div class="ml-16 mt-4 text-base md:text-lg font-medium text-blue-700 bg-blue-50 rounded-full inline-block px-5 py-2 shadow border border-blue-200 animate-pulse">
+                Превосходим все существующие решения по скорости, эффективности и надёжности
+              </div>
             </div>
             
+            <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+              <strong>Система Emmedue</strong> — модульная конструкция на базе <span class="text-blue-600 font-semibold">EPS + армирующая сетка</span> и монолитный бетон.
+            </p>
+            
             <div class="flex gap-4 flex-wrap mb-6">
-              <button onclick="showPage('investor')" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 shadow-lg transform hover:scale-105 transition">
-                📥 Инвестпакет
+              <button onclick="showPage('investor')" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                📥 Запросить инвестпакет
               </button>
-              <button onclick="showPage('agro')" class="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 shadow-lg transform hover:scale-105 transition">
-                🥦 Для Агробизнеса
+              <button onclick="showPage('system')" class="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-blue-400 hover:bg-blue-50 transition-all duration-300">
+                🔍 Узнать технологию
               </button>
             </div>
           </div>
 
           <div class="space-y-6">
-            <!-- Видео -->
-            <div class="w-full rounded-xl overflow-hidden shadow-2xl border-2 border-blue-100">
+            <div class="w-full rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300 border-2 border-blue-100">
               <div class="relative bg-gray-900" style="padding-top: 56.25%">
-                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/DXXfC1jLGmg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/DXXfC1jLGmg" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
+            </div>
+             <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-lg">🎯</span>
+                <div class="font-semibold text-gray-900">Экономия 32 млн ₽</div>
+              </div>
+              <p class="text-xs text-gray-600">на проекте 1000 м² vs традиционные методы</p>
             </div>
           </div>
         </div>
@@ -119,54 +131,63 @@
   <!-- SYSTEM PAGE -->
   <div id="system" class="page-content">
     <div class="max-w-6xl mx-auto px-4 py-12">
-      <h1 class="text-3xl font-bold mb-4">Система Emmedue</h1>
-      <p class="text-gray-700 mb-6">Монолитные панельные стены с интегрированным утеплением (EPS), армирующей сеткой и торкрет-бетонированием.</p>
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="bg-gray-50 p-6 rounded-lg">
-            <h3 class="font-bold mb-2">Конструктив</h3>
-            <ul class="list-disc list-inside text-gray-600">
-                <li>Двойная арматурная сетка</li>
-                <li>Сердечник из пенополистирола (самозатухающий)</li>
-                <li>Слой бетона (3-5 см с каждой стороны)</li>
-            </ul>
+      <h1 class="text-3xl font-bold mb-4">Система конструктивных панелей Emmedue</h1>
+      <p class="text-gray-700 mb-6">Монолитные панельные стены с интегрированным утеплением.</p>
+      <section class="grid md:grid-cols-2 gap-6 mb-8">
+        <div>
+          <h2 class="text-xl font-semibold mb-4">Как это работает</h2>
+          <ol class="list-decimal list-inside text-gray-600 space-y-2">
+            <li>Заводское изготовление EPS панелей.</li>
+            <li>Транспорт и монтаж.</li>
+            <li>Торкретирование бетоном.</li>
+          </ol>
         </div>
-        <div class="bg-gray-50 p-6 rounded-lg">
-            <h3 class="font-bold mb-2">Применение</h3>
-            <ul class="list-disc list-inside text-gray-600">
-                <li>Несущие стены до 4-5 этажей</li>
-                <li>Ограждающие конструкции (фасады)</li>
-                <li>Перекрытия и лестницы</li>
-            </ul>
+        <div>
+          <h2 class="text-xl font-semibold mb-4">Типы панелей</h2>
+          <ul class="list-disc list-inside text-gray-600 space-y-2">
+            <li>Одинарные</li>
+            <li>Двойные</li>
+            <li>Лестничные</li>
+          </ul>
         </div>
-      </div>
+      </section>
     </div>
   </div>
 
-  <!-- PRODUCTS PAGE -->
+  <!-- PRODUCTS PAGE (Ваши товары с картинками) -->
   <div id="products" class="page-content">
     <div class="max-w-6xl mx-auto px-4 py-12">
-      <h1 class="text-2xl font-bold mb-6">Каталог панелей</h1>
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Product 1 -->
-        <div class="border rounded-lg p-4 hover:shadow-lg transition">
-          <div class="h-48 bg-gray-100 mb-4 flex items-center justify-center text-gray-400">[Фото Панель 120]</div>
-          <h3 class="font-bold">Панель Одинарная</h3>
-          <p class="text-sm text-gray-600 mb-4">Для несущих стен и перегородок.</p>
-          <button onclick="openPriceRequestModal('Панель Одинарная')" class="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Запросить цену</button>
+      <h1 class="text-2xl font-bold mb-6">Продукты</h1>
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Товар 1 -->
+        <div class="p-4 border rounded-md bg-white hover:shadow-md transition">
+          <div class="h-48 mb-4 flex items-center justify-center rounded overflow-hidden bg-gray-100 cursor-pointer relative group" onclick="openModal('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d', 'Панель EmmeDue 120')">
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d" alt="Панель EmmeDue 120" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+          </div>
+          <h3 class="font-semibold">Панель EmmeDue 120</h3>
+          <div class="flex gap-2 mt-2">
+            <button onclick="openPriceRequestModal('Панель EmmeDue 120')" class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
+          </div>
         </div>
-        <!-- Product 2 -->
-        <div class="border rounded-lg p-4 hover:shadow-lg transition">
-          <div class="h-48 bg-gray-100 mb-4 flex items-center justify-center text-gray-400">[Фото Панель Двойная]</div>
-          <h3 class="font-bold">Панель Двойная</h3>
-          <p class="text-sm text-gray-600 mb-4">Для высокой прочности и теплоизоляции.</p>
-          <button onclick="openPriceRequestModal('Панель Двойная')" class="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Запросить цену</button>
+        <!-- Товар 2 -->
+        <div class="p-4 border rounded-md bg-white hover:shadow-md transition">
+          <div class="h-48 mb-4 flex items-center justify-center rounded overflow-hidden bg-gray-100 cursor-pointer relative group" onclick="openModal('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6d2901ef-db97-49f2-9f05-ce30e729c31c', 'Панель EmmeDue 180')">
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6d2901ef-db97-49f2-9f05-ce30e729c31c" alt="Панель EmmeDue 180" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+          </div>
+          <h3 class="font-semibold">Панель EmmeDue 180</h3>
+           <div class="flex gap-2 mt-2">
+            <button onclick="openPriceRequestModal('Панель EmmeDue 180')" class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
+          </div>
         </div>
-        <!-- Product 3 -->
-        <div class="border rounded-lg p-4 hover:shadow-lg transition">
-          <div class="h-48 bg-gray-100 mb-4 flex items-center justify-center text-gray-400">[Фото Лестница]</div>
-          <h3 class="font-bold">Лестничный марш</h3>
-          <p class="text-sm text-gray-600 mb-4">Готовый армированный модуль.</p>
-          <button onclick="openPriceRequestModal('Лестничный марш')" class="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Запросить цену</button>
+        <!-- Товар 3 -->
+        <div class="p-4 border rounded-md bg-white hover:shadow-md transition">
+          <div class="h-48 mb-4 flex items-center justify-center rounded overflow-hidden bg-gray-100 cursor-pointer relative group" onclick="openModal('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/91881de3-ed1e-4a57-8336-08e92b9290d7', 'Панель лестничная')">
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/91881de3-ed1e-4a57-8336-08e92b9290d7" alt="Панель лестничная" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+          </div>
+          <h3 class="font-semibold">Панель лестничная</h3>
+           <div class="flex gap-2 mt-2">
+            <button onclick="openPriceRequestModal('Панель лестничная')" class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
+          </div>
         </div>
       </div>
     </div>
@@ -179,43 +200,22 @@
       <div class="grid md:grid-cols-2 gap-12">
         <div>
           <p class="text-lg text-gray-700 mb-6">
-            Наш проектный отдел специализируется на адаптации любых архитектурных решений под технологию несъемной опалубки и панельного домостроения.
+            Наш проектный отдел специализируется на адаптации любых архитектурных решений под технологию несъемной опалубки.
           </p>
-          
-          <div class="space-y-4">
-            <div class="flex items-start gap-3">
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start gap-3">
               <div class="bg-blue-100 p-2 rounded text-blue-600 font-bold">01</div>
-              <div>
-                <h4 class="font-bold">Адаптация проектов</h4>
-                <p class="text-sm text-gray-600">Пересчет кирпичных или блочных домов под панели Emmedue с сохранением архитектуры.</p>
-              </div>
-            </div>
-            <div class="flex items-start gap-3">
+              <div><h4 class="font-bold">Адаптация проектов</h4><p class="text-sm text-gray-600">Пересчет кирпичных домов под панели Emmedue.</p></div>
+            </li>
+            <li class="flex items-start gap-3">
               <div class="bg-blue-100 p-2 rounded text-blue-600 font-bold">02</div>
-              <div>
-                <h4 class="font-bold">Разработка КЖ / АР</h4>
-                <p class="text-sm text-gray-600">Полный комплект чертежей: раскладка панелей, узлы армирования, спецификации.</p>
-              </div>
-            </div>
-            <div class="flex items-start gap-3">
-              <div class="bg-blue-100 p-2 rounded text-blue-600 font-bold">03</div>
-              <div>
-                <h4 class="font-bold">BIM-моделирование</h4>
-                <p class="text-sm text-gray-600">Точный подсчет материалов и исключение коллизий на этапе стройки.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8">
-            <button onclick="showPage('contact')" class="px-6 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">Заказать расчет проекта</button>
-          </div>
+              <div><h4 class="font-bold">Разработка КЖ / АР</h4><p class="text-sm text-gray-600">Полный комплект чертежей и спецификаций.</p></div>
+            </li>
+          </ul>
+          <button onclick="showPage('contact')" class="px-6 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">Заказать проект</button>
         </div>
-        
         <div class="bg-gray-100 rounded-xl p-8 flex items-center justify-center border-2 border-dashed border-gray-300">
-          <div class="text-center">
-            <span class="text-6xl mb-4 block">📐</span>
-            <p class="text-gray-500">Здесь может быть пример чертежа или 3D модели</p>
-          </div>
+          <span class="text-gray-500 text-lg">📐 Чертеж / BIM-модель</span>
         </div>
       </div>
     </div>
@@ -228,49 +228,29 @@
         <div class="p-4 bg-green-100 rounded-full text-3xl">🥦</div>
         <div>
           <h1 class="text-3xl font-bold text-gray-900">Овощехранилища и Сыроварни</h1>
-          <p class="text-green-700 font-medium">Идеальные условия хранения без лишних затрат</p>
+          <p class="text-green-700 font-medium">Строительство агро-объектов без мостиков холода</p>
         </div>
       </div>
-      
-      <div class="bg-gradient-to-r from-green-50 to-white border-l-4 border-green-500 p-6 mb-10 shadow-sm rounded-r-lg">
-        <h3 class="text-xl font-bold text-green-900 mb-2">Эффект "Термоса"</h3>
-        <p class="text-gray-700">
-          Технология Emmedue создает <strong>бесшовный контур утепления</strong> без мостиков холода. Это позволяет поддерживать стабильную температуру (например, +3°C для картофеля) с минимальными затратами энергии.
-        </p>
-      </div>
-
       <div class="grid md:grid-cols-2 gap-8 mb-12">
-        <!-- Карточка 1 -->
-        <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition">
-          <div class="text-4xl mb-4">🥔</div>
-          <h3 class="text-2xl font-bold mb-4 text-gray-800">Овощехранилища</h3>
-          <ul class="space-y-3 text-gray-600">
-            <li class="flex items-center gap-2">✅ <strong>Герметичность:</strong> нет щелей, нет гниения.</li>
-            <li class="flex items-center gap-2">✅ <strong>Гигиена:</strong> бетонные стены легко мыть и дезинфицировать.</li>
-            <li class="flex items-center gap-2">✅ <strong>Скорость:</strong> построим к сезону урожая (за 1-2 месяца).</li>
-            <li class="flex items-center gap-2">✅ <strong>Влагостойкость:</strong> не боится конденсата.</li>
+        <div class="bg-white p-6 rounded-xl shadow border hover:shadow-lg transition">
+          <h3 class="text-xl font-bold mb-3">🥔 Овощехранилища</h3>
+          <p class="text-gray-600 mb-3">Герметичные камеры с идеальным климатом. Бетонные стены не гниют и держат температуру.</p>
+          <ul class="text-sm space-y-1 text-gray-500">
+            <li>• Экономия на охлаждении до 40%</li>
+            <li>• Быстрое возведение к сезону</li>
           </ul>
         </div>
-
-        <!-- Карточка 2 -->
-        <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition">
-          <div class="text-4xl mb-4">🧀</div>
-          <h3 class="text-2xl font-bold mb-4 text-gray-800">Сыроварни и Пищепром</h3>
-          <ul class="space-y-3 text-gray-600">
-            <li class="flex items-center gap-2">✅ <strong>СанПиН:</strong> идеально гладкие моющиеся стены.</li>
-            <li class="flex items-center gap-2">✅ <strong>Климат:</strong> точное поддержание влажности и температуры.</li>
-            <li class="flex items-center gap-2">✅ <strong>Экономия:</strong> снижение счетов за электричество до 50%.</li>
-            <li class="flex items-center gap-2">✅ <strong>Долговечность:</strong> не гниет, не ржавеет.</li>
+        <div class="bg-white p-6 rounded-xl shadow border hover:shadow-lg transition">
+          <h3 class="text-xl font-bold mb-3">🧀 Сыроварни</h3>
+          <p class="text-gray-600 mb-3">Чистые помещения по нормам СанПиН. Моющиеся стены, устойчивость к влаге и плесени.</p>
+          <ul class="text-sm space-y-1 text-gray-500">
+            <li>• Гладкие гигиеничные стены</li>
+            <li>• Стабильная температура</li>
           </ul>
         </div>
       </div>
-      
-      <div class="bg-green-600 text-white rounded-xl p-8 text-center shadow-lg">
-        <h3 class="text-2xl font-bold mb-4">Планируете строить агро-объект?</h3>
-        <p class="mb-6 text-green-100">Мы подготовим бесплатный расчет стоимости и энергоэффективности для вашего бизнеса.</p>
-        <button onclick="openPriceRequestModal('Агро-объект')" class="px-8 py-4 bg-white text-green-700 rounded-lg font-bold hover:bg-green-50 transition transform hover:scale-105 shadow-md">
-          Получить коммерческое предложение
-        </button>
+      <div class="text-center">
+        <button onclick="openPriceRequestModal('Агро-объект')" class="px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 shadow-md">Получить КП для агробизнеса</button>
       </div>
     </div>
   </div>
@@ -280,33 +260,27 @@
     <div class="max-w-6xl mx-auto px-4 py-12">
       <h1 class="text-2xl font-bold mb-6">Сравнение технологий</h1>
       <div class="overflow-x-auto">
-        <table class="w-full border-collapse border">
-          <thead class="bg-gray-100">
-            <tr>
-              <th class="p-3 border">Параметр</th>
-              <th class="p-3 border bg-blue-50 text-blue-800">Emmedue</th>
-              <th class="p-3 border">Кирпич/Блок</th>
-              <th class="p-3 border">Металлокаркас</th>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="p-3 border text-left text-sm">Параметр</th>
+              <th class="p-3 border text-left text-sm">Emmedue</th>
+              <th class="p-3 border text-left text-sm">Металлокаркас</th>
+              <th class="p-3 border text-left text-sm">Монолит</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="p-3 border font-medium">Мостики холода</td>
-              <td class="p-3 border bg-blue-50 font-bold text-green-600">НЕТ (0%)</td>
-              <td class="p-3 border">Есть (швы)</td>
-              <td class="p-3 border">Есть (каркас)</td>
+            <tr class="odd:bg-white even:bg-gray-50">
+              <td class="p-3 border text-sm">Теплоизоляция</td>
+              <td class="p-3 border text-sm">0.15–0.22 W/m²K</td>
+              <td class="p-3 border text-sm">0.50+ W/m²K</td>
+              <td class="p-3 border text-sm">0.40–0.60 W/m²K</td>
             </tr>
-            <tr>
-              <td class="p-3 border font-medium">Скорость (100 м²)</td>
-              <td class="p-3 border bg-blue-50">2-3 недели</td>
-              <td class="p-3 border">2-3 месяца</td>
-              <td class="p-3 border">1-1.5 месяца</td>
-            </tr>
-            <tr>
-              <td class="p-3 border font-medium">Толщина стены</td>
-              <td class="p-3 border bg-blue-50">25-30 см (теплее)</td>
-              <td class="p-3 border">50-60 см</td>
-              <td class="p-3 border">20-30 см</td>
+             <tr class="odd:bg-white even:bg-gray-50">
+              <td class="p-3 border text-sm">Стоимость / м²</td>
+              <td class="p-3 border text-sm">~18 000 ₽</td>
+              <td class="p-3 border text-sm">~50 000 ₽</td>
+              <td class="p-3 border text-sm">~35 000 ₽</td>
             </tr>
           </tbody>
         </table>
@@ -317,37 +291,34 @@
   <!-- INVESTOR PAGE -->
   <div id="investor" class="page-content">
     <div class="max-w-4xl mx-auto px-4 py-12">
-      <h1 class="text-2xl font-bold mb-4">Инвесторам: Завод Emmedue</h1>
-      <p class="mb-6">Откройте собственное производство панелей в своем регионе. Высокая маржинальность и спрос.</p>
-      <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
-        <h3 class="font-bold mb-2">ROI Калькулятор</h3>
-        <div class="grid gap-4">
-          <div>
-            <label class="block text-sm font-bold mb-1">Объем пр-ва (м²/год)</label>
-            <input type="number" class="w-full p-2 border rounded" value="50000">
-          </div>
-          <div class="text-right font-bold text-xl text-green-600">Окупаемость: ~18 месяцев</div>
-        </div>
+      <h1 class="text-2xl font-bold mb-4">Пакет Emmedue для инвесторов</h1>
+      <p class="text-gray-700 mb-6">Коммерческое предложение: франшиза/лицензия, обучение.</p>
+       <div class="bg-blue-50 p-6 rounded-md">
+        <h3 class="font-semibold mb-3">Примерный расчёт</h3>
+        <p class="text-sm text-gray-700 mb-3">Проект 1000 м²:</p>
+        <ul class="text-sm text-gray-700 space-y-1">
+          <li>💰 <strong>Экономия:</strong> 32 млн ₽ (64% экономии)</li>
+          <li>⏱️ <strong>Сроки:</strong> 30 дней/этаж vs 60 дней/этаж</li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- GALLERY PAGE -->
+  <!-- GALLERY PAGE (Пустая заглушка) -->
   <div id="gallery" class="page-content">
     <div class="max-w-6xl mx-auto px-4 py-12">
-      <h1 class="text-2xl font-bold mb-6">Реализованные проекты</h1>
-      <p class="text-gray-500">Раздел наполняется фотографиями...</p>
+      <h1 class="text-2xl font-bold mb-6">Кейсы и проекты</h1>
+      <p class="text-gray-500">Раздел наполняется...</p>
     </div>
   </div>
 
   <!-- DOCS PAGE -->
   <div id="docs" class="page-content">
     <div class="max-w-6xl mx-auto px-4 py-12">
-      <h1 class="text-2xl font-bold mb-6">Документация</h1>
-      <ul class="list-disc list-inside space-y-2 text-blue-600">
-        <li><a href="#" class="hover:underline">Альбом технических решений (PDF)</a></li>
-        <li><a href="#" class="hover:underline">Сертификат соответствия (RU)</a></li>
-        <li><a href="#" class="hover:underline">Результаты испытаний на огнестойкость</a></li>
+      <h1 class="text-2xl font-bold mb-4">Техническая документация</h1>
+      <ul class="list-disc list-inside text-gray-700 space-y-2">
+        <li>Руководство проектировщика</li>
+        <li>Сертификаты</li>
       </ul>
     </div>
   </div>
@@ -356,96 +327,85 @@
   <div id="contact" class="page-content">
     <div class="max-w-4xl mx-auto px-4 py-12">
       <h1 class="text-2xl font-bold mb-4">Контакты</h1>
-      <div class="grid md:grid-cols-2 gap-8">
-        <div>
-          <p class="mb-2"><strong>Телефон:</strong> +7 (XXX) XXX-XX-XX</p>
-          <p class="mb-2"><strong>Email:</strong> info@teplostroy.example</p>
-          <p class="mb-4"><strong>Адрес:</strong> г. Москва, ул. Строителей, 1</p>
-        </div>
-        <form class="space-y-4" onsubmit="handlePriceRequest(event)">
-          <input type="text" placeholder="Ваше имя" class="w-full p-3 border rounded" required>
-          <input type="email" placeholder="Email" class="w-full p-3 border rounded" required>
-          <textarea placeholder="Сообщение" class="w-full p-3 border rounded h-32"></textarea>
-          <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded font-bold hover:bg-blue-700">Отправить</button>
-        </form>
+      <div class="mb-8">
+        <p class="text-gray-700 mb-2"><strong>Телефон:</strong> +7 (953) 626-90-96</p>
+        <p class="text-gray-700"><strong>Email:</strong> umcg66@gmail.com</p>
       </div>
+      <form class="grid grid-cols-1 gap-4 mb-8" onsubmit="handlePriceRequest(event)">
+        <input name="name" type="text" class="w-full p-3 border rounded-md" placeholder="Ваше имя" required>
+        <input name="email" type="email" class="w-full p-3 border rounded-md" placeholder="your@email.com" required>
+        <textarea name="message" class="w-full p-3 border rounded-md" rows="4" placeholder="Ваше сообщение..." required></textarea>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">Отправить</button>
+      </form>
     </div>
   </div>
-
 </div>
 
 <!-- Footer -->
-<footer class="bg-gray-800 text-gray-300 py-8 mt-12">
-  <div class="max-w-7xl mx-auto px-4 text-center">
-    <p>© 2025 ТеплоСтройНовация. Все права защищены.</p>
-    <p class="text-sm mt-2 text-gray-500">Официальный партнер Emmedue в России.</p>
-  </div>
+<footer class="bg-gray-50 border-t mt-12">
+  <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600">© 2025 ТеплоСтройНовация — все права защищены.</div>
 </footer>
 
 <!-- SCRIPTS -->
 <script>
-// Навигация
 function showPage(pageId) {
-  document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
-  
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active', 'bg-gray-100'));
-  // Подсветка активной кнопки (упрощенно)
+  document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active', 'bg-gray-100'));
+  // Подсветка активной ссылки (упрощенно)
   const activeBtn = document.querySelector(`button[onclick="showPage('${pageId}')"]`);
-  if(activeBtn && !activeBtn.classList.contains('text-green-700')) { // не подсвечивать цветные кнопки серым
-     activeBtn.classList.add('active');
-  }
+  if(activeBtn) activeBtn.classList.add('active');
   window.scrollTo(0, 0);
 }
 
-// Модальное окно (динамическое создание)
-function openPriceRequestModal(product) {
-  // Удаляем старое если есть
-  const old = document.getElementById('modal-overlay');
-  if (old) old.remove();
-
-  const modalHtml = `
-    <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4" onclick="this.remove()">
-      <div class="bg-white rounded-lg p-6 max-w-md w-full shadow-2xl" onclick="event.stopPropagation()">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-xl font-bold">Запрос цены</h3>
-          <button onclick="document.getElementById('modal-overlay').remove()" class="text-gray-500 hover:text-black text-2xl">&times;</button>
-        </div>
-        <p class="text-sm text-gray-600 mb-4">Интересует: <strong>${product}</strong></p>
-        <form onsubmit="handlePriceRequest(event, '${product}')" class="space-y-3">
-          <input name="name" type="text" placeholder="Имя" class="w-full p-2 border rounded" required>
-          <input name="phone" type="tel" placeholder="Телефон" class="w-full p-2 border rounded" required>
-          <input name="email" type="email" placeholder="Email" class="w-full p-2 border rounded" required>
-          <button type="submit" class="w-full py-3 bg-blue-600 text-white font-bold rounded hover:bg-blue-700">Отправить заявку</button>
-        </form>
-      </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML('beforeend', modalHtml);
+// Modal для картинок
+function openModal(imageSrc, imageTitle) {
+  const modal = document.createElement('div');
+  modal.id = 'imageModal';
+  modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4';
+  modal.onclick = () => modal.remove();
+  modal.innerHTML = `<div class="relative max-w-4xl w-full bg-white rounded-lg overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-4 bg-gray-50 border-b font-bold">${imageTitle} <span class="float-right cursor-pointer" onclick="document.getElementById('imageModal').remove()">✕</span></div>
+      <div class="flex justify-center bg-gray-900 p-4"><img src="${imageSrc}" class="max-h-96 object-contain"></div>
+    </div>`;
+  document.body.appendChild(modal);
 }
 
-// Отправка формы
+// Modal Запроса цены
+function openPriceRequestModal(productName) {
+  const modal = document.createElement('div');
+  modal.id = 'priceRequestModal';
+  modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4';
+  modal.onclick = () => modal.remove();
+  
+  modal.innerHTML = `
+    <div class="relative max-w-md w-full bg-white rounded-lg overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-4 bg-blue-50 border-b"><h3 class="font-bold">Запрос цены: ${productName}</h3><button onclick="document.getElementById('priceRequestModal').remove()" class="absolute top-4 right-4">✕</button></div>
+      <form class="p-6 space-y-4" onsubmit="handlePriceRequest(event, '${productName}')">
+        <input name="name" type="text" class="w-full p-3 border rounded" placeholder="Ваше имя" required>
+        <input name="email" type="email" class="w-full p-3 border rounded" placeholder="Email" required>
+        <input name="phone" type="tel" class="w-full p-3 border rounded" placeholder="Телефон" required>
+        <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded font-bold">Отправить</button>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
 function handlePriceRequest(e, product) {
   e.preventDefault();
   const formData = new FormData(e.target);
   if(product) formData.append('product', product);
   
-  // Formspree
-  fetch('https://formspree.io/f/mbjenkrb', { // ЗАМЕНИТЕ ID
+  fetch('https://formspree.io/f/mbjenkrb', { // ВАШ ID
     method: 'POST',
     body: formData,
     headers: { 'Accept': 'application/json' }
-  }).then(response => {
-    if (response.ok) {
-      alert('Спасибо! Заявка отправлена.');
-      if(document.getElementById('modal-overlay')) document.getElementById('modal-overlay').remove();
-      e.target.reset();
-    } else {
-      alert('Ошибка отправки. Позвоните нам.');
-    }
+  }).then(r => {
+    if(r.ok) { alert('Спасибо! Заявка отправлена.'); if(document.getElementById('priceRequestModal')) document.getElementById('priceRequestModal').remove(); e.target.reset(); }
+    else { alert('Ошибка отправки.'); }
   });
 }
 </script>
-
 </body>
 </html>
