@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Emmedue — международная система панелей для быстрой, энергоэффективной и сейсмостойкой застройки. Запросите инвестиционный пакет.">
   <title>Emmedue — системы панелей для инвесторов | ТеплоСтройНовация</title>
+  <!-- Фавиконка (убедитесь, что файл logo.png загружен в репозиторий) -->
+  <link rel="icon" type="image/png" href="logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
@@ -12,6 +14,9 @@
     .page-content.active { display: block; }
     .nav-link { transition: all 0.2s; }
     .nav-link.active { background-color: #e5e7eb; }
+    /* Анимации */
+    .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="bg-white">
@@ -21,7 +26,12 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <div class="flex items-center gap-4">
-        <div class="text-2xl font-bold text-blue-600">ТеплоСтройНовация</div>
+        <!-- ЛОГОТИП -->
+        <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('home')">
+          <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
+          <div class="text-xl md:text-2xl font-bold text-blue-600 hidden sm:block">ТеплоСтройНовация</div>
+        </div>
+        
         <nav class="hidden md:flex space-x-1">
           <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
           <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
@@ -60,6 +70,32 @@
             <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
               Строим быстрее, дешевле и устойчивее
             </h1>
+
+            <!-- НОВЫЙ СЛОГАН -->
+            <div class="mb-8 animate-fade-in">
+              <div class="flex items-center gap-3">
+                <!-- SVG-иконка бетон + утепление -->
+                <div class="bg-gradient-to-tr from-blue-500 to-indigo-500 p-3 rounded-full shadow-lg animate-pulse">
+                  <svg class="w-7 h-7 text-white" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Стена (бетон) -->
+                    <rect x="4" y="12" width="24" height="12" rx="3" fill="#475569"/>
+                    <!-- Слой утепления -->
+                    <rect x="8" y="15" width="16" height="6" rx="2" fill="#22D3EE"/>
+                    <!-- Защитный контур -->
+                    <rect x="4" y="12" width="24" height="12" rx="3" stroke="#3B82F6" stroke-width="2"/>
+                    <!-- Эффект "тепла" -->
+                    <path d="M10 18c0-2 4-2 4 0s4-2 4 0 4-2 4 0" stroke="#F59E42" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="block text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 drop-shadow-lg select-text">
+                  Монолитный железобетон + встроенная теплоизоляция
+                </span>
+              </div>
+              <div class="ml-16 mt-2 text-lg md:text-xl font-semibold text-gray-700 italic">без единого мостика холода</div>
+              <div class="ml-16 mt-4 text-base md:text-lg font-medium text-blue-700 bg-blue-50 rounded-full inline-block px-5 py-2 shadow border border-blue-200 animate-pulse">
+                Превосходим все существующие решения по скорости, эффективности и надёжности
+              </div>
+            </div>
             
             <p class="text-lg text-gray-700 mb-8 leading-relaxed">
               <strong>Система Emmedue</strong> — модульная конструкция на базе <span class="text-blue-600 font-semibold">EPS + армирующая сетка</span> и монолитный бетон. Проверенная технология с <strong>10+ странах</strong> и международными сертификатами.
@@ -139,7 +175,7 @@
               </div>
             </div>
 
-            <!-- Key metrics cards — улучшено -->
+            <!-- Key metrics cards -->
             <div class="grid grid-cols-2 gap-4">
               <div class="p-5 bg-gradient-to-br from-blue-50 to-blue-100 border-l-4 border-blue-600 rounded-lg hover:shadow-md transition">
                 <div class="text-3xl font-bold text-blue-600">2×</div>
@@ -568,7 +604,14 @@ function showPage(pageId) {
   document.querySelectorAll('.nav-link').forEach(link => {
     link.classList.remove('active');
   });
-  event.target.classList.add('active');
+  
+  // Find the button that calls this function and make it active
+  // Note: event.target might not work if called from image click, so we check
+  if (event && event.target && event.target.classList.contains('nav-link')) {
+    event.target.classList.add('active');
+  } else {
+     // Fallback: find link by text or id if needed, or just leave it
+  }
   
   // Scroll to top
   window.scrollTo(0, 0);
@@ -746,17 +789,14 @@ function handlePriceRequest(e) {
   const company = formElements[3].value;
   const message = formElements[4].value;
   
-  // Prepare form data
   const formData = new FormData();
   formData.append('name', name);
   formData.append('email', email);
   formData.append('phone', phone);
   formData.append('company', company);
   formData.append('message', message);
-  formData.append('_subject', `Новый запрос цены от ${name} (${company})`);
-  formData.append('_captcha', 'false');
   
-  // Send via Formspree service
+  // ЗАМЕНИТЕ 'mbjenkrb' НА ВАШ РЕАЛЬНЫЙ FORMSPREE ID, если этот не работает
   fetch('https://formspree.io/f/mbjenkrb', {
     method: 'POST',
     body: formData,
@@ -766,15 +806,15 @@ function handlePriceRequest(e) {
   })
   .then(response => {
     if (response.ok) {
-      alert('✓ Спасибо! Ваш запрос успешно отправлен.\n\nМы свяжемся с вами в ближайшее время на указанный номер и email.');
+      alert('Спасибо! Ваш запрос успешно отправлен на электронную почту 79536269096@yandex.ru. Мы свяжемся с вами в ближайшее время.');
       closePriceRequestModal();
     } else {
-      alert('⚠ Ошибка при отправке. Пожалуйста, попробуйте позже или позвоните напрямую.');
+      alert('Ошибка при отправке. Пожалуйста, проверьте данные или попробуйте позже.');
     }
   })
   .catch(error => {
     console.error('Error:', error);
-    alert('⚠ Ошибка отправки. Пожалуйста, свяжитесь с нами по телефону +7 (XXX) XXX-XX-XX');
+    alert('Ошибка отправки. Пожалуйста, свяжитесь с нами по телефону.');
   });
 }
 
