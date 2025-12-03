@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Emmedue — международная система панелей для быстрой, энергоэффективной и сейсмостойкой застройки. Запросите инвестиционный пакет.">
   <title>Emmedue — системы панелей для инвесторов | ТеплоСтройНовация</title>
+  <!-- Фавиконка -->
   <link rel="icon" type="image/png" href="logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -16,39 +17,41 @@
     .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* Меню */
+    /* Фикс для скролла меню (скрываем полосу) */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-white">
 
-<!-- Navbar -->
+<!-- Navbar (Дизайн 11.42, но с фиксом скролла) -->
 <header class="bg-white shadow-md sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
-      <div class="flex items-center gap-4 overflow-hidden">
+      <div class="flex items-center gap-4 overflow-hidden w-full">
         <!-- Логотип -->
         <div class="flex items-center gap-2 cursor-pointer flex-shrink-0" onclick="showPage('home')">
           <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
           <div class="text-xl md:text-2xl font-bold text-blue-600 hidden sm:block">ТеплоСтройНовация</div>
         </div>
         
-        <!-- МЕНЮ -->
-        <nav class="flex space-x-1 overflow-x-auto no-scrollbar items-center">
-          <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Главная</button>
-          <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Система</button>
-          <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Продукты</button>
-          <button onclick="showPage('design')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100 whitespace-nowrap">Проектирование</button>
-          <button onclick="showPage('agro')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100 whitespace-nowrap">🌱 АгроСтрой</button>
-          <button onclick="showPage('comparison')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Сравнение</button>
-          <button onclick="showPage('investor')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Инвестору</button>
-          <button onclick="showPage('gallery')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Кейсы</button>
-          <button onclick="showPage('docs')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Техдоки</button>
-          <button onclick="showPage('contact')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Контакты</button>
+        <!-- МЕНЮ (Scrollable, чтобы не ломалось) -->
+        <nav class="flex space-x-1 overflow-x-auto no-scrollbar items-center flex-1">
+          <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap flex-shrink-0">Главная</button>
+          <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap flex-shrink-0">Система</button>
+          <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap flex-shrink-0">Продукты</button>
+          
+          <button onclick="showPage('design')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100 whitespace-nowrap flex-shrink-0">Проектирование</button>
+          <button onclick="showPage('agro')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100 whitespace-nowrap flex-shrink-0">🌱 АгроСтрой</button>
+
+          <button onclick="showPage('comparison')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap flex-shrink-0">Сравнение</button>
+          <button onclick="showPage('investor')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap flex-shrink-0">Инвестору</button>
+          <button onclick="showPage('gallery')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap flex-shrink-0">Кейсы</button>
+          <button onclick="showPage('docs')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap flex-shrink-0">Техдоки</button>
+          <button onclick="showPage('contact')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 whitespace-nowrap flex-shrink-0">Контакты</button>
         </nav>
       </div>
-      <div class="hidden md:flex items-center gap-3 flex-shrink-0">
+      <div class="hidden md:flex items-center gap-3 flex-shrink-0 pl-4">
         <button class="text-sm font-medium hover:text-blue-600">RU</button>
         <button class="text-sm font-medium hover:text-blue-600">EN</button>
       </div>
@@ -57,24 +60,31 @@
 </header>
 
 <div class="flex-1">
-  <!-- HOME PAGE -->
+  <!-- HOME PAGE (Оригинал 11.42) -->
   <div id="home" class="page-content active">
     <section class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 relative overflow-hidden">
       <div class="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20"></div>
       <div class="absolute bottom-0 left-0 w-96 h-96 bg-indigo-100 rounded-full filter blur-3xl opacity-20"></div>
+      
       <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div class="animate-fade-in">
             <div class="inline-block px-4 py-2 bg-blue-100 rounded-full mb-6">
               <span class="text-xs font-semibold text-blue-700">🚀 Революционная технология в строительстве</span>
             </div>
+            
             <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
               Строим быстрее, дешевле и устойчивее
             </h1>
             <div class="mb-8 animate-fade-in">
               <div class="flex items-center gap-3">
                 <div class="bg-gradient-to-tr from-blue-500 to-indigo-500 p-3 rounded-full shadow-lg animate-pulse flex-shrink-0">
-                  <svg class="w-7 h-7 text-white" viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="24" height="12" rx="3" fill="#475569"/><rect x="8" y="15" width="16" height="6" rx="2" fill="#22D3EE"/><rect x="4" y="12" width="24" height="12" rx="3" stroke="#3B82F6" stroke-width="2"/><path d="M10 18c0-2 4-2 4 0s4-2 4 0 4-2 4 0" stroke="#F59E42" stroke-width="2" stroke-linecap="round"/></svg>
+                  <svg class="w-7 h-7 text-white" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="12" width="24" height="12" rx="3" fill="#475569"/>
+                    <rect x="8" y="15" width="16" height="6" rx="2" fill="#22D3EE"/>
+                    <rect x="4" y="12" width="24" height="12" rx="3" stroke="#3B82F6" stroke-width="2"/>
+                    <path d="M10 18c0-2 4-2 4 0s4-2 4 0 4-2 4 0" stroke="#F59E42" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
                 </div>
                 <span class="block text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 drop-shadow-lg">
                   Монолитный железобетон + встроенная теплоизоляция
@@ -85,140 +95,293 @@
                 Превосходим все существующие решения по скорости, эффективности и надёжности
               </div>
             </div>
+            
             <p class="text-lg text-gray-700 mb-8 leading-relaxed">
-              <strong>Система Emmedue</strong> — модульная конструкция на базе <span class="text-blue-600 font-semibold">EPS + армирующая сетка</span> и монолитный бетон.
+              <strong>Система Emmedue</strong> — модульная конструкция на базе <span class="text-blue-600 font-semibold">EPS + армирующая сетка</span> и монолитный бетон. Проверенная технология с <strong>10+ странах</strong> и международными сертификатами.
             </p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-8">
+              <div class="flex items-start gap-3"><div class="text-2xl">✅</div><div><div class="font-semibold text-gray-900">Сертификация CE</div><div class="text-xs text-gray-600">Европейский стандарт</div></div></div>
+              <div class="flex items-start gap-3"><div class="text-2xl">🏗️</div><div><div class="font-semibold text-gray-900">50+ проектов</div><div class="text-xs text-gray-600">в 10+ странах</div></div></div>
+              <div class="flex items-start gap-3"><div class="text-2xl">⚡</div><div><div class="font-semibold text-gray-900">2× быстрее</div><div class="text-xs text-gray-600">чем традиционно</div></div></div>
+              <div class="flex items-start gap-3"><div class="text-2xl">💰</div><div><div class="font-semibold text-gray-900">64% дешевле</div><div class="text-xs text-gray-600">vs металлокаркас</div></div></div>
+            </div>
+            
             <div class="flex gap-4 flex-wrap mb-6">
               <button onclick="showPage('investor')" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">📥 Запросить инвестпакет</button>
               <button onclick="showPage('system')" class="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-blue-400 hover:bg-blue-50 transition-all duration-300">🔍 Узнать технологию</button>
             </div>
+            
+            <div class="flex gap-6 text-sm text-gray-700 pt-4 border-t border-gray-200">
+              <div><div class="text-lg font-bold text-blue-600">10+</div><div class="text-xs">стран</div></div>
+              <div><div class="text-lg font-bold text-blue-600">50+</div><div class="text-xs">проектов</div></div>
+              <div><div class="text-lg font-bold text-blue-600">15+</div><div class="text-xs">лет опыта</div></div>
+            </div>
           </div>
+
           <div class="space-y-6">
             <div class="w-full rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300 border-2 border-blue-100">
               <div class="relative bg-gray-900" style="padding-top: 56.25%">
-                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/DXXfC1jLGmg" frameborder="0" allowfullscreen></iframe>
+                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/DXXfC1jLGmg" title="Video" frameborder="0" allowfullscreen></iframe>
               </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-5 bg-gradient-to-br from-blue-50 to-blue-100 border-l-4 border-blue-600 rounded-lg hover:shadow-md transition">
+                <div class="text-3xl font-bold text-blue-600">2×</div>
+                <div class="text-sm font-medium text-gray-700">Сокращение сроков</div>
+                <div class="text-xs text-gray-600">30 дней/этаж</div>
+              </div>
+              <div class="p-5 bg-gradient-to-br from-green-50 to-green-100 border-l-4 border-green-600 rounded-lg hover:shadow-md transition">
+                <div class="text-3xl font-bold text-green-600">4×</div>
+                <div class="text-sm font-medium text-gray-700">Энергоэффективность</div>
+                <div class="text-xs text-gray-600">U-value 0.15 W/m²K</div>
+              </div>
+            </div>
+            
+            <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-lg">🎯</span>
+                <div class="font-semibold text-gray-900">Экономия 32 млн ₽</div>
+              </div>
+              <p class="text-xs text-gray-600">на проекте 1000 м² vs традиционные методы</p>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-8">
+      <h2 class="text-2xl font-bold mb-4">Преимущества системы</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 border rounded-md bg-white hover:shadow-md transition"><h3 class="font-semibold mb-2">Быстрая сборка</h3><p class="text-sm text-gray-600">Заводские панели сокращают сроки на объекте.</p></div>
+        <div class="p-6 border rounded-md bg-white hover:shadow-md transition"><h3 class="font-semibold mb-2">Энергоэффективность</h3><p class="text-sm text-gray-600">Непрерывный утеплитель EPS.</p></div>
+        <div class="p-6 border rounded-md bg-white hover:shadow-md transition"><h3 class="font-semibold mb-2">Сейсмостойкость</h3><p class="text-sm text-gray-600">Сертификаты для сейсмозон.</p></div>
+      </div>
+    </section>
   </div>
 
-  <!-- SYSTEM -->
+  <!-- SYSTEM PAGE -->
   <div id="system" class="page-content">
     <div class="max-w-6xl mx-auto px-4 py-12">
       <h1 class="text-3xl font-bold mb-4">Система конструктивных панелей Emmedue</h1>
       <p class="text-gray-700 mb-6">Монолитные панельные стены с интегрированным утеплением.</p>
+      <section class="grid md:grid-cols-2 gap-6 mb-8">
+        <div>
+          <h2 class="text-xl font-semibold mb-4">Как это работает</h2>
+          <ol class="list-decimal list-inside text-gray-600 space-y-2">
+            <li>Заводское изготовление.</li>
+            <li>Монтаж.</li>
+            <li>Бетонирование.</li>
+          </ol>
+        </div>
+        <div><h2 class="text-xl font-semibold mb-4">Типы панелей</h2><ul class="list-disc list-inside text-gray-600 space-y-2"><li>Одинарные</li><li>Двойные</li></ul></div>
+      </section>
     </div>
   </div>
 
-  <!-- PRODUCTS -->
+  <!-- PRODUCTS PAGE -->
   <div id="products" class="page-content">
     <div class="max-w-6xl mx-auto px-4 py-12">
       <h1 class="text-2xl font-bold mb-6">Продукты</h1>
       <div class="grid md:grid-cols-2 gap-6">
+        <!-- Товар 1 -->
         <div class="p-4 border rounded-md bg-white hover:shadow-md transition">
-           <div class="h-48 mb-4 flex items-center justify-center rounded overflow-hidden bg-gray-100 cursor-pointer" onclick="openModal('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d', 'Панель 120')"><img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d" class="w-full h-full object-cover"></div>
-           <h3 class="font-semibold">Панель 120</h3>
-           <button onclick="openPriceRequestModal('Панель 120')" class="mt-2 px-3 py-2 bg-blue-600 text-white rounded text-sm">Цена</button>
+          <div class="h-48 mb-4 flex items-center justify-center rounded overflow-hidden bg-gray-100 cursor-pointer relative group" onclick="openModal('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d', 'Панель EmmeDue 120')">
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d" class="w-full h-full object-cover">
+          </div>
+          <h3 class="font-semibold">Панель EmmeDue 120</h3>
+          <div class="flex gap-2 mt-2">
+            <button onclick="openDetailsModal('Одиночная Панель', 'Описание...')" class="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">Подробнее</button>
+            <button onclick="openPriceRequestModal('Панель EmmeDue 120')" class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
+          </div>
+        </div>
+        <!-- Товар 2 -->
+        <div class="p-4 border rounded-md bg-white hover:shadow-md transition">
+          <div class="h-48 mb-4 flex items-center justify-center rounded overflow-hidden bg-gray-100 cursor-pointer relative group" onclick="openModal('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6d2901ef-db97-49f2-9f05-ce30e729c31c', 'Панель EmmeDue 180')">
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6d2901ef-db97-49f2-9f05-ce30e729c31c" class="w-full h-full object-cover">
+          </div>
+          <h3 class="font-semibold">Панель EmmeDue 180</h3>
+          <div class="flex gap-2 mt-2">
+            <button onclick="openDetailsModal('Двойная Панель', 'Описание...')" class="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">Подробнее</button>
+            <button onclick="openPriceRequestModal('Панель EmmeDue 180')" class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- DESIGN -->
+  <!-- НОВАЯ СТРАНИЦА: ПРОЕКТИРОВАНИЕ -->
   <div id="design" class="page-content">
     <div class="max-w-6xl mx-auto px-4 py-12">
       <h1 class="text-3xl font-bold mb-6 text-blue-900">Проектирование зданий Emmedue</h1>
       <div class="grid md:grid-cols-2 gap-12">
         <div>
-          <p class="text-lg text-gray-700 mb-6">Наш проектный отдел специализируется на адаптации любых архитектурных решений.</p>
+          <p class="text-lg text-gray-700 mb-6">
+            Наш проектный отдел специализируется на адаптации любых архитектурных решений под технологию несъемной опалубки.
+          </p>
           <ul class="space-y-4 mb-8">
-            <li class="flex items-start gap-3"><div class="bg-blue-100 p-2 rounded text-blue-600 font-bold">01</div><div><h4 class="font-bold">Адаптация</h4><p class="text-sm text-gray-600">Пересчет проектов.</p></div></li>
-            <li class="flex items-start gap-3"><div class="bg-blue-100 p-2 rounded text-blue-600 font-bold">02</div><div><h4 class="font-bold">BIM-моделирование</h4><p class="text-sm text-gray-600">Расчет узлов в Revit.</p></div></li>
+            <li class="flex items-start gap-3"><div class="bg-blue-100 p-2 rounded text-blue-600 font-bold">01</div><div><h4 class="font-bold">Адаптация проектов</h4><p class="text-sm text-gray-600">Пересчет кирпичных домов под панели Emmedue.</p></div></li>
+            <li class="flex items-start gap-3"><div class="bg-blue-100 p-2 rounded text-blue-600 font-bold">02</div><div><h4 class="font-bold">Разработка КЖ / АР</h4><p class="text-sm text-gray-600">Полный комплект чертежей и спецификаций.</p></div></li>
+            <li class="flex items-start gap-3"><div class="bg-blue-100 p-2 rounded text-blue-600 font-bold">03</div><div><h4 class="font-bold">BIM-моделирование</h4><p class="text-sm text-gray-600">Точный расчет узлов в Revit.</p></div></li>
           </ul>
           <button onclick="showPage('contact')" class="px-6 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">Заказать проект</button>
         </div>
         
-        <!-- КАРТИНКА -->
-        <div class="bg-white rounded-xl p-1 shadow-lg border border-gray-200 cursor-pointer hover:shadow-2xl transition duration-300" onclick="openModal('BIM-model.jpg', 'BIM модель')">
-          <!-- ВАЖНО: Здесь src просто имя файла, без всяких заглушек -->
-          <img src="BIM-model.jpg" alt="BIM модель Emmedue" class="w-full h-auto rounded object-contain">
-          <div class="p-2 text-center text-xs text-gray-400 mt-1">Нажмите для увеличения</div>
+        <!-- КАРТИНКА ВСТАВЛЕНА СЮДА -->
+        <div class="bg-white rounded-xl p-2 shadow-md border border-gray-200 cursor-pointer hover:shadow-xl transition" onclick="openModal('BIM-model.jpg', 'BIM модель')">
+          <img src="BIM-model.jpg" alt="BIM модель Emmedue" class="w-full h-auto object-contain rounded-lg">
+          <div class="text-center text-sm text-gray-500 mt-2">🔍 Нажмите для увеличения</div>
         </div>
 
       </div>
     </div>
   </div>
 
-  <!-- Остальные разделы (заглушки) -->
-  <div id="agro" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>АгроСтрой</h1><p>Раздел в разработке...</p></div></div>
-  <div id="comparison" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>Сравнение</h1><p>Раздел в разработке...</p></div></div>
-  <div id="investor" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>Инвестору</h1><p>Раздел в разработке...</p></div></div>
-  <div id="gallery" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>Кейсы</h1><p>Раздел в разработке...</p></div></div>
-  <div id="docs" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>Документы</h1><p>Раздел в разработке...</p></div></div>
+  <!-- НОВАЯ СТРАНИЦА: АГРОСТРОЙ -->
+  <div id="agro" class="page-content">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="p-4 bg-green-100 rounded-full text-3xl">🥦</div>
+        <div><h1 class="text-3xl font-bold text-gray-900">Овощехранилища и Сыроварни</h1></div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white p-6 rounded-xl shadow border hover:shadow-lg transition"><h3 class="text-xl font-bold mb-3">🥔 Овощехранилища</h3></div>
+        <div class="bg-white p-6 rounded-xl shadow border hover:shadow-lg transition"><h3 class="text-xl font-bold mb-3">🧀 Сыроварни</h3></div>
+      </div>
+      <div class="text-center"><button onclick="openPriceRequestModal('Агро-объект')" class="px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 shadow-md">Получить КП</button></div>
+    </div>
+  </div>
 
-  <!-- CONTACT -->
+  <!-- Остальные страницы (Заглушки, как в оригинале) -->
+  <div id="comparison" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>Сравнение</h1></div></div>
+  <div id="investor" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>Инвестору</h1></div></div>
+  <div id="gallery" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>Кейсы</h1></div></div>
+  <div id="docs" class="page-content"><div class="max-w-6xl mx-auto px-4 py-12"><h1>Документы</h1></div></div>
+
+  <!-- CONTACT PAGE -->
   <div id="contact" class="page-content">
     <div class="max-w-4xl mx-auto px-4 py-12">
       <h1 class="text-2xl font-bold mb-4">Контакты</h1>
-      <div class="mb-8"><p>+7 (953) 626-90-96 | umcg66@gmail.com</p></div>
-      <form class="grid gap-4" onsubmit="handlePriceRequest(event)">
-        <input name="name" class="w-full p-3 border rounded" placeholder="Имя" required>
-        <input name="phone" class="w-full p-3 border rounded" placeholder="Телефон" required>
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Отправить</button>
+      <form class="grid grid-cols-1 gap-4 mb-8" onsubmit="handlePriceRequest(event)">
+        <input name="name" type="text" class="w-full p-3 border rounded-md" placeholder="Ваше имя" required>
+        <input name="email" type="email" class="w-full p-3 border rounded-md" placeholder="your@email.com" required>
+        <textarea name="message" class="w-full p-3 border rounded-md" rows="4" placeholder="Ваше сообщение..." required></textarea>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">Отправить</button>
       </form>
     </div>
   </div>
 </div>
 
+<!-- Footer -->
+<footer class="bg-gray-50 border-t mt-12">
+  <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600">© 2025 ТеплоСтройНовация</div>
+</footer>
+
 <script>
 function showPage(pageId) {
-  document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+  document.querySelectorAll('.page-content').forEach(page => {
+    page.classList.remove('active');
+  });
   document.getElementById(pageId).classList.add('active');
-  document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-  const btn = document.querySelector(`button[onclick="showPage('${pageId}')"]`);
-  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.remove('active');
+  });
+  if(event && event.target.classList.contains('nav-link')) {
+    event.target.classList.add('active');
+  }
   window.scrollTo(0, 0);
+}
+
+function calculateROI() {
+  const roiElement = document.getElementById('roiResult');
+  if(roiElement) roiElement.textContent = "32 млн ₽";
 }
 
 function openModal(imageSrc, imageTitle) {
   const modal = document.createElement('div');
   modal.id = 'imageModal';
-  modal.className = 'fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4';
-  modal.onclick = () => modal.remove();
+  modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4';
+  modal.onclick = closeModal;
   
-  // ВАЖНО: Здесь просто вставляем imageSrc, без лишней логики
   modal.innerHTML = `
     <div class="relative max-w-4xl w-full bg-white rounded-lg overflow-hidden" onclick="event.stopPropagation()">
-      <button onclick="document.getElementById('imageModal').remove()" class="absolute top-4 right-4 bg-white rounded-full w-10 h-10 flex items-center justify-center font-bold hover:bg-gray-100 z-10">✕</button>
-      <div class="text-center p-4 bg-gray-50 border-b font-bold">${imageTitle}</div>
-      <div class="flex justify-center bg-gray-900 p-4">
-        <img src="${imageSrc}" class="max-h-[80vh] max-w-full object-contain">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold hover:bg-gray-100 z-10">✕</button>
+      <div class="text-center p-4 bg-gray-50 border-b">
+        <h3 class="text-lg font-semibold text-gray-900">${imageTitle}</h3>
       </div>
-    </div>`;
+      <div class="flex items-center justify-center bg-gray-900 p-4">
+        <img src="${imageSrc}" alt="${imageTitle}" class="max-w-full max-h-[80vh] object-contain rounded">
+      </div>
+    </div>
+  `;
   document.body.appendChild(modal);
+  document.addEventListener('keydown', handleEscapeKey);
+}
+
+function closeModal() {
+  const modal = document.getElementById('imageModal');
+  if (modal) {
+    modal.remove();
+    document.removeEventListener('keydown', handleEscapeKey);
+  }
+}
+
+function handleEscapeKey(e) {
+  if (e.key === 'Escape') {
+    closeModal();
+  }
+}
+
+function openDetailsModal(title, description) {
+  // Упрощенная модалка для деталей (как в 11.42)
+  alert(title + ": " + description);
 }
 
 function openPriceRequestModal(productName) {
   const modal = document.createElement('div');
-  modal.id = 'priceModal';
+  modal.id = 'priceRequestModal';
   modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4';
-  modal.onclick = () => modal.remove();
+  modal.onclick = () => document.getElementById('priceRequestModal').remove();
+  
   modal.innerHTML = `
-    <div class="bg-white p-6 rounded max-w-sm w-full" onclick="event.stopPropagation()">
-      <h3 class="font-bold mb-4">Цена: ${productName}</h3>
-      <form onsubmit="handlePriceRequest(event)"><input class="border w-full p-2 mb-2" placeholder="Тел" required><button class="bg-blue-600 text-white w-full p-2">Жду звонка</button></form>
-    </div>`;
+    <div class="relative max-w-2xl w-full bg-white rounded-lg overflow-hidden" onclick="event.stopPropagation()">
+      <div class="text-center p-4 bg-blue-50 border-b">
+        <h3 class="text-lg font-semibold text-gray-900">Запрос цены: ${productName}</h3>
+      </div>
+      <form class="p-6" onsubmit="handlePriceRequest(event)">
+        <div class="grid grid-cols-1 gap-4">
+          <input name="name" type="text" class="w-full p-3 border rounded-md" placeholder="Ваше имя" required>
+          <input name="phone" type="tel" class="w-full p-3 border rounded-md" placeholder="Телефон" required>
+          <button type="submit" class="w-full px-4 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition">Отправить запрос</button>
+        </div>
+      </form>
+    </div>
+  `;
   document.body.appendChild(modal);
 }
 
 function handlePriceRequest(e) {
   e.preventDefault();
-  alert('Отправлено!');
-  if(document.getElementById('priceModal')) document.getElementById('priceModal').remove();
+  const formData = new FormData(e.target);
+  
+  fetch('https://formspree.io/f/mbjenkrb', {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('Спасибо! Запрос отправлен.');
+      if(document.getElementById('priceRequestModal')) document.getElementById('priceRequestModal').remove();
+    } else {
+      alert('Ошибка при отправке.');
+    }
+  });
 }
+
+calculateROI();
 </script>
+
 </body>
 </html>
