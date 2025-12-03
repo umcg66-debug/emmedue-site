@@ -13,49 +13,57 @@
     .page-content { display: none; }
     .page-content.active { display: block; }
     .nav-link { transition: all 0.2s; }
-    .nav-link.active { background-color: #e5e7eb; }
+    .nav-link.active { background-color: #e5e7eb; color: #1f2937; }
     .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Стили для горизонтального скролла меню (скрываем полосу прокрутки) */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* Плавная прокрутка на мобильных */
+    .scroll-smooth { -webkit-overflow-scrolling: touch; }
   </style>
 </head>
-<body class="bg-white">
+<body class="bg-white text-gray-800">
 
-<!-- Navbar -->
+<!-- ИСПРАВЛЕННАЯ ШАПКА (Navbar) -->
 <header class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
-      <div class="flex items-center gap-4">
-        <!-- Логотип вместо текста -->
-        <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('home')">
-          <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
-          <div class="text-xl md:text-2xl font-bold text-blue-600 hidden sm:block">ТеплоСтройНовация</div>
-        </div>
-        
-        <nav class="hidden md:flex space-x-1">
-          <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
-          <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
-          <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Продукты</button>
-          
-          <!-- НОВЫЕ ПУНКТЫ -->
-          <button onclick="showPage('design')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100">Проектирование</button>
-          <button onclick="showPage('agro')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100">🌱 АгроСтрой</button>
-
-          <button onclick="showPage('comparison')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Сравнение</button>
-          <button onclick="showPage('investor')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Инвестору</button>
-          <button onclick="showPage('gallery')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Кейсы</button>
-          <button onclick="showPage('docs')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Техдоки</button>
-          <button onclick="showPage('contact')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Контакты</button>
-        </nav>
+  <div class="w-full px-2 sm:px-4">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Логотип -->
+      <div class="flex items-center gap-2 cursor-pointer flex-shrink-0 mr-4" onclick="showPage('home')">
+        <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
+        <div class="text-lg md:text-xl font-bold text-blue-600 hidden xl:block leading-tight">ТеплоСтрой<br>Новация</div>
       </div>
-      <div class="hidden sm:flex items-center gap-3">
-        <button class="text-sm font-medium hover:text-blue-600">RU</button>
-        <button class="text-sm font-medium hover:text-blue-600">EN</button>
+
+      <!-- Меню (С горизонтальной прокруткой, чтобы не ломалось) -->
+      <nav class="flex-1 flex items-center space-x-1 overflow-x-auto no-scrollbar scroll-smooth">
+        <button onclick="showPage('home')" class="nav-link active whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
+        <button onclick="showPage('system')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
+        <button onclick="showPage('products')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Продукты</button>
+        
+        <!-- Новые пункты -->
+        <button onclick="showPage('design')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100">Проектирование</button>
+        <button onclick="showPage('agro')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100">🌱 АгроСтрой</button>
+
+        <button onclick="showPage('comparison')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Сравнение</button>
+        <button onclick="showPage('investor')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Инвестору</button>
+        <button onclick="showPage('gallery')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Кейсы</button>
+        <button onclick="showPage('docs')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Техдоки</button>
+        <button onclick="showPage('contact')" class="nav-link whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Контакты</button>
+      </nav>
+
+      <!-- Языки -->
+      <div class="hidden sm:flex items-center gap-2 ml-2 flex-shrink-0 text-xs font-medium text-gray-500">
+        <button class="hover:text-blue-600">RU</button>|
+        <button class="hover:text-blue-600">EN</button>
       </div>
     </div>
   </div>
 </header>
 
-<div class="flex-1">
+<div class="flex-1 min-h-screen">
   <!-- HOME PAGE -->
   <div id="home" class="page-content active">
     <section class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 relative overflow-hidden">
@@ -75,7 +83,7 @@
               Строим быстрее, дешевле и устойчивее
             </h1>
 
-            <!-- ВАШ СЛОГАН -->
+            <!-- СЛОГАН -->
             <div class="mb-8 animate-fade-in">
               <div class="flex items-center gap-3">
                 <div class="bg-gradient-to-tr from-blue-500 to-indigo-500 p-3 rounded-full shadow-lg animate-pulse flex-shrink-0">
