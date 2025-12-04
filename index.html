@@ -33,7 +33,22 @@
   </div>
 </div>
        
-        <nav class="hidden md:flex space-x-1">
+        <nav class="flex overflow-x-auto no-scrollbar space-x-1 ml-4">
+  <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Главная</button>
+  <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Система</button>
+  <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Продукты</button>
+
+  <!-- НОВЫЕ ПУНКТЫ -->
+  <button onclick="showPage('design')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100 whitespace-nowrap">Проектирование</button>
+  <button onclick="showPage('agro')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100 whitespace-nowrap">🌱 АгроСтрой</button>
+
+  <button onclick="showPage('comparison')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Сравнение</button>
+  <button onclick="showPage('investor')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Инвестору</button>
+  <button onclick="showPage('gallery')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Кейсы</button>
+  <button onclick="showPage('docs')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Техдоки</button>
+  <button onclick="showPage('contact')" class="nav-link px-3 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-100 whitespace-nowrap">Контакты</button>
+</nav>
+
           <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
           <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
           <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Продукты</button>
