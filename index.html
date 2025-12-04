@@ -914,29 +914,24 @@ function handlePriceRequest(e) {
 }
 
 calculateROI();
-<script>
+
+  // Переключение страниц
   function showPage(pageId) {
-  // Переключаем страницы
-  document.querySelectorAll('.page-content').forEach(page => {
-    page.classList.remove('active');
-  });
-  const target = document.getElementById(pageId);
-  if (target) target.classList.add('active');
+    const pages = document.querySelectorAll('.page-content');
+    pages.forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
 
-  // Обновляем активный пункт меню
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.classList.remove('active');
-  });
+    const links = document.querySelectorAll('.nav-link');
+    links.forEach(link => link.classList.remove('active'));
+    const navButtons = document.querySelectorAll('nav button');
+    navButtons.forEach(btn => {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(pageId)) {
+        btn.classList.add('active');
+      }
+    });
+  }
 
-  document.querySelectorAll('nav button').forEach(btn => {
-    const onClick = btn.getAttribute('onclick') || '';
-    if (onClick.includes("'" + pageId + "'")) {
-      btn.classList.add('active');
-    }
-  });
-
-  window.scrollTo(0, 0);
-}
   // Мобильное меню
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
@@ -997,18 +992,15 @@ calculateROI();
             <textarea name="message" rows="3" placeholder="Комментарий" class="w-full p-2 border rounded"></textarea>
           </div>
           <button type="submit" class="mt-4 w-full py-2
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobileMenu');
-  if (!menu) return;
-  menu.classList.toggle('hidden');
-}
+<script>
+  function showPage(pageId) { ... }
 
-function mobileNavigate(pageId) {
-  showPage(pageId);
-  toggleMobileMenu();
-}
+  function toggleMobileMenu() { ... }
 
+  function mobileNavigate(pageId) { ... }
 
+  // дальше твои функции openModal, openPriceRequestModal, calculateROI и т.д.
+</script>
 
 </body>
 </html>
