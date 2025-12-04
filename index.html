@@ -22,17 +22,32 @@
 
 <!-- Navbar -->
 <header class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
-      <div class="flex items-center gap-4">
-        <!-- Логотип вместо текста -->
-       <div class="flex items-center gap-4 cursor-pointer pr-5" onclick="showPage('home')">
-  <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
-  <div class="text-lg md:text-xl font-bold text-blue-600 hidden sm:block whitespace-nowrap">
-    ТеплоСтройНовация
+<div class="flex items-center gap-4">
+  <!-- Логотип -->
+  <div class="flex items-center gap-4 cursor-pointer pr-5" onclick="showPage('home')">
+    <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
+    <div class="text-lg md:text-xl font-bold text-blue-600 hidden sm:block whitespace-nowrap">
+      ТеплоСтройНовация
+    </div>
+  </div>
+
+  <!-- Десктоп-меню -->
+  <nav class="hidden md:flex space-x-1 ml-4">
+    <!-- кнопки разделов (как у тебя сейчас) -->
+  </nav>
+
+  <!-- Мобильное бургер-меню -->
+  <div class="md:hidden ml-4 relative">
+    <button onclick="toggleMobileMenu()" class="px-3 py-2 border rounded-md text-sm font-medium flex items-center gap-2">
+      ☰ Меню
+    </button>
+    <div id="mobileMenu"
+         class="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg py-1 hidden z-50">
+      <!-- пункты mobileNavigate(...) — как у тебя сейчас -->
+    </div>
   </div>
 </div>
-       
+      
       <!-- Десктоп-меню -->
 <nav class="hidden md:flex space-x-1 ml-4">
   <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
@@ -896,6 +911,17 @@ function handlePriceRequest(e) {
 
 calculateROI();
 </script>
+  function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (!menu) return;
+  menu.classList.toggle('hidden');
+}
+
+function mobileNavigate(pageId) {
+  showPage(pageId);
+  toggleMobileMenu();
+}
+
 
 </body>
 </html>
