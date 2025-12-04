@@ -692,11 +692,32 @@ function showPage(pageId) {
   document.querySelectorAll('.nav-link').forEach(link => {
     link.classList.remove('active');
   });
-  if(event && event.target.classList.contains('nav-link')) {
-    event.target.classList.add('active');
-  }
+  function showPage(pageId) {
+  // 1. Переключаем страницы
+  document.querySelectorAll('.page-content').forEach(page => {
+    page.classList.remove('active');
+  });
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
+
+  // 2. Сбрасываем активное состояние у всех ссылок меню
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.remove('active');
+  });
+
+  // 3. Находим кнопку в nav, которая соответствует текущей странице
+  document.querySelectorAll('nav button').forEach(btn => {
+    const onClick = btn.getAttribute('onclick') || '';
+    // проверяем, включает ли атрибут onclick наш pageId
+    if (onClick.includes("'" + pageId + "'")) {
+      btn.classList.add('active');
+    }
+  });
+
+  // 4. Прокрутка вверх
   window.scrollTo(0, 0);
 }
+
 
 function calculateROI() {
   const area = parseFloat(document.getElementById('area').value) || 0;
@@ -971,6 +992,17 @@ calculateROI();
             <textarea name="message" rows="3" placeholder="Комментарий" class="w-full p-2 border rounded"></textarea>
           </div>
           <button type="submit" class="mt-4 w-full py-2
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (!menu) return;
+  menu.classList.toggle('hidden');
+}
+
+function mobileNavigate(pageId) {
+  showPage(pageId);
+  toggleMobileMenu();
+}
+
 
 
 </body>
