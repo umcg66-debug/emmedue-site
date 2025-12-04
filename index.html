@@ -22,53 +22,52 @@
 
 <!-- Navbar -->
 <header class="bg-white shadow-md sticky top-0 z-50">
-<div class="flex items-center gap-4">
-  <!-- Логотип -->
-  <div class="flex items-center gap-4 cursor-pointer pr-5" onclick="showPage('home')">
-    <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
-    <div class="text-lg md:text-xl font-bold text-blue-600 hidden sm:block whitespace-nowrap">
-      ТеплоСтройНовация
-    </div>
-  </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center gap-4">
+        <!-- Логотип -->
+        <div class="flex items-center gap-4 cursor-pointer pr-5" onclick="showPage('home')">
+          <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
+          <div class="text-lg md:text-xl font-bold text-blue-600 hidden sm:block whitespace-nowrap">
+            ТеплоСтройНовация
+          </div>
+        </div>
 
-      
-      <!-- Десктоп-меню -->
-<nav class="hidden md:flex space-x-1 ml-4">
-  <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
-  <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
-  <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Продукты</button>
+        <!-- Десктоп-меню -->
+        <nav class="hidden md:flex space-x-1 ml-4">
+          <button onclick="showPage('home')" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
+          <button onclick="showPage('system')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
+          <button onclick="showPage('products')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Продукты</button>
+          <button onclick="showPage('design')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100">Проектирование</button>
+          <button onclick="showPage('agro')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100">🌱 АгроСтрой</button>
+          <button onclick="showPage('comparison')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Сравнение</button>
+          <button onclick="showPage('investor')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Инвестору</button>
+          <button onclick="showPage('gallery')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Кейсы</button>
+          <button onclick="showPage('docs')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Техдоки</button>
+          <button onclick="showPage('contact')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Контакты</button>
+        </nav>
 
-  <button onclick="showPage('design')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100">Проектирование</button>
-  <button onclick="showPage('agro')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100">🌱 АгроСтрой</button>
-
-  <button onclick="showPage('comparison')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Сравнение</button>
-  <button onclick="showPage('investor')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Инвестору</button>
-  <button onclick="showPage('gallery')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Кейсы</button>
-  <button onclick="showPage('docs')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Техдоки</button>
-  <button onclick="showPage('contact')" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Контакты</button>
-</nav>
-
-<!-- Мобильное бургер-меню -->
-<div class="md:hidden ml-4 relative">
-  <button onclick="toggleMobileMenu()" class="px-3 py-2 border rounded-md text-sm font-medium flex items-center gap-2">
-    ☰ Меню
-  </button>
-  <div id="mobileMenu"
-       class="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg py-1 hidden z-50">
-    <button onclick="mobileNavigate('home')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Главная</button>
-    <button onclick="mobileNavigate('system')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Система</button>
-    <button onclick="mobileNavigate('products')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Продукты</button>
-    <button onclick="mobileNavigate('design')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Проектирование</button>
-    <button onclick="mobileNavigate('agro')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">🌱 АгроСтрой</button>
-    <button onclick="mobileNavigate('comparison')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Сравнение</button>
-    <button onclick="mobileNavigate('investor')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Инвестору</button>
-    <button onclick="mobileNavigate('gallery')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Кейсы</button>
-    <button onclick="mobileNavigate('docs')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Техдоки</button>
-    <button onclick="mobileNavigate('contact')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Контакты</button>
-  </div>
-</div>
-
+        <!-- Мобильное бургер-меню -->
+        <div class="md:hidden ml-2 relative">
+          <button onclick="toggleMobileMenu()" class="px-3 py-2 border rounded-md text-sm font-medium flex items-center gap-2">
+            ☰ Меню
+          </button>
+          <div id="mobileMenu"
+               class="absolute left-0 mt-2 w-52 bg-white border rounded-md shadow-lg py-1 hidden z-50">
+            <button onclick="mobileNavigate('home')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Главная</button>
+            <button onclick="mobileNavigate('system')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Система</button>
+            <button onclick="mobileNavigate('products')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Продукты</button>
+            <button onclick="mobileNavigate('design')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Проектирование</button>
+            <button onclick="mobileNavigate('agro')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">🌱 АгроСтрой</button>
+            <button onclick="mobileNavigate('comparison')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Сравнение</button>
+            <button onclick="mobileNavigate('investor')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Инвестору</button>
+            <button onclick="mobileNavigate('gallery')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Кейсы</button>
+            <button onclick="mobileNavigate('docs')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Техдоки</button>
+            <button onclick="mobileNavigate('contact')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Контакты</button>
+          </div>
+        </div>
       </div>
+
       <div class="hidden sm:flex items-center gap-3">
         <button class="text-sm font-medium hover:text-blue-600">RU</button>
         <button class="text-sm font-medium hover:text-blue-600">EN</button>
@@ -894,17 +893,84 @@ function handlePriceRequest(e) {
 }
 
 calculateROI();
-</script>
-  function toggleMobileMenu() {
-  const menu = document.getElementById('mobileMenu');
-  if (!menu) return;
-  menu.classList.toggle('hidden');
-}
+<script>
+  // Переключение страниц
+  function showPage(pageId) {
+    const pages = document.querySelectorAll('.page-content');
+    pages.forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
 
-function mobileNavigate(pageId) {
-  showPage(pageId);
-  toggleMobileMenu();
-}
+    const links = document.querySelectorAll('.nav-link');
+    links.forEach(link => link.classList.remove('active'));
+    const navButtons = document.querySelectorAll('nav button');
+    navButtons.forEach(btn => {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(pageId)) {
+        btn.classList.add('active');
+      }
+    });
+  }
+
+  // Мобильное меню
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    if (!menu) return;
+    menu.classList.toggle('hidden');
+  }
+
+  function mobileNavigate(pageId) {
+    showPage(pageId);
+    toggleMobileMenu();
+  }
+
+  // Модальное окно картинок (товары)
+  function openModal(imageUrl, title) {
+    const existing = document.getElementById('imageModal');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'imageModal';
+    modal.className = 'fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50';
+    modal.innerHTML = `
+      <div class="bg-white rounded-lg max-w-3xl w-full mx-4 overflow-hidden">
+        <div class="flex justify-between items-center px-4 py-2 border-b">
+          <h2 class="font-semibold text-lg">${title}</h2>
+          <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+        </div>
+        <div class="p-4 bg-gray-100 flex items-center justify-center">
+          <img src="${imageUrl}" alt="${title}" class="max-h-[80vh] w-auto object-contain">
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) modal.remove();
+  }
+
+  // Модальное окно "Запросить цену"
+  function openPriceRequestModal(productName) {
+    const existing = document.getElementById('priceRequestModal');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'priceRequestModal';
+    modal.className = 'fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50';
+    modal.innerHTML = `
+      <div class="bg-white rounded-lg max-w-md w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="font-semibold text-lg">Запросить цену: ${productName}</h2>
+          <button onclick="closePriceRequestModal()" class="text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+        </div>
+        <form onsubmit="handlePriceRequest(event, '${productName}')">
+          <div class="space-y-3">
+            <input name="name" type="text" required placeholder="Ваше имя" class="w-full p-2 border rounded">
+            <input name="email" type="email" required placeholder="Email" class="w-full p-2 border rounded">
+            <input name="phone" type="tel" placeholder="Телефон" class="w-full p-2 border rounded">
+            <textarea name="message" rows="3" placeholder="Комментарий" class="w-full p-2 border rounded"></textarea>
+          </div>
+          <button type="submit" class="mt-4 w-full py-2
 
 
 </body>
