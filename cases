@@ -1,0 +1,143 @@
+<div class="cases-section">
+    <h2>Кейсы и проекты</h2>
+    <p>Узнайте, как технология Emmedue применяется в реальных проектах по всему миру.</p>
+
+    <div class="portfolio-grid">
+        <div class="portfolio-item">
+            <img src="Ovoshehranilishe-ili-syrodelnya-za-45-60-dnej.png" alt="Овощехранилище или сыродельня за 45-60 дней">
+            <div class="portfolio-caption">
+                <h3>Овощехранилище</h3>
+                <p>Быстрое возведение за 45-60 дней</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="загруженное.jpg" alt="Логистический центр 15000 м², Москва">
+            <div class="portfolio-caption">
+                <h3>Логистический центр</h3>
+                <p>15000 м², Москва</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="ChatGPT Image 10 дек. 2025 г., 09_28_05.png" alt="ROI: 3 YEARS, COMPLETION IN 6 MONTHS">
+            <div class="portfolio-caption">
+                <h3>Жилой комплекс</h3>
+                <p>ROI: 3 года, завершение за 6 месяцев</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="ChatGPT Image 10 дек. 2025 г., 09_28_01.png" alt="Premium Quality, No Condensation">
+            <div class="portfolio-caption">
+                <h3>Производственный цех</h3>
+                <p>Premium Quality, No Condensation</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="ChatGPT Image 10 дек. 2025 г., 09_27_51.png" alt="ANNUAL SAVINGS 2.4 million RUB">
+            <div class="portfolio-caption">
+                <h3>Складской комплекс</h3>
+                <p>Годовая экономия 2.4 млн руб.</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="BIM-model.png" alt="BIM-модель проекта">
+            <div class="portfolio-caption">
+                <h3>BIM-моделирование</h3>
+                <p>Точное цифровое проектирование</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="ЛЕСТНИЦА.png" alt="Лестница из панелей Emmedue">
+            <div class="portfolio-caption">
+                <h3>Лестничные конструкции</h3>
+                <p>Быстрая и легкая сборка</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="DOM.png" alt="Дом из панелей Emmedue">
+            <div class="portfolio-caption">
+                <h3>Жилой дом</h3>
+                <p>Модульное строительство частных домов</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="Снимок экрана 2025-12-10 093353.png" alt="Скриншот интерфейса">
+            <div class="portfolio-caption">
+                <h3>Технические решения</h3>
+                <p>Интерфейс управления проектами</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="загруженное (1).jpg" alt="Загруженное изображение">
+            <div class="portfolio-caption">
+                <h3>Проектный расчет</h3>
+                <p>Пример расчета и планирования</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Стили для галереи кейсов */
+.cases-section {
+    padding: 20px;
+    background-color: #f9f9f9; /* Легкий фон для выделения секции */
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.portfolio-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.portfolio-caption {
+    padding: 15px;
+    background-color: #ecf0f1;
+}
+
+.portfolio-caption h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+
+.portfolio-caption p {
+    margin-bottom: 0;
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
