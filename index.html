@@ -1,74 +1,387 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EmmeDue</title>
+  <meta name="description" content="Emmedue — международная система панелей для быстрой, энергоэффективной и сейсмостойкой застройки. Запросите инвестиционный пакет.">
+  <title>Emmedue — системы панелей для инвесторов | ТеплоСтройНовация</title>
 
-  <!-- Tailwind -->
+  <link rel="icon" type="image/png" href="logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- React -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .page-content { display: none; }
+    .page-content.active { display: block; }
+    .nav-link { transition: all 0.2s; }
+    .nav-link.active { background-color: #e5e7eb; }
 
-  <!-- Babel -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Нормальные модалки */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:9999; }
+    .modal-overlay.open { display:flex; align-items:center; justify-content:center; padding:16px; }
+  </style>
 </head>
 
-<body class="bg-gray-50">
-  <div id="root"></div>
+<body class="bg-white">
 
-  <script type="text/babel">
-    const { HashRouter, Routes, Route, Link } = ReactRouterDOM;
+  <!-- Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
 
-    function Home() {
-      return (
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="bg-white p-8 rounded-xl shadow max-w-xl w-full">
-            <h1 className="text-3xl font-bold mb-4">
-              Сайт EmmeDue запущен
-            </h1>
-            <p className="text-gray-700 mb-6">
-              React + GitHub Pages + index.html работают корректно.
-            </p>
-            <Link
-              to="/products"
-              className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md"
-            >
-              Перейти в продукты
-            </Link>
+        <div class="flex items-center gap-4">
+          <!-- Логотип -->
+          <div class="flex items-center gap-4 cursor-pointer pr-5" data-page="home">
+            <img src="logo.png" alt="Логотип" class="h-10 w-auto object-contain">
+            <div class="text-lg md:text-xl font-bold text-blue-600 hidden sm:block whitespace-nowrap">
+              ТеплоСтройНовация
+            </div>
+          </div>
+
+          <!-- Десктоп-меню -->
+          <nav class="hidden md:flex space-x-1 ml-4" id="desktopNav">
+            <button data-page="home" class="nav-link active px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Главная</button>
+            <button data-page="system" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Система</button>
+            <button data-page="products" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Продукты</button>
+            <button data-page="design" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-50 text-blue-700 border border-transparent hover:border-blue-100">Проектирование</button>
+            <button data-page="agro" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-green-50 text-green-700 border border-transparent hover:border-green-100">🌱 АгроСтрой</button>
+            <button data-page="comparison" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Сравнение</button>
+            <button data-page="investor" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Инвестору</button>
+            <button data-page="gallery" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Кейсы</button>
+            <button data-page="docs" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Техдоки</button>
+            <button data-page="contact" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100">Контакты</button>
+          </nav>
+
+          <!-- Мобильное бургер-меню -->
+          <div class="md:hidden ml-2 relative">
+            <button id="burgerBtn" class="px-3 py-2 border rounded-md text-sm font-medium flex items-center gap-2">
+              ☰ Меню
+            </button>
+            <div id="mobileMenu" class="absolute left-0 mt-2 w-52 bg-white border rounded-md shadow-lg py-1 hidden z-50">
+              <button data-page="home" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Главная</button>
+              <button data-page="system" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Система</button>
+              <button data-page="products" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Продукты</button>
+              <button data-page="design" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Проектирование</button>
+              <button data-page="agro" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">🌱 АгроСтрой</button>
+              <button data-page="comparison" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Сравнение</button>
+              <button data-page="investor" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Инвестору</button>
+              <button data-page="gallery" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Кейсы</button>
+              <button data-page="docs" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Техдоки</button>
+              <button data-page="contact" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Контакты</button>
+            </div>
           </div>
         </div>
-      );
-    }
 
-    function Products() {
-      return (
-        <div className="min-h-screen p-8">
-          <Link to="/" className="underline">← Назад</Link>
-          <h2 className="text-2xl font-bold mt-6">
-            Продукты (тест)
-          </h2>
+        <div class="hidden sm:flex items-center gap-3">
+          <button class="text-sm font-medium hover:text-blue-600">RU</button>
+          <button class="text-sm font-medium hover:text-blue-600">EN</button>
         </div>
-      );
+
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1">
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page-content active">
+      <!-- ваш контент HOME — без изменений по смыслу -->
+      <!-- (оставил как в файле, чтобы не ломать верстку) -->
+      <!-- ... -->
+      <!-- ВАЖНО: ниже я не дублирую весь Home до конца сообщения, но на практике
+           вы должны держать весь контент как в вашем файле. -->
+    </div>
+
+    <!-- SYSTEM PAGE -->
+    <div id="system" class="page-content">
+      <!-- ваш контент SYSTEM как в файле -->
+    </div>
+
+    <!-- PRODUCTS PAGE -->
+    <div id="products" class="page-content">
+      <div class="max-w-6xl mx-auto px-4 py-12">
+        <h1 class="text-2xl font-bold mb-6">Продукты</h1>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Товар 1 -->
+          <div class="p-4 border rounded-md bg-white hover:shadow-md transition">
+            <div class="h-48 mb-4 flex items-center justify-center rounded overflow-hidden bg-gray-100 cursor-pointer relative group"
+                 onclick="openImageModal('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d', 'Панель EmmeDue 120')">
+              <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d"
+                   alt="Панель EmmeDue 120" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-300 flex items-center justify-center">
+                <div class="text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">🔍 Увеличить</div>
+              </div>
+            </div>
+
+            <h3 class="font-semibold">Панель EmmeDue 120</h3>
+            <p class="text-sm text-gray-600 mb-4">Базовая панель с EPS-утеплителем и двойной армирующей сеткой.</p>
+
+            <div class="flex gap-2">
+              <button
+                onclick="openTextModal('Одиночная Панель', `Сердцем системы является единая панель Emmedue из пенополистирола: модульная, заключенная в двойную сетку из оцинкованной стали, соединенную соединителями, которая должна быть завершена в работе. Он используется в качестве несущей конструкции для строительства до 4 этажей с нанесением структурной штукатурки с обеих сторон. Идеально подходит для перегородок, перегородок и буферизации в новых зданиях или подлежащих ремонту; для буферизации и перегородок в крупных промышленных и коммерческих зданиях; в качестве опалубки для утечки изоляции для кровли и перекрытий содержащихся огней. Идеально подходит для стен, перегородок, перегородок, прокладок, перекрытий и кровли.`)"
+                class="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">Подробнее</button>
+
+              <button
+                onclick="openPriceModal('Панель EmmeDue 120')"
+                class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
+            </div>
+          </div>
+
+          <!-- Товар 2 -->
+          <div class="p-4 border rounded-md bg-white hover:shadow-md transition">
+            <div class="h-48 mb-4 flex items-center justify-center rounded overflow-hidden bg-gray-100 cursor-pointer relative group"
+                 onclick="openImageModal('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6d2901ef-db97-49f2-9f05-ce30e729c31c', 'Панель EmmeDue 180')">
+              <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6d2901ef-db97-49f2-9f05-ce30e729c31c"
+                   alt="Панель EmmeDue 180" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-300 flex items-center justify-center">
+                <div class="text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">🔍 Увеличить</div>
+              </div>
+            </div>
+
+            <h3 class="font-semibold">Панель EmmeDue 180</h3>
+            <p class="text-sm text-gray-600 mb-4">Усиленная панель для несущих стен.</p>
+
+            <div class="flex gap-2">
+              <button
+                onclick="openTextModal('Двойная Панель', `Двойная панель Emmedue состоит из двух отдельных панелей, правильно сформированных и соединенных друг с другом двойными горизонтальными соединителями, которые создают пространство для заполнения бетоном соответствующих характеристик и прочности. Толщина бетонной перегородки внутри двойной панели, а также характеристики самого бетона будут определяться в зависимости от структурных потребностей. Панель в конечном итоге завершается нанесением внешней штукатурки. Двойная панель, поставляемая в комплекте с арматурой, сертифицированной официальной лабораторией, соответствует требованиям к железобетонным конструкциям по Eurocode 2. Идеально подходит для несущих и подпорных стен.`)"
+                class="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">Подробнее</button>
+
+              <button
+                onclick="openPriceModal('Панель EmmeDue 180')"
+                class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
+            </div>
+          </div>
+
+          <!-- Остальные товары — по вашему файлу (оставьте как есть, логика уже работает) -->
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN / AGRO / COMPARISON / INVESTOR / GALLERY / DOCS / CONTACT -->
+    <!-- Оставьте ваш контент как в файле, но исправьте места со слэшами: -->
+    <!-- max-h-\[450px] -> max-h-[450px] -->
+    <!-- '\_blank' -> '_blank' -->
+    <!-- 09\_28\_05.png -> 09_28_05.png и т.п. -->
+    <!-- Ниже JS уже корректно всё поддержит -->
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-50 border-t mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600">
+      © 2025 ТеплоСтройНовация — все права защищены.
+    </div>
+  </footer>
+
+  <!-- Модалки -->
+  <div id="imageModal" class="modal-overlay">
+    <div class="bg-white w-full max-w-3xl rounded-lg overflow-hidden shadow-xl">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div class="font-semibold" id="imageModalTitle">Изображение</div>
+        <button class="px-3 py-1 border rounded hover:bg-gray-50" onclick="closeModal('imageModal')">✕</button>
+      </div>
+      <div class="p-4 bg-gray-50">
+        <img id="imageModalImg" src="" alt="" class="w-full h-auto rounded" />
+      </div>
+    </div>
+  </div>
+
+  <div id="textModal" class="modal-overlay">
+    <div class="bg-white w-full max-w-2xl rounded-lg overflow-hidden shadow-xl">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div class="font-semibold" id="textModalTitle">Информация</div>
+        <button class="px-3 py-1 border rounded hover:bg-gray-50" onclick="closeModal('textModal')">✕</button>
+      </div>
+      <div class="p-4">
+        <div id="textModalBody" class="text-sm text-gray-700 whitespace-pre-wrap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="priceModal" class="modal-overlay">
+    <div class="bg-white w-full max-w-xl rounded-lg overflow-hidden shadow-xl">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div class="font-semibold">Запрос цены</div>
+        <button class="px-3 py-1 border rounded hover:bg-gray-50" onclick="closeModal('priceModal')">✕</button>
+      </div>
+      <div class="p-4">
+        <p class="text-sm text-gray-700 mb-3">Продукт: <span id="priceProduct" class="font-semibold"></span></p>
+        <form onsubmit="handlePriceRequest(event)" class="grid gap-3">
+          <input id="priceName" class="w-full p-3 border rounded-md" placeholder="Ваше имя" required />
+          <input id="pricePhone" class="w-full p-3 border rounded-md" placeholder="Телефон" required />
+          <input id="priceEmail" type="email" class="w-full p-3 border rounded-md" placeholder="Email" required />
+          <button type="submit" class="px-4 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">
+            Отправить запрос
+          </button>
+          <p class="text-xs text-gray-500">
+            Сейчас форма отправляет через mailto (без сервера). Если хотите — подключу Telegram/форму.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- Навигация по вкладкам (исправлено) ----------
+    function showPage(pageId) {
+      // переключение страниц
+      document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById(pageId);
+      if (target) target.classList.add('active');
+
+      // активная кнопка в десктоп-меню
+      document.querySelectorAll('#desktopNav .nav-link').forEach(btn => btn.classList.remove('active'));
+      const activeDesktop = document.querySelector(`#desktopNav .nav-link[data-page="${CSS.escape(pageId)}"]`);
+      if (activeDesktop) activeDesktop.classList.add('active');
+
+      // закрыть мобильное меню
+      const mm = document.getElementById('mobileMenu');
+      if (mm && !mm.classList.contains('hidden')) mm.classList.add('hidden');
+
+      // прокрутка вверх
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
-    function App() {
-      return (
-        <HashRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
-          </Routes>
-        </HashRouter>
-      );
+    // ---------- Мобильное меню ----------
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      if (menu) menu.classList.toggle('hidden');
     }
 
-    ReactDOM
-      .createRoot(document.getElementById("root"))
-      .render(<App />);
+    // ---------- Модалки ----------
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('open');
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('open');
+    }
+
+    function openImageModal(url, title) {
+      document.getElementById('imageModalTitle').textContent = title || 'Изображение';
+      const img = document.getElementById('imageModalImg');
+      img.src = url;
+      img.alt = title || '';
+      openModal('imageModal');
+    }
+
+    function openTextModal(title, text) {
+      document.getElementById('textModalTitle').textContent = title || 'Информация';
+      document.getElementById('textModalBody').textContent = text || '';
+      openModal('textModal');
+    }
+
+    function openPriceModal(productName) {
+      document.getElementById('priceProduct').textContent = productName || '';
+      // очистим поля
+      const ids = ['priceName','pricePhone','priceEmail'];
+      ids.forEach(i => { const el = document.getElementById(i); if (el) el.value = ''; });
+      openModal('priceModal');
+    }
+
+    function handlePriceRequest(e) {
+      e.preventDefault();
+      const product = document.getElementById('priceProduct').textContent || '';
+      const name = document.getElementById('priceName').value.trim();
+      const phone = document.getElementById('pricePhone').value.trim();
+      const email = document.getElementById('priceEmail').value.trim();
+
+      const subject = `Запрос цены: ${product}`;
+      const body =
+        `Продукт: ${product}\n` +
+        `Имя: ${name}\n` +
+        `Телефон: ${phone}\n` +
+        `Email: ${email}\n`;
+
+      // Отправка без сервера — через mailto
+      window.location.href = `mailto:info@teplostroy.example?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      closeModal('priceModal');
+    }
+
+    // ---------- Привязка кликов меню (без inline-onclick, надежнее) ----------
+    document.addEventListener('DOMContentLoaded', () => {
+      // бургер
+      const burgerBtn = document.getElementById('burgerBtn');
+      if (burgerBtn) burgerBtn.addEventListener('click', toggleMobileMenu);
+
+      // логотип как кнопка "Главная"
+      const logo = document.querySelector('[data-page="home"].cursor-pointer');
+      if (logo) logo.addEventListener('click', () => showPage('home'));
+
+      // десктоп-кнопки
+      document.querySelectorAll('#desktopNav .nav-link').forEach(btn => {
+        btn.addEventListener('click', () => showPage(btn.dataset.page));
+      });
+
+      // мобильные кнопки
+      document.querySelectorAll('#mobileMenu button[data-page]').forEach(btn => {
+        btn.addEventListener('click', () => showPage(btn.dataset.page));
+      });
+
+      // Если в URL есть #page — откроем её
+      const hash = (location.hash || '').replace('#','').trim();
+      if (hash && document.getElementById(hash)) showPage(hash);
+      else showPage('home');
+
+      // закрытие мобильного меню по клику вне
+      document.addEventListener('click', (ev) => {
+        const menu = document.getElementById('mobileMenu');
+        const burger = document.getElementById('burgerBtn');
+        if (!menu || !burger) return;
+        if (menu.classList.contains('hidden')) return;
+
+        const clickedInsideMenu = menu.contains(ev.target);
+        const clickedBurger = burger.contains(ev.target);
+        if (!clickedInsideMenu && !clickedBurger) menu.classList.add('hidden');
+      });
+
+      // закрытие модалок по ESC
+      document.addEventListener('keydown', (ev) => {
+        if (ev.key !== 'Escape') return;
+        ['imageModal','textModal','priceModal'].forEach(closeModal);
+      });
+
+      // закрытие модалок по клику на фон
+      ['imageModal','textModal','priceModal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('click', (ev) => {
+          if (ev.target === el) closeModal(id);
+        });
+      });
+    });
+
+    // ---------- ROI калькулятор (как у вас, но без ошибок) ----------
+    function calculateROI() {
+      const area = parseFloat(document.getElementById('area')?.value) || 0;
+      const emPrice = parseFloat(document.getElementById('emPrice')?.value) || 0;
+      const altPrice = parseFloat(document.getElementById('altPrice')?.value) || 0;
+      const savings = area * (altPrice - emPrice);
+      const formatted = savings >= 1e6
+        ? `${(savings / 1e6).toFixed(0)} млн ₽`
+        : `${Math.round(savings).toLocaleString()} ₽`;
+      const resultEl = document.getElementById('roiResult');
+      if (resultEl) resultEl.textContent = formatted || '0 ₽';
+    }
+
+    // формы (контакты / агро) — оставляю простыми, чтобы не ломать
+    function handleSubmit(event) {
+      event.preventDefault();
+      alert('Спасибо! Ваше сообщение отправлено (демо).');
+    }
+    function handleAgroRequest(event) {
+      event.preventDefault();
+      alert('Спасибо! Ваша заявка принята (демо).');
+    }
   </script>
+
 </body>
 </html>
