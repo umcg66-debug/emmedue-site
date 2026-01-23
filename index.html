@@ -1,1061 +1,651 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  NavLink,
-  Link,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmmeDue — ТеплоСтройНовация</title>
 
-/**
- * Единый файл React + Tailwind (как у вас было),
- * но с исправлениями: мобильное меню, продукты с фото, модалки "Информация" и "Запросить цену",
- * + страницы из вашей HTML-версии.
- */
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-/* =========================
-   Утилиты
-========================= */
-function cx(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+  <!-- React 18 (UMD) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
-function useOnClickOutside(ref, handler) {
-  useEffect(() => {
-    const listener = (event) => {
-      const el = ref?.current;
-      if (!el || el.contains(event.target)) return;
-      handler(event);
-    };
-    document.addEventListener("mousedown", listener, true);
-    document.addEventListener("touchstart", listener, true);
-    return () => {
-      document.removeEventListener("mousedown", listener, true);
-      document.removeEventListener("touchstart", listener, true);
-    };
-  }, [ref, handler]);
-}
+  <!-- React Router DOM v6 (UMD) -->
+  <script crossorigin src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js"></script>
 
-/* =========================
-   Данные (продукты)
-   — взято из вашей HTML-версии
-========================= */
-function useProducts() {
-  return useMemo(
-    () => [
-      {
-        id: "emme-120",
-        name: "Панель EmmeDue 120",
-        short: "Базовая панель с EPS-утеплителем и двойной армирующей сеткой.",
-        image:
-          "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d",
-        detailsTitle: "Одиночная Панель",
-        detailsText:
-          "Сердцем системы является единая панель Emmedue из пенополистирола: модульная, заключенная в двойную сетку из оцинкованной стали, соединенную соединителями, которая должна быть завершена в работе. Он используется в качестве несущей конструкции для строительства до 4 этажей с нанесением структурной штукатурки с обеих сторон. Идеально подходит для перегородок, перегородок и буферизации в новых зданиях или подлежащих ремонту; для буферизации и перегородок в крупных промышленных и коммерческих зданиях; в качестве опалубки для утечки изоляции для кровли и перекрытий содержащихся огней. Идеально подходит для стен, перегородок, перегородок, прокладок, перекрытий и кровли.",
-      },
-      {
-        id: "emme-180",
-        name: "Панель EmmeDue 180",
-        short: "Усиленная панель для несущих стен.",
-        image:
-          "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6d2901ef-db97-49f2-9f05-ce30e729c31c",
-        detailsTitle: "Двойная Панель",
-        detailsText:
-          "Двойная панель Emmedue состоит из двух отдельных панелей, правильно сформированных и соединенных друг с другом двойными горизонтальными соединителями, которые создают пространство для заполнения бетоном соответствующих характеристик и прочности. Толщина бетонной перегородки внутри двойной панели, а также характеристики самого бетона будут определяться в зависимости от структурных потребностей. Панель в конечном итоге завершается нанесением внешней штукатурки. Двойная панель, поставляемая в комплекте с арматурой, сертифицированной официальной лабораторией в соответствии с законом 5/11/1971 № 1086-D. M. 9/1/1996, соответствует требованиям к железобетонным конструкциям в соответствии с ЕВРОКОДОМ 2 (ЕС2). Идеально подходит для стен из поколя, таких как несущие и контрольные стены.",
-      },
-      {
-        id: "stairs",
-        name: "Панель лестничная",
-        short: "Панель для изготовления монолитных лестниц.",
-        image:
-          "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/91881de3-ed1e-4a57-8336-08e92b9290d7",
-        detailsTitle: "Панель перекрытия",
-        detailsText:
-          "Панель для изготовления перекрытий и кровли с балками переменного тока, со значительными преимуществами с точки зрения легкого веса, изоляции и скорости монтажа. С помощью панели перекрытия Emmedue, состоящей из формованной плиты из пенополистирола, изготавливаются перекрытия и кровельные покрытия зданий с добавлением интегративной стали внутри специальных балок и последующей заливкой цементного конglomerата. Идеально подходит для перекрытий и кровли с железобетонными балками.",
-      },
-      {
-        id: "curved",
-        name: "Изогнутая панель",
-        short: "Архитектурные формы и криволинейные фасады.",
-        image:
-          "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/8ab55b8f-c4c3-42d1-8a94-75a04bcd409d",
-        detailsTitle: "Изогнутая Панель",
-        detailsText:
-          "Изогнутая панель представляет собой специальную панель большого размера и толщины, изготовленную на заводе в плоской форме и подготовленную для последующего изгиба на строительной площадке. Изготовленная таким образом панель легко транспортируется, а затем изгибается на строительной площадке в установленной форме вручную или полуавтоматически с помощью пневматического оборудования, разработанного Emmedue. Преимущества этой панели — возможность быстрого и практичного покрытия больших поверхностей. Кроме того, они также позволяют архитекторам быть гораздо более творческими с формами домов, которые они строят. Изогнутая поверхность также улучшает циркуляцию воздуха в доме, уменьшая потенциальную влажность и улучшая тепловое сопротивление.",
-      },
-      {
-        id: "slab",
-        name: "Панель перекрытия",
-        short: "Готовые решения для межэтажных перекрытий с высокой несущей способностью.",
-        image:
-          "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/024c719c-cde0-4da7-9093-6da7b1048d27",
-        detailsTitle: "Панель перекрытия",
-        detailsText:
-          "Панель для изготовления перекрытий и кровли с балками переменного тока, со значительными преимуществами с точки зрения легкого веса, изоляции и скорости монтажа. С помощью панели перекрытия Emmedue, состоящей из формованной плиты из пенополистирола, изготавливаются перекрытия и кровельные покрытия зданий с добавлением интегративной стали внутри специальных балок и последующей заливкой цементного конglomerата. Идеально подходит для перекрытий и кровли с железобетонными балками.",
-      },
-    ],
-    []
-  );
-}
+  <!-- Babel Standalone (чтобы JSX работал прямо в браузере) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-/* =========================
-   Модалки
-========================= */
-function Modal({ open, title, onClose, children, maxWidth = "max-w-2xl" }) {
-  if (!open) return null;
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      role="dialog"
-      aria-modal="true"
-    >
-      <div className={cx("w-full rounded-xl bg-white shadow-xl", maxWidth)}>
-        <div className="flex items-center justify-between border-b p-4">
-          <div className="text-lg font-semibold">{title}</div>
-          <button
-            className="rounded-md px-3 py-1 text-sm hover:bg-gray-100"
-            onClick={onClose}
-            aria-label="Закрыть"
-          >
-            ✕
-          </button>
-        </div>
-        <div className="p-4">{children}</div>
-      </div>
-    </div>
-  );
-}
+  <style>
+    /* Небольшие улучшения отображения */
+    html, body { height: 100%; }
+    body { margin: 0; }
+  </style>
+</head>
 
-function ImageModal({ open, title, src, onClose }) {
-  return (
-    <Modal open={open} title={title || "Изображение"} onClose={onClose} maxWidth="max-w-4xl">
-      <div className="rounded-lg overflow-hidden bg-gray-50">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={title || "image"} className="w-full h-auto object-contain" />
-      </div>
-    </Modal>
-  );
-}
+<body class="bg-white">
+  <div id="root"></div>
 
-function PriceRequestModal({ open, productName, onClose }) {
-  const [status, setStatus] = useState("idle");
+  <script type="text/babel">
+    const {
+      HashRouter,
+      Routes,
+      Route,
+      Link,
+      NavLink,
+      useParams,
+      useNavigate,
+      useLocation
+    } = ReactRouterDOM;
 
-  useEffect(() => {
-    if (!open) setStatus("idle");
-  }, [open]);
+    /* =========================
+       Утилиты
+    ========================= */
+    function cx(...classes) {
+      return classes.filter(Boolean).join(" ");
+    }
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+    function useOnClickOutside(ref, handler) {
+      React.useEffect(() => {
+        const listener = (event) => {
+          const el = ref?.current;
+          if (!el || el.contains(event.target)) return;
+          handler(event);
+        };
+        document.addEventListener("mousedown", listener, true);
+        document.addEventListener("touchstart", listener, true);
+        return () => {
+          document.removeEventListener("mousedown", listener, true);
+          document.removeEventListener("touchstart", listener, true);
+        };
+      }, [ref, handler]);
+    }
 
-    const form = new FormData(e.currentTarget);
-    const name = String(form.get("name") || "");
-    const phone = String(form.get("phone") || "");
-    const email = String(form.get("email") || "");
-    const message = String(form.get("message") || "");
+    /* =========================
+       Данные продуктов (с вашими ссылками)
+    ========================= */
+    function useProducts() {
+      return React.useMemo(() => ([
+        {
+          id: "emme-120",
+          name: "Панель EmmeDue 120",
+          short: "Базовая панель с EPS-утеплителем и двойной армирующей сеткой.",
+          image: "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7301d99b-6cc5-4864-a299-9c42474ba62d",
+          detailsTitle: "Одиночная Панель",
+          detailsText:
+            "Сердцем системы является единая панель Emmedue из пенополистирола: модульная, заключенная в двойную сетку из оцинкованной стали, соединенную соединителями, которая должна быть завершена в работе. Он используется в качестве несущей конструкции для строительства до 4 этажей с нанесением структурной штукатурки с обеих сторон. Идеально подходит для стен, перегородок, перекрытий и кровли."
+        },
+        {
+          id: "emme-180",
+          name: "Панель EmmeDue 180",
+          short: "Усиленная панель для несущих стен.",
+          image: "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6d2901ef-db97-49f2-9f05-ce30e729c31c",
+          detailsTitle: "Двойная Панель",
+          detailsText:
+            "Двойная панель Emmedue состоит из двух отдельных панелей, соединенных горизонтальными соединителями, создающими пространство для заполнения бетоном. Толщина бетонной перегородки и характеристики бетона определяются структурными потребностями. Панель завершается нанесением внешней штукатурки."
+        },
+        {
+          id: "stairs",
+          name: "Панель лестничная",
+          short: "Панель для изготовления монолитных лестниц.",
+          image: "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/91881de3-ed1e-4a57-8336-08e92b9290d7",
+          detailsTitle: "Панель перекрытия",
+          detailsText:
+            "Панель для изготовления перекрытий и кровли с балками переменного тока, с преимуществами по весу, изоляции и скорости монтажа. Используется с добавлением стали в балки и последующей заливкой цементного конгломерата."
+        },
+        {
+          id: "curved",
+          name: "Изогнутая панель",
+          short: "Архитектурные формы и криволинейные фасады.",
+          image: "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/8ab55b8f-c4c3-42d1-8a94-75a04bcd409d",
+          detailsTitle: "Изогнутая Панель",
+          detailsText:
+            "Специальная панель, изготовленная плоской и подготовленная для последующего изгиба на площадке. Легко транспортируется, затем изгибается вручную или полуавтоматически. Позволяет быстро покрывать большие поверхности и создавать сложные формы."
+        },
+        {
+          id: "slab",
+          name: "Панель перекрытия",
+          short: "Готовые решения для межэтажных перекрытий с высокой несущей способностью.",
+          image: "https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/024c719c-cde0-4da7-9093-6da7b1048d27",
+          detailsTitle: "Панель перекрытия",
+          detailsText:
+            "Решение для перекрытий и кровли: пенополистирольная плита + балки со сталью + заливка. Хорошая скорость монтажа, низкий вес, высокая теплоизоляция."
+        }
+      ]), []);
+    }
 
-    // Простой "mailto" (работает в GitHub Pages без backend).
-    // При желании замените на fetch в API/CRM.
-    const subject = encodeURIComponent(`Запрос цены: ${productName || "Emmedue"}`);
-    const body = encodeURIComponent(
-      `Продукт: ${productName}\nИмя: ${name}\nТелефон: ${phone}\nEmail: ${email}\n\nКомментарий:\n${message}`
-    );
-
-    // Укажите ваш реальный email:
-    window.location.href = `mailto:info@teplostroy.example?subject=${subject}&body=${body}`;
-
-    setStatus("ok");
-  };
-
-  return (
-    <Modal open={open} title={`Запросить цену: ${productName || ""}`} onClose={onClose} maxWidth="max-w-2xl">
-      <form onSubmit={onSubmit} className="grid gap-3">
-        <div className="grid sm:grid-cols-2 gap-3">
-          <input className="p-3 border rounded-md" name="name" placeholder="Имя" required />
-          <input className="p-3 border rounded-md" name="phone" placeholder="Телефон" required />
-        </div>
-        <input className="p-3 border rounded-md" name="email" placeholder="Email" type="email" />
-        <textarea
-          className="p-3 border rounded-md"
-          name="message"
-          rows={4}
-          placeholder="Комментарий (объём, регион, сроки)"
-        />
-        <button className="px-4 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">
-          Отправить
-        </button>
-        {status === "ok" ? (
-          <div className="text-sm text-green-700">
-            Заявка сформирована. Если не открылось почтовое приложение — подключите отправку через API/CRM.
-          </div>
-        ) : null}
-      </form>
-    </Modal>
-  );
-}
-
-/* =========================
-   Navbar (исправление мобильного меню)
-========================= */
-function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const menuRef = useRef(null);
-  const location = useLocation();
-
-  // Закрывать меню при переходе по маршруту
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname]);
-
-  useOnClickOutside(menuRef, () => setMobileOpen(false));
-
-  const linkBase =
-    "px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition";
-  const activeLink = "bg-gray-200";
-
-  const navItems = [
-    { to: "/", label: "Главная" },
-    { to: "/system", label: "Система" },
-    { to: "/products", label: "Продукты" },
-    { to: "/design", label: "Проектирование", extra: "hover:bg-blue-50 text-blue-700" },
-    { to: "/agro", label: "🌱 АгроСтрой", extra: "hover:bg-green-50 text-green-700" },
-    { to: "/comparison", label: "Сравнение" },
-    { to: "/investor", label: "Инвестору" },
-    { to: "/cases", label: "Кейсы" },
-    { to: "/docs", label: "Техдоки" },
-    { to: "/contact", label: "Контакты" },
-  ];
-
-  return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-4 cursor-pointer pr-2">
-              {/* logo.png положите в public/ или корень GitHub Pages */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="logo.png" alt="Логотип" className="h-10 w-auto object-contain" />
-              <div className="text-lg md:text-xl font-bold text-blue-600 hidden sm:block whitespace-nowrap">
-                ТеплоСтройНовация
-              </div>
-            </Link>
-
-            {/* Desktop menu */}
-            <nav className="hidden md:flex space-x-1 ml-2">
-              {navItems.map((it) => (
-                <NavLink
-                  key={it.to}
-                  to={it.to}
-                  end={it.to === "/"}
-                  className={({ isActive }) =>
-                    cx(linkBase, it.extra, isActive ? activeLink : "")
-                  }
-                >
-                  {it.label}
-                </NavLink>
-              ))}
-            </nav>
-
-            {/* Mobile burger */}
-            <div className="md:hidden ml-1 relative" ref={menuRef}>
-              <button
-                onClick={() => setMobileOpen((v) => !v)}
-                className="px-3 py-2 border rounded-md text-sm font-medium flex items-center gap-2"
-                aria-expanded={mobileOpen}
-                aria-controls="mobile-menu"
-              >
-                ☰ Меню
+    /* =========================
+       Модалки
+    ========================= */
+    function Modal({ open, title, onClose, children, maxWidth = "max-w-2xl" }) {
+      if (!open) return null;
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
+          <div className={cx("w-full rounded-xl bg-white shadow-xl", maxWidth)}>
+            <div className="flex items-center justify-between border-b p-4">
+              <div className="text-lg font-semibold">{title}</div>
+              <button className="rounded-md px-3 py-1 text-sm hover:bg-gray-100" onClick={onClose} aria-label="Закрыть">
+                ✕
               </button>
-
-              <div
-                id="mobile-menu"
-                className={cx(
-                  "absolute left-0 mt-2 w-56 bg-white border rounded-md shadow-lg py-1 z-50",
-                  mobileOpen ? "block" : "hidden"
-                )}
-              >
-                {navItems.map((it) => (
-                  <NavLink
-                    key={it.to}
-                    to={it.to}
-                    end={it.to === "/"}
-                    className={({ isActive }) =>
-                      cx(
-                        "block w-full text-left px-4 py-2 text-sm hover:bg-gray-100",
-                        isActive ? "bg-gray-100" : ""
-                      )
-                    }
-                  >
-                    {it.label}
-                  </NavLink>
-                ))}
-              </div>
             </div>
-          </div>
-
-          <div className="hidden sm:flex items-center gap-3">
-            <button className="text-sm font-medium hover:text-blue-600">RU</button>
-            <button className="text-sm font-medium hover:text-blue-600">EN</button>
+            <div className="p-4">{children}</div>
           </div>
         </div>
-      </div>
-    </header>
-  );
-}
+      );
+    }
 
-/* =========================
-   Pages
-========================= */
-function Home() {
-  const navigate = useNavigate();
-  return (
-    <main>
-      {/* Hero (адаптация вашей HTML-шапки) */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-20" />
+    function ImageModal({ open, title, src, onClose }) {
+      return (
+        <Modal open={open} title={title || "Изображение"} onClose={onClose} maxWidth="max-w-4xl">
+          <div className="rounded-lg overflow-hidden bg-gray-50">
+            <img src={src} alt={title || "image"} className="w-full h-auto object-contain" />
+          </div>
+        </Modal>
+      );
+    }
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-block px-4 py-2 bg-blue-100 rounded-full mb-6">
-                <span className="text-xs font-semibold text-blue-700">
-                  🚀 Революционная технология в строительстве
-                </span>
+    function PriceRequestModal({ open, productName, onClose }) {
+      const [status, setStatus] = React.useState("idle");
+
+      React.useEffect(() => {
+        if (!open) setStatus("idle");
+      }, [open]);
+
+      const onSubmit = (e) => {
+        e.preventDefault();
+        const form = new FormData(e.currentTarget);
+        const name = String(form.get("name") || "");
+        const phone = String(form.get("phone") || "");
+        const email = String(form.get("email") || "");
+        const message = String(form.get("message") || "");
+
+        const subject = encodeURIComponent(`Запрос цены: ${productName || "EmmeDue"}`);
+        const body = encodeURIComponent(
+          `Продукт: ${productName}\nИмя: ${name}\nТелефон: ${phone}\nEmail: ${email}\n\nКомментарий:\n${message}`
+        );
+
+        // УКАЖИТЕ ВАШ EMAIL:
+        window.location.href = `mailto:info@teplostroy.example?subject=${subject}&body=${body}`;
+        setStatus("ok");
+      };
+
+      return (
+        <Modal open={open} title={`Запросить цену: ${productName || ""}`} onClose={onClose} maxWidth="max-w-2xl">
+          <form onSubmit={onSubmit} className="grid gap-3">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <input className="p-3 border rounded-md" name="name" placeholder="Имя" required />
+              <input className="p-3 border rounded-md" name="phone" placeholder="Телефон" required />
+            </div>
+            <input className="p-3 border rounded-md" name="email" placeholder="Email" type="email" />
+            <textarea className="p-3 border rounded-md" name="message" rows="4" placeholder="Комментарий (объём, регион, сроки)"></textarea>
+            <button className="px-4 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">
+              Отправить
+            </button>
+            {status === "ok" ? (
+              <div className="text-sm text-green-700">
+                Заявка сформирована. Если почтовое приложение не открылось — подключите отправку через API/CRM.
               </div>
+            ) : null}
+          </form>
+        </Modal>
+      );
+    }
 
-              <h1 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
-                Строим быстрее, дешевле и устойчивее
-              </h1>
+    /* =========================
+       Navbar (мобильное меню)
+    ========================= */
+    function Navbar() {
+      const [mobileOpen, setMobileOpen] = React.useState(false);
+      const menuRef = React.useRef(null);
+      const location = useLocation();
 
-              <div className="mb-8">
-                <div className="flex items-center gap-3">
-                  <div className="bg-gradient-to-tr from-blue-500 to-indigo-500 p-3 rounded-full shadow-lg flex-shrink-0">
-                    <svg className="w-7 h-7 text-white" viewBox="0 0 32 32" fill="none">
-                      <rect x="4" y="12" width="24" height="12" rx="3" fill="#475569" />
-                      <rect x="8" y="15" width="16" height="6" rx="2" fill="#22D3EE" />
-                      <rect x="4" y="12" width="24" height="12" rx="3" stroke="#3B82F6" strokeWidth="2" />
-                      <path
-                        d="M10 18c0-2 4-2 4 0s4-2 4 0 4-2 4 0"
-                        stroke="#F59E42"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
+      React.useEffect(() => {
+        setMobileOpen(false);
+      }, [location.pathname]);
+
+      useOnClickOutside(menuRef, () => setMobileOpen(false));
+
+      const linkBase = "px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition";
+      const activeLink = "bg-gray-200";
+
+      const navItems = [
+        { to: "/", label: "Главная" },
+        { to: "/system", label: "Система" },
+        { to: "/products", label: "Продукты" },
+        { to: "/design", label: "Проектирование", extra: "hover:bg-blue-50 text-blue-700" },
+        { to: "/agro", label: "АгроСтрой", extra: "hover:bg-green-50 text-green-700" },
+        { to: "/comparison", label: "Сравнение" },
+        { to: "/investor", label: "Инвестору" },
+        { to: "/cases", label: "Кейсы" },
+        { to: "/docs", label: "Техдоки" },
+        { to: "/contact", label: "Контакты" },
+      ];
+
+      return (
+        <header className="bg-white shadow-md sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center gap-4">
+                <Link to="/" className="flex items-center gap-3 cursor-pointer pr-2">
+                  <img src="logo.png" alt="Логотип" className="h-10 w-auto object-contain" />
+                  <div className="text-lg md:text-xl font-bold text-blue-600 hidden sm:block whitespace-nowrap">
+                    ТеплоСтройНовация
                   </div>
-                  <span className="block text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 drop-shadow-lg">
-                    Монолитный железобетон + встроенная теплоизоляция
-                  </span>
-                </div>
-                <div className="ml-16 mt-2 text-lg md:text-xl font-semibold text-gray-700 italic">
-                  без единого мостика холода
-                </div>
-                <div className="ml-16 mt-4 text-base md:text-lg font-medium text-blue-700 bg-blue-50 rounded-full inline-block px-5 py-2 shadow border border-blue-200">
-                  Превосходим решения по скорости, эффективности и надёжности
-                </div>
-              </div>
+                </Link>
 
-              <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                <strong>Система Emmedue</strong> — модульная конструкция на базе{" "}
-                <span className="text-blue-600 font-semibold">EPS + армирующая сетка</span> и
-                монолитный бетон. Проверенная технология с международными сертификатами.
-              </p>
+                <nav className="hidden md:flex space-x-1 ml-2">
+                  {navItems.map((it) => (
+                    <NavLink
+                      key={it.to}
+                      to={it.to}
+                      end={it.to === "/"}
+                      className={({ isActive }) =>
+                        cx(linkBase, it.extra, isActive ? activeLink : "")
+                      }
+                    >
+                      {it.label}
+                    </NavLink>
+                  ))}
+                </nav>
 
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                <TrustItem icon="✅" title="Сертификация CE" sub="Европейский стандарт" />
-                <TrustItem icon="🏗️" title="50+ проектов" sub="в 10+ странах" />
-                <TrustItem icon="⚡" title="2× быстрее" sub="чем традиционно" />
-                <TrustItem icon="💰" title="64% дешевле" sub="vs альтернативы" />
-              </div>
+                <div className="md:hidden ml-1 relative" ref={menuRef}>
+                  <button
+                    onClick={() => setMobileOpen((v) => !v)}
+                    className="px-3 py-2 border rounded-md text-sm font-medium flex items-center gap-2"
+                    aria-expanded={mobileOpen}
+                    aria-controls="mobile-menu"
+                  >
+                    ☰ Меню
+                  </button>
 
-              <div className="flex gap-4 flex-wrap mb-6">
-                <button
-                  onClick={() => navigate("/investor")}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:shadow-lg hover:scale-[1.02] transition"
-                >
-                  📥 Запросить инвестпакет
-                </button>
-                <button
-                  onClick={() => navigate("/system")}
-                  className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-blue-400 hover:bg-blue-50 transition"
-                >
-                  🔍 Узнать технологию
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="w-full rounded-xl overflow-hidden shadow-2xl border-2 border-blue-100">
-                <div className="relative bg-gray-900" style={{ paddingTop: "56.25%" }}>
-                  <iframe
-                    className="absolute inset-0 w-full h-full"
-                    src="https://www.youtube.com/embed/DXXfC1jLGmg"
-                    title="Baupanel System Building Assembly"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <div
+                    id="mobile-menu"
+                    className={cx(
+                      "absolute left-0 mt-2 w-56 bg-white border rounded-md shadow-lg py-1 z-50",
+                      mobileOpen ? "block" : "hidden"
+                    )}
+                  >
+                    {navItems.map((it) => (
+                      <NavLink
+                        key={it.to}
+                        to={it.to}
+                        end={it.to === "/"}
+                        className={({ isActive }) =>
+                          cx(
+                            "block w-full text-left px-4 py-2 text-sm hover:bg-gray-100",
+                            isActive ? "bg-gray-100" : ""
+                          )
+                        }
+                      >
+                        {it.label}
+                      </NavLink>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <MetricCard big="2×" title="Сокращение сроков" sub="30 дней/этаж" />
-                <MetricCard big="4×" title="Энергоэффективность" sub="U-value ~0.15 W/m²K" />
-              </div>
-
-              <div className="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-lg">🎯</span>
-                  <div className="font-semibold text-gray-900">Экономия CAPEX</div>
-                </div>
-                <p className="text-xs text-gray-600">Сравните стоимость и сроки на странице “Сравнение”.</p>
+              <div className="hidden sm:flex items-center gap-3">
+                <button className="text-sm font-medium hover:text-blue-600">RU</button>
+                <button className="text-sm font-medium hover:text-blue-600">EN</button>
               </div>
             </div>
           </div>
+        </header>
+      );
+    }
+
+    /* =========================
+       Pages
+    ========================= */
+    function Home() {
+      const navigate = useNavigate();
+      return (
+        <main>
+          <section className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-20"></div>
+
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                  <div className="inline-block px-4 py-2 bg-blue-100 rounded-full mb-6">
+                    <span className="text-xs font-semibold text-blue-700">
+                      Революционная технология в строительстве
+                    </span>
+                  </div>
+
+                  <h1 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
+                    Строим быстрее, дешевле и устойчивее
+                  </h1>
+
+                  <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                    Система Emmedue — модульная конструкция EPS + армирующая сетка + монолитный бетон.
+                    Проверенная технология с международными сертификатами.
+                  </p>
+
+                  <div className="flex gap-4 flex-wrap mb-6">
+                    <button
+                      onClick={() => navigate("/investor")}
+                      className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:shadow-lg hover:scale-[1.02] transition"
+                    >
+                      Запросить инвестпакет
+                    </button>
+                    <button
+                      onClick={() => navigate("/system")}
+                      className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-blue-400 hover:bg-blue-50 transition"
+                    >
+                      Узнать технологию
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="w-full rounded-xl overflow-hidden shadow-2xl border-2 border-blue-100">
+                    <div className="relative bg-gray-900" style={{ paddingTop: "56.25%" }}>
+                      <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src="https://www.youtube.com/embed/DXXfC1jLGmg"
+                        title="Baupanel System Building Assembly"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <MetricCard big="2×" title="Сокращение сроков" sub="30 дней/этаж" />
+                    <MetricCard big="4×" title="Энергоэффективность" sub="U-value ~0.15 W/m²K" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="max-w-6xl mx-auto px-4 py-10">
+            <h2 className="text-2xl font-bold mb-4">Преимущества системы</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Feature title="Быстрая сборка" text="Заводские панели сокращают сроки на объекте до недель вместо месяцев." />
+              <Feature title="Энергоэффективность" text="Непрерывный утеплитель EPS снижает теплопотери и расходы." />
+              <Feature title="Надёжность" text="Монолитный бетон внутри панели обеспечивает долговечность." />
+            </div>
+          </section>
+        </main>
+      );
+    }
+
+    function MetricCard({ big, title, sub }) {
+      return (
+        <div className="p-5 bg-gradient-to-br from-blue-50 to-blue-100 border-l-4 border-blue-600 rounded-lg hover:shadow-md transition">
+          <div className="text-3xl font-bold text-blue-600">{big}</div>
+          <div className="text-sm font-medium text-gray-700">{title}</div>
+          <div className="text-xs text-gray-600">{sub}</div>
         </div>
-      </section>
+      );
+    }
 
-      <section className="max-w-6xl mx-auto px-4 py-10">
-        <h2 className="text-2xl font-bold mb-4">Преимущества системы</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Feature title="Быстрая сборка" text="Заводские панели сокращают сроки на объекте до недель вместо месяцев." />
-          <Feature title="Энергоэффективность" text="Непрерывный утеплитель EPS снижает теплопотери и расходы." />
-          <Feature title="Надёжность" text="Монолитный бетон внутри панели обеспечивает долговечность." />
+    function Feature({ title, text }) {
+      return (
+        <div className="p-6 border rounded-md bg-white hover:shadow-md transition">
+          <h3 className="font-semibold mb-2">{title}</h3>
+          <p className="text-sm text-gray-600">{text}</p>
         </div>
-      </section>
-    </main>
-  );
-}
+      );
+    }
 
-function TrustItem({ icon, title, sub }) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="text-2xl">{icon}</div>
-      <div>
-        <div className="font-semibold text-gray-900">{title}</div>
-        <div className="text-xs text-gray-600">{sub}</div>
-      </div>
-    </div>
-  );
-}
-
-function MetricCard({ big, title, sub }) {
-  return (
-    <div className="p-5 bg-gradient-to-br from-blue-50 to-blue-100 border-l-4 border-blue-600 rounded-lg hover:shadow-md transition">
-      <div className="text-3xl font-bold text-blue-600">{big}</div>
-      <div className="text-sm font-medium text-gray-700">{title}</div>
-      <div className="text-xs text-gray-600">{sub}</div>
-    </div>
-  );
-}
-
-function Feature({ title, text }) {
-  return (
-    <div className="p-6 border rounded-md bg-white hover:shadow-md transition">
-      <h3 className="font-semibold mb-2">{title}</h3>
-      <p className="text-sm text-gray-600">{text}</p>
-    </div>
-  );
-}
-
-function SystemPage() {
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-4">Система конструктивных панелей EmmeDue</h1>
-      <p className="text-gray-700 mb-6">
-        Панельная система несъёмной опалубки: EPS + двойная сетка + монолитный бетон. Подходит для промышленных,
-        агро- и коммерческих объектов, а также для жилья.
-      </p>
-
-      <section className="grid md:grid-cols-2 gap-6">
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Ключевые характеристики</h2>
-          <ul className="list-disc list-inside text-gray-600 space-y-1">
-            <li>Высокая скорость монтажа (модульная сборка)</li>
+    function SystemPage() {
+      return (
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <h1 className="text-3xl font-bold mb-4">Система конструктивных панелей EmmeDue</h1>
+          <p className="text-gray-700 mb-6">
+            Панельная система несъёмной опалубки: EPS + двойная сетка + монолитный бетон.
+          </p>
+          <ul className="list-disc list-inside text-gray-700 space-y-1">
+            <li>Высокая скорость монтажа</li>
             <li>Теплоизоляция без мостиков холода</li>
-            <li>Проектирование под нагрузку и узлы примыканий</li>
+            <li>Проектирование под нагрузки</li>
             <li>Поддержка BIM-моделирования</li>
           </ul>
         </div>
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Применение</h2>
-          <p className="text-gray-600">
-            Склады, производственные цеха, овощехранилища, сыроварни, логистические центры, торговые помещения,
-            многоэтажные решения — по проекту.
-          </p>
-          <Link to="/docs" className="inline-block px-4 py-2 border rounded-md hover:bg-gray-50">
-            Перейти в техдоки
-          </Link>
-        </div>
-      </section>
-    </div>
-  );
-}
+      );
+    }
 
-/* =========================
-   Products (фото + модалки)
-========================= */
-function ProductsPage() {
-  const products = useProducts();
+    function ProductsPage() {
+      const products = useProducts();
 
-  const [imgOpen, setImgOpen] = useState(false);
-  const [imgSrc, setImgSrc] = useState("");
-  const [imgTitle, setImgTitle] = useState("");
+      const [imgOpen, setImgOpen] = React.useState(false);
+      const [imgSrc, setImgSrc] = React.useState("");
+      const [imgTitle, setImgTitle] = React.useState("");
 
-  const [detailsOpen, setDetailsOpen] = useState(false);
-  const [detailsTitle, setDetailsTitle] = useState("");
-  const [detailsText, setDetailsText] = useState("");
+      const [detailsOpen, setDetailsOpen] = React.useState(false);
+      const [detailsTitle, setDetailsTitle] = React.useState("");
+      const [detailsText, setDetailsText] = React.useState("");
 
-  const [priceOpen, setPriceOpen] = useState(false);
-  const [priceProductName, setPriceProductName] = useState("");
+      const [priceOpen, setPriceOpen] = React.useState(false);
+      const [priceProductName, setPriceProductName] = React.useState("");
 
-  const openImage = (p) => {
-    setImgSrc(p.image);
-    setImgTitle(p.name);
-    setImgOpen(true);
-  };
+      const openImage = (p) => {
+        setImgSrc(p.image);
+        setImgTitle(p.name);
+        setImgOpen(true);
+      };
 
-  const openDetails = (p) => {
-    setDetailsTitle(p.detailsTitle || p.name);
-    setDetailsText(p.detailsText || "");
-    setDetailsOpen(true);
-  };
+      const openDetails = (p) => {
+        setDetailsTitle(p.detailsTitle || p.name);
+        setDetailsText(p.detailsText || "");
+        setDetailsOpen(true);
+      };
 
-  const openPrice = (p) => {
-    setPriceProductName(p.name);
-    setPriceOpen(true);
-  };
+      const openPrice = (p) => {
+        setPriceProductName(p.name);
+        setPriceOpen(true);
+      };
 
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold mb-6">Продукты</h1>
+      return (
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <h1 className="text-2xl font-bold mb-6">Продукты</h1>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {products.map((p) => (
-          <div key={p.id} className="p-4 border rounded-md bg-white hover:shadow-md transition">
-            <button
-              type="button"
-              onClick={() => openImage(p)}
-              className="h-48 mb-4 w-full rounded overflow-hidden bg-gray-100 cursor-pointer relative group"
-              aria-label={`Увеличить: ${p.name}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={p.image}
-                alt={p.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-300 flex items-center justify-center">
-                <div className="text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  🔍 Увеличить
+          <div className="grid md:grid-cols-2 gap-6">
+            {products.map((p) => (
+              <div key={p.id} className="p-4 border rounded-md bg-white hover:shadow-md transition">
+                <button
+                  type="button"
+                  onClick={() => openImage(p)}
+                  className="h-48 mb-4 w-full rounded overflow-hidden bg-gray-100 cursor-pointer relative group"
+                  aria-label={`Увеличить: ${p.name}`}
+                >
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      Увеличить
+                    </div>
+                  </div>
+                </button>
+
+                <h3 className="font-semibold">{p.name}</h3>
+                <p className="text-sm text-gray-600 mb-4">{p.short}</p>
+
+                <div className="flex flex-wrap gap-2">
+                  <button onClick={() => openDetails(p)} className="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">
+                    Информация
+                  </button>
+
+                  <Link to={`/products/${p.id}`} className="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">
+                    Страница
+                  </Link>
+
+                  <button onClick={() => openPrice(p)} className="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">
+                    Запросить цену
+                  </button>
                 </div>
               </div>
+            ))}
+          </div>
+
+          <ImageModal open={imgOpen} title={imgTitle} src={imgSrc} onClose={() => setImgOpen(false)} />
+
+          <Modal open={detailsOpen} title={detailsTitle || "Информация"} onClose={() => setDetailsOpen(false)}>
+            <div className="text-gray-700 whitespace-pre-line leading-relaxed">{detailsText}</div>
+          </Modal>
+
+          <PriceRequestModal open={priceOpen} productName={priceProductName} onClose={() => setPriceOpen(false)} />
+        </div>
+      );
+    }
+
+    function ProductDetailPage() {
+      const { id } = useParams();
+      const navigate = useNavigate();
+      const products = useProducts();
+      const p = products.find((x) => x.id === id);
+
+      if (!p) {
+        return (
+          <div className="max-w-4xl mx-auto px-4 py-12">
+            <h1 className="text-2xl font-bold mb-2">Продукт не найден</h1>
+            <button className="px-4 py-2 border rounded-md hover:bg-gray-50" onClick={() => navigate("/products")}>
+              ← Назад к продуктам
             </button>
-
-            <h3 className="font-semibold">{p.name}</h3>
-            <p className="text-sm text-gray-600 mb-4">{p.short}</p>
-
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => openDetails(p)}
-                className="px-3 py-2 border rounded-md text-sm hover:bg-gray-50"
-              >
-                Информация
-              </button>
-
-              <Link
-                to={`/products/${p.id}`}
-                className="px-3 py-2 border rounded-md text-sm hover:bg-gray-50"
-              >
-                Страница
-              </Link>
-
-              <button
-                onClick={() => openPrice(p)}
-                className="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"
-              >
-                Запросить цену
-              </button>
-            </div>
           </div>
-        ))}
-      </div>
+        );
+      }
 
-      <ImageModal open={imgOpen} title={imgTitle} src={imgSrc} onClose={() => setImgOpen(false)} />
+      return (
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <button className="mb-4 px-4 py-2 border rounded-md hover:bg-gray-50" onClick={() => navigate("/products")}>
+            ← Назад к продуктам
+          </button>
 
-      <Modal open={detailsOpen} title={detailsTitle || "Информация"} onClose={() => setDetailsOpen(false)}>
-        <div className="text-gray-700 whitespace-pre-line leading-relaxed">{detailsText}</div>
-      </Modal>
+          <h1 className="text-3xl font-bold mb-4">{p.name}</h1>
 
-      <PriceRequestModal
-        open={priceOpen}
-        productName={priceProductName}
-        onClose={() => setPriceOpen(false)}
-      />
-    </div>
-  );
-}
-
-function ProductDetailPage() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const products = useProducts();
-  const p = products.find((x) => x.id === id);
-
-  if (!p) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold mb-2">Продукт не найден</h1>
-        <button className="px-4 py-2 border rounded-md hover:bg-gray-50" onClick={() => navigate("/products")}>
-          ← Назад к продуктам
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <button className="mb-4 px-4 py-2 border rounded-md hover:bg-gray-50" onClick={() => navigate("/products")}>
-        ← Назад к продуктам
-      </button>
-
-      <h1 className="text-3xl font-bold mb-4">{p.name}</h1>
-
-      <div className="rounded-xl overflow-hidden bg-gray-50 border mb-6">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={p.image} alt={p.name} className="w-full h-auto object-cover" />
-      </div>
-
-      <p className="text-gray-700 mb-4">{p.short}</p>
-
-      <div className="border rounded-md p-4 bg-white">
-        <h2 className="text-xl font-semibold mb-2">{p.detailsTitle || "Описание"}</h2>
-        <div className="text-gray-700 whitespace-pre-line leading-relaxed">{p.detailsText}</div>
-      </div>
-    </div>
-  );
-}
-
-/* =========================
-   Design / Agro / Comparison / Investor / Cases / Docs / Contact
-========================= */
-function DesignPage() {
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-6 text-blue-900">Проектирование зданий Emmedue</h1>
-      <p className="text-lg text-gray-700 mb-8">
-        Проектный отдел адаптирует архитектурные решения под технологию несъемной опалубки Emmedue.
-      </p>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="bg-gray-100 rounded-xl p-4 md:p-6 flex items-center justify-center border border-gray-200">
-          {/* BIM-model.png положите в public/ */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="BIM-model.png"
-            alt="BIM-модель"
-            className="rounded-lg shadow-lg w-full h-auto object-contain max-h-[450px]"
-          />
-        </div>
-
-        <div className="space-y-6">
-          <ServiceCard
-            num="01"
-            title="Адаптация проектов"
-            subtitle="Пересчёт конструкций под Emmedue"
-            bullets={[
-              "Переработка проектов под панельную систему",
-              "Замена ограждающих конструкций на панели Emmedue",
-              "Корректировка этажности, перекрытий, нагрузок",
-              "Оптимизация конструкции под снижение стоимости",
-            ]}
-          />
-          <ServiceCard
-            num="02"
-            title="Разработка КЖ / АР"
-            subtitle="Полный комплект чертежей и спецификаций"
-            bullets={[
-              "Планировки, разрезы, фасады, узлы, ведомости",
-              "BIM-моделирование (Revit)",
-              "Подготовка модели под 3D/VR",
-            ]}
-          />
-          <ServiceCard
-            num="03"
-            title="Статические и теплотехнические расчёты"
-            subtitle="Несущая способность и энергоэффективность"
-            bullets={[
-              "Расчёт стен, перекрытий и узлов",
-              "Подбор толщины панели и армирования",
-              "Теплотехника, теплопотери, точка росы",
-              "Энергоэффективный паспорт",
-            ]}
-          />
-          <Link to="/contact" className="inline-block px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">
-            Заказать проект
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ServiceCard({ num, title, subtitle, bullets }) {
-  return (
-    <div className="p-4 border rounded-md bg-white hover:shadow-md transition">
-      <div className="flex items-start gap-3">
-        <div className="bg-blue-100 p-2 rounded text-blue-600 font-bold text-sm">{num}</div>
-        <div>
-          <h4 className="font-bold text-gray-900">{title}</h4>
-          <p className="text-sm text-gray-600 mt-1">{subtitle}</p>
-          {bullets?.length ? (
-            <ul className="list-disc list-inside text-xs text-gray-500 mt-2 space-y-1">
-              {bullets.map((b, i) => (
-                <li key={i}>{b}</li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AgroPage() {
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <div className="flex items-center gap-4 mb-8">
-        <div className="p-4 bg-green-100 rounded-full text-3xl">🥦</div>
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Овощехранилища и Сыроварни</h1>
-          <p className="text-green-700 font-medium">Строительство агро-объектов без мостиков холода</p>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8 mb-10">
-        <div className="bg-white p-6 rounded-xl shadow border hover:shadow-lg transition">
-          <h3 className="text-xl font-bold mb-3">🥔 Овощехранилища</h3>
-          <p className="text-gray-600 mb-3">
-            Герметичные камеры с стабильным климатом. Монолитные стены не гниют и держат температуру.
-          </p>
-          <ul className="text-sm space-y-1 text-gray-500">
-            <li>• Экономия на охлаждении до 40%</li>
-            <li>• Быстрое возведение к сезону</li>
-          </ul>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow border hover:shadow-lg transition">
-          <h3 className="text-xl font-bold mb-3">🧀 Сыроварни</h3>
-          <p className="text-gray-600 mb-3">
-            Чистые помещения по нормам. Моющиеся стены, устойчивость к влаге и плесени.
-          </p>
-          <ul className="text-sm space-y-1 text-gray-500">
-            <li>• Гладкие гигиеничные стены</li>
-            <li>• Стабильная температура</li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap gap-3">
-        <Link to="/contact" className="px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 shadow-md">
-          Получить КП для агробизнеса
-        </Link>
-        <Link to="/products" className="px-8 py-3 border rounded-lg font-bold hover:bg-gray-50">
-          Подобрать панели
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-function ComparisonPage() {
-  const [area, setArea] = useState(1000);
-  const [emmePrice, setEmmePrice] = useState(18000);
-  const [altPrice, setAltPrice] = useState(50000);
-
-  const emmeCapex = Math.max(0, area) * Math.max(0, emmePrice);
-  const altCapex = Math.max(0, area) * Math.max(0, altPrice);
-  const savings = Math.max(0, altCapex - emmeCapex);
-
-  const formatRub = (n) =>
-    new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(n);
-
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-6">Сравнение и ROI</h1>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-xl border shadow-sm">
-          <h3 className="font-semibold mb-4">Калькулятор CAPEX</h3>
-
-          <label className="block text-sm text-gray-700 font-medium">
-            Площадь (м²)
-            <input
-              type="number"
-              className="w-full p-2 border rounded mt-1"
-              value={area}
-              onChange={(e) => setArea(Number(e.target.value))}
-            />
-          </label>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            <label className="block text-sm text-gray-700 font-medium">
-              Цена Emmedue (₽/м²)
-              <input
-                type="number"
-                className="w-full p-2 border rounded mt-1"
-                value={emmePrice}
-                onChange={(e) => setEmmePrice(Number(e.target.value))}
-              />
-            </label>
-
-            <label className="block text-sm text-gray-700 font-medium">
-              Цена альтернативы (₽/м²)
-              <input
-                type="number"
-                className="w-full p-2 border rounded mt-1"
-                value={altPrice}
-                onChange={(e) => setAltPrice(Number(e.target.value))}
-              />
-            </label>
+          <div className="rounded-xl overflow-hidden bg-gray-50 border mb-6">
+            <img src={p.image} alt={p.name} className="w-full h-auto object-cover" />
           </div>
 
-          <div className="bg-white p-3 rounded border-2 border-blue-300 mt-4">
-            <div className="text-xs text-gray-600">Экономия CAPEX:</div>
-            <div className="text-lg font-bold text-green-600">{formatRub(savings)}</div>
+          <p className="text-gray-700 mb-4">{p.short}</p>
+
+          <div className="border rounded-md p-4 bg-white">
+            <h2 className="text-xl font-semibold mb-2">{p.detailsTitle || "Описание"}</h2>
+            <div className="text-gray-700 whitespace-pre-line leading-relaxed">{p.detailsText}</div>
           </div>
         </div>
+      );
+    }
 
-        <div className="bg-blue-50 p-6 rounded-xl border">
-          <h3 className="font-semibold mb-3">Примерный расчёт</h3>
-          <p className="text-sm text-gray-700 mb-3">
-            Проект {area} м² при цене Emmedue {formatRub(emmePrice)} /м² vs альтернатива {formatRub(altPrice)} /м²:
-          </p>
-          <ul className="text-sm text-gray-700 space-y-1">
-            <li>✓ <strong>Emmedue CAPEX:</strong> {formatRub(emmeCapex)}</li>
-            <li>✗ <strong>Альтернатива CAPEX:</strong> {formatRub(altCapex)}</li>
-            <li>💰 <strong>Сэкономите:</strong> {formatRub(savings)}</li>
-            <li>⏱️ <strong>Сроки:</strong> условно 30 дней/этаж vs 60 дней/этаж</li>
-          </ul>
-
-          <div className="mt-6">
-            <Link to="/contact" className="px-5 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">
-              Назначить встречу
-            </Link>
-          </div>
+    function SimplePage({ title, text }) {
+      return (
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <h1 className="text-3xl font-bold mb-4">{title}</h1>
+          <p className="text-gray-700">{text}</p>
         </div>
-      </div>
-    </div>
-  );
-}
+      );
+    }
 
-function InvestorPage() {
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-4">Инвестору</h1>
-      <p className="text-gray-700 mb-8">
-        Запросите инвестиционный пакет: презентация технологии, экономика проекта, условия партнёрства.
-      </p>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="bg-white border rounded-xl p-6 shadow-sm">
-          <h2 className="text-xl font-semibold mb-3">Что внутри пакета</h2>
+    function DocsPage() {
+      return (
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <h1 className="text-2xl font-bold mb-4">Техническая документация</h1>
           <ul className="list-disc list-inside text-gray-700 space-y-1">
-            <li>Описание технологии и производственной модели</li>
-            <li>Финансовая модель (CAPEX/OPEX, окупаемость)</li>
-            <li>Портфель кейсов и сценарии масштабирования</li>
-            <li>Требования к рынку/площадке</li>
+            <li>Руководство проектировщика (PDF)</li>
+            <li>Узлы и примыкания (DWG/PDF)</li>
+            <li>Таблицы теплофизических характеристик</li>
           </ul>
         </div>
+      );
+    }
 
-        <div className="bg-white border rounded-xl p-6 shadow-sm">
-          <h2 className="text-xl font-semibold mb-3">Запросить пакет</h2>
-          <p className="text-sm text-gray-600 mb-4">
-            Укажите контактные данные — откроется письмо для отправки запроса (можно заменить на CRM/API).
-          </p>
+    function ContactPage() {
+      return (
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <h1 className="text-2xl font-bold mb-4">Контакты</h1>
+          <p className="text-gray-700">Телефон: +7 (XXX) XXX-XX-XX</p>
+          <p className="text-gray-700 mb-6">Email: info@teplostroy.example</p>
 
           <form
+            className="grid grid-cols-1 gap-4"
             onSubmit={(e) => {
               e.preventDefault();
               const form = new FormData(e.currentTarget);
-              const company = String(form.get("company") || "");
               const name = String(form.get("name") || "");
-              const phone = String(form.get("phone") || "");
               const email = String(form.get("email") || "");
-              const subject = encodeURIComponent("Запрос инвестпакета Emmedue");
-              const body = encodeURIComponent(
-                `Компания: ${company}\nКонтакт: ${name}\nТелефон: ${phone}\nEmail: ${email}\n\nПрошу направить инвестиционный пакет.`
-              );
+              const msg = String(form.get("msg") || "");
+              const subject = encodeURIComponent("Сообщение с сайта EmmeDue");
+              const body = encodeURIComponent(`Имя: ${name}\nEmail: ${email}\n\nСообщение:\n${msg}`);
               window.location.href = `mailto:info@teplostroy.example?subject=${subject}&body=${body}`;
             }}
-            className="grid gap-3"
           >
-            <input className="p-3 border rounded-md" name="company" placeholder="Компания" required />
-            <input className="p-3 border rounded-md" name="name" placeholder="Контактное лицо" required />
-            <input className="p-3 border rounded-md" name="phone" placeholder="Телефон" required />
+            <input className="p-3 border rounded-md" name="name" placeholder="Имя" required />
             <input className="p-3 border rounded-md" name="email" placeholder="Email" type="email" required />
+            <textarea className="p-3 border rounded-md" name="msg" rows="4" placeholder="Сообщение" required></textarea>
             <button className="px-4 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">
-              Отправить запрос
+              Отправить
             </button>
           </form>
         </div>
-      </div>
-    </div>
-  );
-}
+      );
+    }
 
-function CasesPage() {
-  // Пути к изображениям оставлены как в вашей HTML-версии.
-  // Если файлов нет в репозитории — добавьте их в public/ или поправьте пути.
-  const cases = [
-    { img: "ChatGPT Image 10 дек. 2025 г., 09_28_05.png", title: "Овощехранилище", sub: "Быстрое возведение за 45–60 дней" },
-    { img: "загруженное.jpg", title: "Логистический центр", sub: "15 000 м², Москва" },
-    { img: "ChatGPT Image 10 дек. 2025 г., 09_27_51.png", title: "Жилой комплекс", sub: "ROI: 3 года, завершение за 6 месяцев" },
-    { img: "ChatGPT Image 10 дек. 2025 г., 09_28_01.png", title: "Производственный цех", sub: "Premium Quality, No Condensation" },
-    { img: "ChatGPT Image 10 дек. 2025 г., 09_27_51.png", title: "Складской комплекс", sub: "Годовая экономия 2.4 млн ₽" },
-    { img: "BIM-model.png", title: "BIM-моделирование", sub: "Точное цифровое проектирование" },
-    { img: "ЛЕСТНИЦА.png", title: "Лестничные конструкции", sub: "Быстрая и легкая сборка" },
-    { img: "DOM.png", title: "Жилой дом", sub: "Модульное строительство частных домов" },
-    { img: "Снимок экрана 2025-12-10 093353.png", title: "Технические решения", sub: "Интерфейс управления проектами" },
-  ];
-
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold mb-6">Кейсы и проекты</h1>
-      <p className="text-gray-700 mb-8">
-        Узнайте, как технология Emmedue применяется в реальных проектах по всему миру.
-      </p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {cases.map((c, idx) => (
-          <div key={idx} className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={c.img}
-              alt={c.title}
-              className="w-full h-48 object-cover"
-              onError={(e) => {
-                // мягкая деградация, если файла нет
-                e.currentTarget.style.display = "none";
-                const parent = e.currentTarget.parentElement;
-                if (parent) {
-                  parent.classList.add("bg-gray-100");
-                }
-              }}
-            />
-            <div className="p-4 bg-gray-50">
-              <h3 className="font-semibold text-gray-900">{c.title}</h3>
-              <p className="text-sm text-gray-600">{c.sub}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function DocsPage() {
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold mb-4">Техническая документация</h1>
-      <ul className="list-disc list-inside text-gray-700 space-y-1">
-        <li>Руководство проектировщика (PDF)</li>
-        <li>Узлы и примыкания (DWG/PDF)</li>
-        <li>Таблицы теплофизических характеристик</li>
-      </ul>
-      <div className="mt-6">
-        <button className="px-4 py-2 border rounded-md hover:bg-gray-50" onClick={() => alert("Скачивание (placeholder)")}>
-          Скачать все (placeholder)
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function ContactPage() {
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold mb-4">Контакты</h1>
-      <p className="text-gray-700">Телефон: +7 (XXX) XXX-XX-XX</p>
-      <p className="text-gray-700 mb-6">Email: info@teplostroy.example</p>
-
-      <form
-        className="grid grid-cols-1 gap-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const form = new FormData(e.currentTarget);
-          const name = String(form.get("name") || "");
-          const email = String(form.get("email") || "");
-          const msg = String(form.get("msg") || "");
-          const subject = encodeURIComponent("Сообщение с сайта Emmedue");
-          const body = encodeURIComponent(`Имя: ${name}\nEmail: ${email}\n\nСообщение:\n${msg}`);
-          window.location.href = `mailto:info@teplostroy.example?subject=${subject}&body=${body}`;
-        }}
-      >
-        <input className="p-3 border rounded-md" name="name" placeholder="Имя" required />
-        <input className="p-3 border rounded-md" name="email" placeholder="Email" type="email" required />
-        <textarea className="p-3 border rounded-md" name="msg" rows={4} placeholder="Сообщение" required />
-        <button className="px-4 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">
-          Отправить
-        </button>
-      </form>
-    </div>
-  );
-}
-
-function NotFound() {
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold mb-2">Страница не найдена</h1>
-      <Link to="/" className="px-4 py-2 border rounded-md hover:bg-gray-50 inline-block">
-        На главную
-      </Link>
-    </div>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="bg-gray-50 border-t mt-12">
-      <div className="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600">
-        © {new Date().getFullYear()} ТеплоСтройНовация — все права защищены.
-      </div>
-    </footer>
-  );
-}
-
-/* =========================
-   App
-========================= */
-export default function MultiPageSite() {
-  return (
-    <Router>
-      <div className="min-h-screen flex flex-col bg-white">
-        <Navbar />
-        <div className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/system" element={<SystemPage />} />
-
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:id" element={<ProductDetailPage />} />
-
-            <Route path="/design" element={<DesignPage />} />
-            <Route path="/agro" element={<AgroPage />} />
-            <Route path="/comparison" element={<ComparisonPage />} />
-            <Route path="/investor" element={<InvestorPage />} />
-
-            <Route path="/cases" element={<CasesPage />} />
-            <Route path="/docs" element={<DocsPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+    function NotFound() {
+      return (
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <h1 className="text-2xl font-bold mb-2">Страница не найдена</h1>
+          <Link to="/" className="px-4 py-2 border rounded-md hover:bg-gray-50 inline-block">На главную</Link>
         </div>
-        <Footer />
-      </div>
-    </Router>
-  );
-}
+      );
+    }
+
+    function Footer() {
+      return (
+        <footer className="bg-gray-50 border-t mt-12">
+          <div className="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600">
+            © {new Date().getFullYear()} ТеплоСтройНовация — все права защищены.
+          </div>
+        </footer>
+      );
+    }
+
+    /* =========================
+       App
+       Важно: HashRouter для GitHub Pages (иначе 404 при обновлении /products)
+    ========================= */
+    function App() {
+      return (
+        <HashRouter>
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <div className="flex-1">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/system" element={<SystemPage />} />
+
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/products/:id" element={<ProductDetailPage />} />
+
+                <Route path="/design" element={<SimplePage title="Проектирование" text="Раздел проектирования (заполните контентом)." />} />
+                <Route path="/agro" element={<SimplePage title="АгроСтрой" text="Овощехранилища и сыроварни (заполните контентом)." />} />
+                <Route path="/comparison" element={<SimplePage title="Сравнение" text="Сравнение технологий и экономика проекта (заполните контентом)." />} />
+                <Route path="/investor" element={<SimplePage title="Инвестору" text="Запрос инвестиционного пакета (можно подключить CRM/API)." />} />
+
+                <Route path="/cases" element={<SimplePage title="Кейсы" text="Раздел кейсов и проектов (заполните контентом)." />} />
+                <Route path="/docs" element={<DocsPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+            <Footer />
+          </div>
+        </HashRouter>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
