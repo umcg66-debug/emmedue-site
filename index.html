@@ -1473,63 +1473,107 @@ container.appendChild(card);
 
 <!-- ✅ ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: добавлен полный JS-блок -->
 <script>
+// Инициализация после загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+  // закрывать мобильное меню кликом вне его
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobileMenu');
+    if (!menu) return;
+
+    const isMenuButton = e.target.closest('button[onclick="toggleMobileMenu()"]');
+    const isInsideMenu = e.target.closest('#mobileMenu');
+
+    if (!isMenuButton && !isInsideMenu && !menu.classList.contains('hidden')) {
+      menu.classList.add('hidden');
+    }
+  });
+
+  // закрывать мобильное меню при переходе на desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) {
+      const menu = document.getElementById('mobileMenu');
+      if (menu) menu.classList.add('hidden');
+    }
+  });
+});
+
 // --- Переключение страниц ---
 function showPage(pageId) {
-    document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
-    const target = document.getElementById(pageId);
-    if (target) target.classList.add('active');
-    document.querySelectorAll('.nav-link, nav button, #mobileMenu button').forEach(link => link.classList.remove('active'));
-    const activeNavButton = document.querySelector(`nav button\[onclick="showPage('${pageId}')"]`);
-    if (activeNavButton) activeNavButton.classList.add('active');
-    window.scrollTo(0, 0);
+  // 1) переключаем секции
+  document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
+
+  // 2) подсветка активного пункта меню (desktop)
+  document.querySelectorAll('nav .nav-link').forEach(link => link.classList.remove('active'));
+
+  // Ищем кнопку с onclick="showPage('pageId')" (без экранирования!)
+  const activeNavButton = document.querySelector(`nav button[onclick="showPage('${pageId}')"]`);
+  if (activeNavButton) activeNavButton.classList.add('active');
+
+  // 3) прокрутка вверх
+  window.scrollTo(0, 0);
 }
 
 // --- Мобильное меню ---
 function toggleMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    if (menu) menu.classList.toggle('hidden');
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.toggle('hidden');
 }
 
 function mobileNavigate(pageId) {
-    toggleMobileMenu();
-    showPage(pageId);
+  // сначала закрыть меню, потом перейти
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.add('hidden');
+  showPage(pageId);
 }
 
+// --- Модальные окна / действия (адаптация под ваш HTML) ---
 
+// ВАЖНО: у вас в товарах клики идут через onclick="openModal('120.png', '...')"
+// Поэтому адаптируем openModal: вместо alert — открыть картинку в новой вкладке
+function openModal(imageUrl, title) {
+  // imageUrl у вас вроде "120.png", "перекр.png", "лестни.png" и т.д. :contentReference[oaicite:2]{index=2}
+  if (!imageUrl) return;
+  window.open(imageUrl, '_blank', 'noopener,noreferrer');
+}
+
+// Оставляем как заглушки (как у вас было), но без поломки остального
+function openDetailsModal(title, text) {
+  alert(`${title}\n\n${text}`);
+}
+
+function openPriceRequestModal(productName) {
+  alert(`Запрос цены на: ${productName}\n\nМы свяжемся с вами в ближайшее время.`);
+}
 
 // --- Обработка форм ---
 function handleSubmit(event) {
-    event.preventDefault();
-    alert('Спасибо! Ваше сообщение отправлено.');
+  event.preventDefault();
+  alert('Спасибо! Ваше сообщение отправлено.');
 }
 
 function handleAgroRequest(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const name = formData.get('name') || 'Клиент';
-    alert(`Спасибо, ${name}!\\nВаша заявка на агрообъект принята.`);
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const name = formData.get('name') || 'Клиент';
+  alert(`Спасибо, ${name}!\nВаша заявка на агрообъект принята.`);
 }
 
 // --- ROI Калькулятор ---
 function calculateROI() {
-    const area = parseFloat(document.getElementById('area')?.value) || 0;
-    const emPrice = parseFloat(document.getElementById('emPrice')?.value) || 0;
-    const altPrice = parseFloat(document.getElementById('altPrice')?.value) || 0;
-    const savings = area * (altPrice - emPrice);
-    const formatted = savings >= 1e6
-        ? `${(savings / 1e6).toFixed(0)} млн ₽`
-        : `${Math.round(savings).toLocaleString()} ₽`;
-    const resultEl = document.getElementById('roiResult');
-    if (resultEl) resultEl.textContent = formatted || '0 ₽';
-}
-<!-- ваш HTML выше -->
+  const area = parseFloat(document.getElementById('area')?.value) || 0;
+  const emPrice = parseFloat(document.getElementById('emPrice')?.value) || 0;
+  const altPrice = parseFloat(document.getElementById('altPrice')?.value) || 0;
 
-<script>
-document.querySelectorAll('img').forEach(img => {
-  img.addEventListener('click', () => {
-    window.open(img.src, '_blank');
-  });
-});
+  const savings = area * (altPrice - emPrice);
+  const formatted = savings >= 1e6
+    ? `${(savings / 1e6).toFixed(0)} млн ₽`
+    : `${Math.round(savings).toLocaleString()} ₽`;
+
+  const resultEl = document.getElementById('roiResult');
+  if (resultEl) resultEl.textContent = formatted || '0 ₽';
+}
 </script>
 </body>
 </html>
