@@ -1473,106 +1473,131 @@ container.appendChild(card);
 
 <!-- ✅ ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: добавлен полный JS-блок -->
 <script>
-// Инициализация после загрузки DOM
-document.addEventListener('DOMContentLoaded', () => {
-  // закрывать мобильное меню кликом вне его
-  document.addEventListener('click', (e) => {
-    const menu = document.getElementById('mobileMenu');
-    if (!menu) return;
+// ========== МОДАЛКА ДЛЯ КАРТИНКИ (как "увеличить", но внутри страницы) ==========
+function openModal(imageUrl, title) {
+  const overlay = ensureOverlay('imageModalOverlay');
+  overlay.innerHTML = `
+    <div class="w-full max-w-3xl bg-white rounded-xl shadow-xl overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div class="font-semibold text-sm md:text-base">${escapeHtml(title || '')}</div>
+        <button type="button" class="px-3 py-1 rounded-md border hover:bg-gray-50" onclick="closeModal('imageModalOverlay')">
+          Закрыть
+        </button>
+      </div>
+      <div class="p-4 bg-gray-50">
+        <img src="${escapeAttr(imageUrl)}" alt="${escapeAttr(title || '')}"
+             class="w-full max-h-[70vh] object-contain rounded-lg bg-white">
+      </div>
+    </div>
+  `;
+  overlay.classList.remove('hidden');
+}
 
-    const isMenuButton = e.target.closest('button[onclick="toggleMobileMenu()"]');
-    const isInsideMenu = e.target.closest('#mobileMenu');
+// ========== МОДАЛКА "ЗАПРОСИТЬ ЦЕНУ" С ФОРМОЙ ==========
+function openPriceRequestModal(productName) {
+  const overlay = ensureOverlay('priceModalOverlay');
+  overlay.innerHTML = `
+    <div class="w-full max-w-lg bg-white rounded-xl shadow-xl overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div>
+          <div class="text-xs text-gray-500">Запрос цены</div>
+          <div class="font-semibold">${escapeHtml(productName || 'Продукт')}</div>
+        </div>
+        <button type="button" class="px-3 py-1 rounded-md border hover:bg-gray-50" onclick="closeModal('priceModalOverlay')">
+          Закрыть
+        </button>
+      </div>
 
-    if (!isMenuButton && !isInsideMenu && !menu.classList.contains('hidden')) {
-      menu.classList.add('hidden');
-    }
-  });
+      <form class="p-4 space-y-3" onsubmit="submitPriceRequest(event)">
+        <input type="hidden" name="product" value="${escapeAttr(productName || '')}">
 
-  // закрывать мобильное меню при переходе на desktop
-  window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768) {
-      const menu = document.getElementById('mobileMenu');
-      if (menu) menu.classList.add('hidden');
-    }
-  });
+        <div>
+          <label class="block text-sm mb-1">Имя</label>
+          <input name="name" required class="w-full border rounded-md px-3 py-2" placeholder="Как к вам обращаться">
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Телефон</label>
+          <input name="phone" required class="w-full border rounded-md px-3 py-2" placeholder="+7..." inputmode="tel">
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Email</label>
+          <input name="email" class="w-full border rounded-md px-3 py-2" placeholder="email@domain.com" inputmode="email">
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Комментарий</label>
+          <textarea name="comment" rows="3" class="w-full border rounded-md px-3 py-2"
+            placeholder="Город, объем, сроки, вопросы..."></textarea>
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button type="submit" class="flex-1 bg-blue-600 text-white rounded-md px-3 py-2 hover:bg-blue-700">
+            Отправить запрос
+          </button>
+          <button type="button" class="px-3 py-2 rounded-md border hover:bg-gray-50" onclick="closeModal('priceModalOverlay')">
+            Отмена
+          </button>
+        </div>
+
+        <div id="priceFormStatus" class="text-sm text-green-700 hidden"></div>
+      </form>
+    </div>
+  `;
+  overlay.classList.remove('hidden');
+}
+
+function submitPriceRequest(event) {
+  event.preventDefault();
+  const form = event.target;
+  const status = form.querySelector('#priceFormStatus');
+
+  const data = new FormData(form);
+  const product = data.get('product') || 'продукт';
+  const name = data.get('name') || 'клиент';
+
+  status.textContent = `Спасибо, ${name}! Запрос по «${product}» принят. Мы свяжемся с вами.`;
+  status.classList.remove('hidden');
+
+  // очистка полей (кроме product)
+  form.querySelectorAll('input[name="name"], input[name="phone"], input[name="email"], textarea[name="comment"]')
+    .forEach(el => el.value = '');
+}
+
+// ========== СЛУЖЕБНОЕ: overlay / close / esc ==========
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal('imageModalOverlay');
+    closeModal('priceModalOverlay');
+  }
 });
 
-// --- Переключение страниц ---
-function showPage(pageId) {
-  // 1) переключаем секции
-  document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
-  const target = document.getElementById(pageId);
-  if (target) target.classList.add('active');
-
-  // 2) подсветка активного пункта меню (desktop)
-  document.querySelectorAll('nav .nav-link').forEach(link => link.classList.remove('active'));
-
-  // Ищем кнопку с onclick="showPage('pageId')" (без экранирования!)
-  const activeNavButton = document.querySelector(`nav button[onclick="showPage('${pageId}')"]`);
-  if (activeNavButton) activeNavButton.classList.add('active');
-
-  // 3) прокрутка вверх
-  window.scrollTo(0, 0);
+function closeModal(id) {
+  const overlay = document.getElementById(id);
+  if (overlay) overlay.classList.add('hidden');
 }
 
-// --- Мобильное меню ---
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobileMenu');
-  if (menu) menu.classList.toggle('hidden');
+function ensureOverlay(id) {
+  let overlay = document.getElementById(id);
+  if (overlay) return overlay;
+
+  overlay = document.createElement('div');
+  overlay.id = id;
+  overlay.className = 'hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4';
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.add('hidden'); });
+  document.body.appendChild(overlay);
+  return overlay;
 }
 
-function mobileNavigate(pageId) {
-  // сначала закрыть меню, потом перейти
-  const menu = document.getElementById('mobileMenu');
-  if (menu) menu.classList.add('hidden');
-  showPage(pageId);
+// ========== Безопасное экранирование ==========
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (m) => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[m]));
 }
-
-// --- Модальные окна / действия (адаптация под ваш HTML) ---
-
-// ВАЖНО: у вас в товарах клики идут через onclick="openModal('120.png', '...')"
-// Поэтому адаптируем openModal: вместо alert — открыть картинку в новой вкладке
-function openModal(imageUrl, title) {
-  // imageUrl у вас вроде "120.png", "перекр.png", "лестни.png" и т.д. :contentReference[oaicite:2]{index=2}
-  if (!imageUrl) return;
-  window.open(imageUrl, '_blank', 'noopener,noreferrer');
-}
-
-// Оставляем как заглушки (как у вас было), но без поломки остального
-function openDetailsModal(title, text) {
-  alert(`${title}\n\n${text}`);
-}
-
-function openPriceRequestModal(productName) {
-  alert(`Запрос цены на: ${productName}\n\nМы свяжемся с вами в ближайшее время.`);
-}
-
-// --- Обработка форм ---
-function handleSubmit(event) {
-  event.preventDefault();
-  alert('Спасибо! Ваше сообщение отправлено.');
-}
-
-function handleAgroRequest(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  const name = formData.get('name') || 'Клиент';
-  alert(`Спасибо, ${name}!\nВаша заявка на агрообъект принята.`);
-}
-
-// --- ROI Калькулятор ---
-function calculateROI() {
-  const area = parseFloat(document.getElementById('area')?.value) || 0;
-  const emPrice = parseFloat(document.getElementById('emPrice')?.value) || 0;
-  const altPrice = parseFloat(document.getElementById('altPrice')?.value) || 0;
-
-  const savings = area * (altPrice - emPrice);
-  const formatted = savings >= 1e6
-    ? `${(savings / 1e6).toFixed(0)} млн ₽`
-    : `${Math.round(savings).toLocaleString()} ₽`;
-
-  const resultEl = document.getElementById('roiResult');
-  if (resultEl) resultEl.textContent = formatted || '0 ₽';
+function escapeAttr(str) {
+  return escapeHtml(str).replace(/`/g, '&#096;');
 }
 </script>
 </body>
