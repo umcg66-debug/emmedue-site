@@ -1495,18 +1495,7 @@ function mobileNavigate(pageId) {
     showPage(pageId);
 }
 
-// --- Модальные окна (заглушки через alert) ---
-function openModal(imageUrl, title) {
-    alert(`Просмотр изображения:\\n${title}`);
-}
 
-function openDetailsModal(title, text) {
-    alert(`${title}\\n\\n${text}`);
-}
-
-function openPriceRequestModal(productName) {
-    alert(`Запрос цены на: ${productName}\\n\\nМы свяжемся с вами в ближайшее время.`);
-}
 
 // --- Обработка форм ---
 function handleSubmit(event) {
@@ -1533,7 +1522,14 @@ function calculateROI() {
     const resultEl = document.getElementById('roiResult');
     if (resultEl) resultEl.textContent = formatted || '0 ₽';
 }
-</script>
+<!-- ваш HTML выше -->
 
+<script>
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('click', () => {
+    window.open(img.src, '_blank');
+  });
+});
+</script>
 </body>
 </html>
