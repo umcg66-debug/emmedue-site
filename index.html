@@ -1441,27 +1441,24 @@ container.appendChild(card);
 </script>
 </div>
 <!-- CONTACT PAGE -->
-<div id="contact" class="page-content">
-<div class="max-w-4xl mx-auto px-4 py-12">
-<h1 class="text-2xl font-bold mb-4">Контакты</h1>
-<div class="mb-8">
-<p class="text-gray-700 mb-2"><strong>Телефон:</strong> +7 (XXX) XXX-XX-XX</p>
-<p class="text-gray-700"><strong>Email:</strong> info@teplostroy.example</p>
-</div>
 <form class="grid grid-cols-1 gap-4 mb-8" onsubmit="handleSubmit(event)">
-<div>
-<label class="block text-sm font-medium mb-1">Имя</label>
-<input type="text" class="w-full p-3 border rounded-md" placeholder="Ваше имя" required>
-</div>
-<div>
-<label class="block text-sm font-medium mb-1">Email</label>
-<input type="email" class="w-full p-3 border rounded-md" placeholder="your@email.com" required>
-</div>
-<div>
-<label class="block text-sm font-medium mb-1">Сообщение</label>
-<textarea class="w-full p-3 border rounded-md" rows="4" placeholder="Ваше сообщение..." required></textarea>
-</div>
-<button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">Отправить</button>
+  <div>
+    <label class="block text-sm font-medium mb-1">Имя</label>
+    <input type="text" name="name" class="w-full p-3 border rounded-md" placeholder="Ваше имя" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Телефон</label>
+    <input type="tel" name="phone" class="w-full p-3 border rounded-md" placeholder="+7 (XXX) XXX-XX-XX" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Email</label>
+    <input type="email" name="email" class="w-full p-3 border rounded-md" placeholder="your@email.com" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Сообщение</label>
+    <textarea name="message" class="w-full p-3 border rounded-md" rows="4" placeholder="Ваше сообщение..." required></textarea>
+  </div>
+  <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">Отправить</button>
 </form>
 </div>
 </div>
