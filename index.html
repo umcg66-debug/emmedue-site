@@ -3,58 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Emmedue — Test</title>
+  <title>EmmeDue</title>
 
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js"></script>
+
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js"></script>
+
+  <!-- Babel -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 
-<body class="bg-white">
+<body class="bg-gray-50">
   <div id="root"></div>
 
   <script type="text/babel">
     const { HashRouter, Routes, Route, Link } = ReactRouterDOM;
 
-    function Home(){
+    function Home() {
       return (
-        <div className="min-h-screen flex items-center justify-center p-10">
-          <div className="max-w-xl w-full border rounded-xl p-6">
-            <h1 className="text-3xl font-bold mb-3">React на GitHub Pages работает</h1>
-            <p className="text-gray-700 mb-5">
-              Если вы это видите — публикация index.html настроена верно.
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="bg-white p-8 rounded-xl shadow max-w-xl w-full">
+            <h1 className="text-3xl font-bold mb-4">
+              Сайт EmmeDue запущен
+            </h1>
+            <p className="text-gray-700 mb-6">
+              React + GitHub Pages + index.html работают корректно.
             </p>
-            <Link className="px-4 py-2 bg-blue-600 text-white rounded-md" to="/products">
-              Перейти на /products
+            <Link
+              to="/products"
+              className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Перейти в продукты
             </Link>
           </div>
         </div>
       );
     }
 
-    function Products(){
+    function Products() {
       return (
-        <div className="min-h-screen p-10">
-          <Link className="underline" to="/">← назад</Link>
-          <h2 className="text-2xl font-bold mt-4">Products</h2>
+        <div className="min-h-screen p-8">
+          <Link to="/" className="underline">← Назад</Link>
+          <h2 className="text-2xl font-bold mt-6">
+            Продукты (тест)
+          </h2>
         </div>
       );
     }
 
-    function App(){
+    function App() {
       return (
         <HashRouter>
           <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/products" element={<Products/>} />
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
           </Routes>
         </HashRouter>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    ReactDOM
+      .createRoot(document.getElementById("root"))
+      .render(<App />);
   </script>
 </body>
 </html>
