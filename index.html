@@ -1473,7 +1473,28 @@ container.appendChild(card);
 
 <!-- ✅ ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: добавлен полный JS-блок -->
 <script>
-// ========== МОДАЛКА ДЛЯ КАРТИНКИ (как "увеличить", но внутри страницы) ==========
+// --- Переключение страниц ---
+function showPage(pageId) {
+  document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.nav-link, nav button, #mobileMenu button').forEach(link => link.classList.remove('active'));
+  const activeNavButton = document.querySelector(`nav button[onclick="showPage('${pageId}')"]`);
+  if (activeNavButton) activeNavButton.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// --- Мобильное меню ---
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.toggle('hidden');
+}
+function mobileNavigate(pageId) {
+  toggleMobileMenu();
+  showPage(pageId);
+}
+
+// --- Модальное окно: просмотр изображения ---
 function openModal(imageUrl, title) {
   const overlay = ensureOverlay('imageModalOverlay');
   overlay.innerHTML = `
@@ -1493,7 +1514,7 @@ function openModal(imageUrl, title) {
   overlay.classList.remove('hidden');
 }
 
-// ========== МОДАЛКА "ЗАПРОСИТЬ ЦЕНУ" С ФОРМОЙ ==========
+// --- Модальное окно: запрос цены ---
 function openPriceRequestModal(productName) {
   const overlay = ensureOverlay('priceModalOverlay');
   overlay.innerHTML = `
@@ -1507,31 +1528,25 @@ function openPriceRequestModal(productName) {
           Закрыть
         </button>
       </div>
-
       <form class="p-4 space-y-3" onsubmit="submitPriceRequest(event)">
         <input type="hidden" name="product" value="${escapeAttr(productName || '')}">
-
         <div>
           <label class="block text-sm mb-1">Имя</label>
           <input name="name" required class="w-full border rounded-md px-3 py-2" placeholder="Как к вам обращаться">
         </div>
-
         <div>
           <label class="block text-sm mb-1">Телефон</label>
           <input name="phone" required class="w-full border rounded-md px-3 py-2" placeholder="+7..." inputmode="tel">
         </div>
-
         <div>
           <label class="block text-sm mb-1">Email</label>
           <input name="email" class="w-full border rounded-md px-3 py-2" placeholder="email@domain.com" inputmode="email">
         </div>
-
         <div>
           <label class="block text-sm mb-1">Комментарий</label>
           <textarea name="comment" rows="3" class="w-full border rounded-md px-3 py-2"
             placeholder="Город, объем, сроки, вопросы..."></textarea>
         </div>
-
         <div class="flex gap-2 pt-2">
           <button type="submit" class="flex-1 bg-blue-600 text-white rounded-md px-3 py-2 hover:bg-blue-700">
             Отправить запрос
@@ -1540,7 +1555,6 @@ function openPriceRequestModal(productName) {
             Отмена
           </button>
         </div>
-
         <div id="priceFormStatus" class="text-sm text-green-700 hidden"></div>
       </form>
     </div>
@@ -1552,36 +1566,55 @@ function submitPriceRequest(event) {
   event.preventDefault();
   const form = event.target;
   const status = form.querySelector('#priceFormStatus');
-
   const data = new FormData(form);
   const product = data.get('product') || 'продукт';
   const name = data.get('name') || 'клиент';
-
   status.textContent = `Спасибо, ${name}! Запрос по «${product}» принят. Мы свяжемся с вами.`;
   status.classList.remove('hidden');
-
-  // очистка полей (кроме product)
+  // Очистка полей
   form.querySelectorAll('input[name="name"], input[name="phone"], input[name="email"], textarea[name="comment"]')
     .forEach(el => el.value = '');
 }
 
-// ========== СЛУЖЕБНОЕ: overlay / close / esc ==========
+// --- Обработка форм ---
+function handleSubmit(event) {
+  event.preventDefault();
+  alert('Спасибо! Ваше сообщение отправлено.');
+}
+function handleAgroRequest(event) {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const name = formData.get('name') || 'Клиент';
+  alert(`Спасибо, ${name}!\nВаша заявка на агрообъект принята.`);
+}
+
+// --- ROI Калькулятор ---
+function calculateROI() {
+  const area = parseFloat(document.getElementById('area')?.value) || 0;
+  const emPrice = parseFloat(document.getElementById('emPrice')?.value) || 0;
+  const altPrice = parseFloat(document.getElementById('altPrice')?.value) || 0;
+  const savings = area * (altPrice - emPrice);
+  const formatted = savings >= 1e6
+    ? `${(savings / 1e6).toFixed(0)} млн ₽`
+    : `${Math.round(savings).toLocaleString()} ₽`;
+  const resultEl = document.getElementById('roiResult');
+  if (resultEl) resultEl.textContent = formatted || '0 ₽';
+}
+
+// --- Служебные функции для модалок ---
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal('imageModalOverlay');
     closeModal('priceModalOverlay');
   }
 });
-
 function closeModal(id) {
   const overlay = document.getElementById(id);
   if (overlay) overlay.classList.add('hidden');
 }
-
 function ensureOverlay(id) {
   let overlay = document.getElementById(id);
   if (overlay) return overlay;
-
   overlay = document.createElement('div');
   overlay.id = id;
   overlay.className = 'hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4';
@@ -1589,8 +1622,6 @@ function ensureOverlay(id) {
   document.body.appendChild(overlay);
   return overlay;
 }
-
-// ========== Безопасное экранирование ==========
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (m) => ({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
@@ -1598,6 +1629,24 @@ function escapeHtml(str) {
 }
 function escapeAttr(str) {
   return escapeHtml(str).replace(/`/g, '&#096;');
+}
+
+// --- Flashcards (если есть) ---
+if (document.getElementById('flashcards')) {
+  const flashcardsData = [
+    ["Что является основой строительной системы Emmedue?", "Одиночная панель Emmedue из вспененного полистирола, заключенная в двойную сетку из оцинкованной стали."],
+    // ... остальные элементы (можно скопировать из new site 6.txt)
+  ];
+  const container = document.getElementById('flashcards');
+  flashcardsData.forEach(([question, answer]) => {
+    const card = document.createElement('div');
+    card.className = 'border border-gray-200 rounded-lg p-5 bg-white cursor-pointer hover:shadow-md transition-shadow duration-200';
+    card.innerHTML = `<div class="font-semibold text-blue-700 mb-2">❓ ${question}</div><div class="hidden text-gray-700 mt-2 answer-text">${answer}</div>`;
+    card.addEventListener('click', () => {
+      card.querySelector('.answer-text').classList.toggle('hidden');
+    });
+    container.appendChild(card);
+  });
 }
 </script>
 </body>
