@@ -1514,6 +1514,33 @@ function openModal(imageUrl, title) {
   overlay.classList.remove('hidden');
 }
 
+// --- Модальное окно: подробности товара ---
+function openDetailsModal(title, text) {
+  const overlay = ensureOverlay('detailsModalOverlay');
+  overlay.innerHTML = `
+    <div class="w-full max-w-lg bg-white rounded-xl shadow-xl overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div>
+          <div class="text-xs text-gray-500">Описание</div>
+          <div class="font-semibold">${escapeHtml(title || '')}</div>
+        </div>
+        <button type="button" class="px-3 py-1 rounded-md border hover:bg-gray-50" onclick="closeModal('detailsModalOverlay')">
+          Закрыть
+        </button>
+      </div>
+      <div class="p-4 space-y-3">
+        <p class="text-sm leading-relaxed whitespace-pre-line">${escapeHtml(text || 'Нет описания.')}</p>
+      </div>
+      <div class="px-4 py-3 border-t flex justify-end">
+        <button type="button" class="px-3 py-2 rounded-md border hover:bg-gray-50" onclick="closeModal('detailsModalOverlay')">
+          Закрыть
+        </button>
+      </div>
+    </div>
+  `;
+  overlay.classList.remove('hidden');
+}
+
 // --- Модальное окно: запрос цены ---
 function openPriceRequestModal(productName) {
   const overlay = ensureOverlay('priceModalOverlay');
@@ -1601,10 +1628,54 @@ function calculateROI() {
   if (resultEl) resultEl.textContent = formatted || '0 ₽';
 }
 
+// --- Flashcards (техдоки) ---
+if (document.getElementById('flashcards')) {
+  const flashcardsData = [
+    ["Что является основой строительной системы Emmedue?", "Одиночная панель Emmedue из вспененного полистирола, заключенная в двойную сетку из оцинкованной стали."],
+    ["Как завершается монтаж панели Emmedue непосредственно на строительной площадке?", "Нанесением двух слоев бетона или конструкционной штукатурки с обеих сторон."],
+    ["Какое ключевое преимущество обеспечивает модульность системы Emmedue?", "Абсолютную гибкость проектирования и высокую степень интеграции с другими строительными системами."],
+    ["Какие свойства панелей Emmedue позволяют вести строительство в сложных условиях эксплуатации?", "Их чрезвычайная легкость и удобство в обращении."],
+    ["Для каких сред особенно подходит строительная система Emmedue?", "Для зон с высоким сейсмическим риском или неблагоприятными климатическими условиями."],
+    ["В качестве несущей конструкции одиночная панель Emmedue используется для зданий высотой до _____ этажей.", "4"],
+    ["Что наносится на обе стороны одиночной панели Emmedue для использования ее в качестве несущей конструкции?", "Конструкционная штукатурка."],
+    ["Помимо несущих стен, где еще идеально подходит для применения одиночная панель Emmedue?", "Для перегородок, разделительных стен и заполнения в новых или реконструируемых зданиях."],
+    ["Из чего состоит двойная панель Emmedue?", "Из двух одиночных панелей, соединенных двойными горизонтальными соединителями."],
+    ["Что создается внутри двойной панели Emmedue благодаря соединителям?", "Пространство для заполнения бетоном."],
+    ["Чем определяются толщина и характеристики бетонного сердечника в двойной панели Emmedue?", "Требованиями к конструкции."],
+    ["Каково идеальное применение для двойной панели Emmedue?", "Для железобетонных стен, таких как несущие и подпорные стены."],
+    ["Какому европейскому стандарту соответствуют конструкции из железобетона, выполненные с использованием двойной панели Emmedue?", "ЕВРОКОД 2 (EC2)."],
+    ["Каково основное назначение панели для перекрытий Emmedue (Pannello solaio)?", "Создание перекрытий и крыш с железобетонными балками."],
+    ["Каковы основные преимущества использования панели для перекрытий Emmedue?", "Легкость, теплоизоляция и скорость монтажа."],
+    ["Что необходимо добавить в панель для перекрытий Emmedue на месте перед заливкой бетона?", "Дополнительную стальную арматуру внутри специальных балок."],
+    ["Из чего состоит лестничная панель Emmedue (Pannello scala)?", "Из блока вспененного полистирола, отформованного по проекту и покрытого двумя металлическими сетками."],
+    ["Как завершается монтаж лестничной панели на стройплощадке для создания лестничных маршей?", "Панель армируется, и в специальные полости заливается бетон."],
+    ["Каковы ключевые характеристики лестниц, построенных с использованием лестничной панели Emmedue?", "Простота и быстрота монтажа, а также легкость и конструктивная прочность."],
+    ["Каково основное применение панели для лестничных площадок Emmedue (Pannello pianerottolo)?", "Создание лестничных площадок, перекрытий и плит с двунаправленным армированием."],
+    ["Какое преимущество предлагает панель для лестничных площадок по сравнению с монолитной плитой?", "Меньший вес и наличие сплошной теплоизоляции."],
+    ["Какую двойную функцию выполняет теплоизоляция в панели для лестничных площадок?", "Она служит как теплоизоляцией, так и опалубкой."],
+    ["В каком виде изогнутая панель Emmedue (Pannello curvo) производится и транспортируется?", "Она производится и транспортируется в плоском виде."],
+    ["Где и как изогнутая панель приобретает свою окончательную форму?", "Ее изгибают до нужной формы непосредственно на строительной площадке."],
+    ["Каково главное преимущество изогнутой панели Emmedue?", "Возможность быстро и практично покрывать большие поверхности."],
+    ["Изогнутая поверхность панели Emmedue улучшает циркуляцию воздуха в доме, снижая _____ и повышая термическое сопротивление.", "потенциальную влажность"],
+    ["Что позволяет делать изогнутая панель архитекторам?", "Проявлять больше творчества в формах строящихся домов."]
+  ];
+  const container = document.getElementById('flashcards');
+  flashcardsData.forEach(([question, answer]) => {
+    const card = document.createElement('div');
+    card.className = 'border border-gray-200 rounded-lg p-5 bg-white cursor-pointer hover:shadow-md transition-shadow duration-200';
+    card.innerHTML = `<div class="font-semibold text-blue-700 mb-2">❓ ${question}</div><div class="hidden text-gray-700 mt-2 answer-text">${answer}</div>`;
+    card.addEventListener('click', () => {
+      card.querySelector('.answer-text').classList.toggle('hidden');
+    });
+    container.appendChild(card);
+  });
+}
+
 // --- Служебные функции для модалок ---
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal('imageModalOverlay');
+    closeModal('detailsModalOverlay');
     closeModal('priceModalOverlay');
   }
 });
@@ -1629,24 +1700,6 @@ function escapeHtml(str) {
 }
 function escapeAttr(str) {
   return escapeHtml(str).replace(/`/g, '&#096;');
-}
-
-// --- Flashcards (если есть) ---
-if (document.getElementById('flashcards')) {
-  const flashcardsData = [
-    ["Что является основой строительной системы Emmedue?", "Одиночная панель Emmedue из вспененного полистирола, заключенная в двойную сетку из оцинкованной стали."],
-    // ... остальные элементы (можно скопировать из new site 6.txt)
-  ];
-  const container = document.getElementById('flashcards');
-  flashcardsData.forEach(([question, answer]) => {
-    const card = document.createElement('div');
-    card.className = 'border border-gray-200 rounded-lg p-5 bg-white cursor-pointer hover:shadow-md transition-shadow duration-200';
-    card.innerHTML = `<div class="font-semibold text-blue-700 mb-2">❓ ${question}</div><div class="hidden text-gray-700 mt-2 answer-text">${answer}</div>`;
-    card.addEventListener('click', () => {
-      card.querySelector('.answer-text').classList.toggle('hidden');
-    });
-    container.appendChild(card);
-  });
 }
 </script>
 </body>
