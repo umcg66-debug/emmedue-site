@@ -1448,7 +1448,113 @@ container.appendChild(card);
       <p class="text-gray-700 mb-2"><strong>Телефон:</strong> +7 (XXX) XXX-XX-XX</p>
       <p class="text-gray-700"><strong>Email:</strong> info@teplostroy.example</p>
     </div>
+<!-- Форма заявки на агрообъект -->
+<form 
+  action="https://formspree.io/f/mzdrkbyq" 
+  method="POST"
+  class="max-w-md mx-auto space-y-4"
+>
+  <input type="hidden" name="_subject" value="Заявка на агрообъект">
+  <input type="hidden" name="page" value="АгроСтрой">
 
+  <div>
+    <label class="block text-sm font-medium mb-1">Имя *</label>
+    <input type="text" name="name" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Ваше имя" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Телефон *</label>
+    <input type="tel" name="phone" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="+7 (XXX) XXX-XX-XX" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Объем хранилища (м³) *</label>
+    <input type="number" name="volume" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Например, 5000" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Тип объекта *</label>
+    <select name="type" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" required>
+      <option value="">Выберите тип</option>
+      <option value="ovosh">Овощехранилище</option>
+      <option value="syro">Сыроварня</option>
+      <option value="moloko">Молокоприёмка</option>
+    </select>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Регион *</label>
+    <input type="text" name="region" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Например, Краснодарский край" required>
+  </div>
+<!-- Форма заявки на агрообъект -->
+<form 
+  action="https://formspree.io/f/mzdrkbyq" 
+  method="POST"
+  class="max-w-md mx-auto space-y-4"
+>
+  <input type="hidden" name="_subject" value="Заявка на агрообъект">
+  <input type="hidden" name="page" value="АгроСтрой">
+
+  <div>
+    <label class="block text-sm font-medium mb-1">Имя *</label>
+    <input type="text" name="name" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Ваше имя" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Телефон *</label>
+    <input type="tel" name="phone" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="+7 (XXX) XXX-XX-XX" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Объем хранилища (м³) *</label>
+    <input type="number" name="volume" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Например, 5000" required>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Тип объекта *</label>
+    <select name="type" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" required>
+      <option value="">Выберите тип</option>
+      <option value="ovosh">Овощехранилище</option>
+      <option value="syro">Сыроварня</option>
+      <option value="moloko">Молокоприёмка</option>
+    </select>
+  </div>
+  <div>
+    <label class="block text-sm font-medium mb-1">Регион *</label>
+    <input type="text" name="region" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Например, Краснодарский край" required>
+  </div>
+
+  <!-- ЧЕКБОКС СОГЛАСИЯ -->
+  <div class="flex items-start mt-2">
+    <input 
+      type="checkbox" 
+      id="consent2" 
+      name="consent" 
+      required 
+      class="mt-1 mr-2 h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+    >
+    <label for="consent2" class="text-sm text-gray-700">
+      Я даю согласие на обработку персональных данных в соответствии с 
+      <a href="privacy-policy.html" target="_blank" class="text-blue-600 underline">Политикой конфиденциальности</a>.
+    </label>
+  </div>
+
+  <button type="submit" class="w-full px-4 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition">
+    Отправить заявку
+  </button>
+</form>
+  <!-- ЧЕКБОКС СОГЛАСИЯ -->
+  <div class="flex items-start mt-2">
+    <input 
+      type="checkbox" 
+      id="consent2" 
+      name="consent" 
+      required 
+      class="mt-1 mr-2 h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+    >
+    <label for="consent2" class="text-sm text-gray-700">
+      Я даю согласие на обработку персональных данных в соответствии с 
+      <a href="privacy-policy.html" target="_blank" class="text-blue-600 underline">Политикой конфиденциальности</a>.
+    </label>
+  </div>
+
+  <button type="submit" class="w-full px-4 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition">
+    Отправить заявку
+  </button>
+</form>
     <!-- ✅ ФОРМА ТЕПЕРЬ ВНУТРИ КОНТЕЙНЕРА -->
     <form 
       action="https://formspree.io/f/mzdrkbyq" 
@@ -1598,7 +1704,71 @@ function openDetailsModal(title, text) {
   `;
   overlay.classList.remove('hidden');
 }
+<!-- Модальное окно: запрос цены -->
+<script>
+function openPriceRequestModal(productName) {
+  const overlay = ensureOverlay('priceModalOverlay');
+  overlay.innerHTML = `
+    <div class="w-full max-w-lg bg-white rounded-xl shadow-xl overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div>
+          <div class="text-xs text-gray-500">Запрос цены</div>
+          <div class="font-semibold">${escapeHtml(productName || 'Продукт')}</div>
+        </div>
+        <button type="button" class="px-3 py-1 rounded-md border hover:bg-gray-50" onclick="closeModal('priceModalOverlay')">
+          Закрыть
+        </button>
+      </div>
+      <form action="https://formspree.io/f/mzdrkbyq" method="POST" class="p-4 space-y-3">
+        <input type="hidden" name="_subject" value="Запрос цены: ${escapeAttr(productName)}">
+        <input type="hidden" name="product" value="${escapeAttr(productName)}">
+        
+        <div>
+          <label class="block text-sm mb-1">Имя *</label>
+          <input name="name" required class="w-full p-2 border rounded-md" placeholder="Как к вам обращаться">
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Телефон *</label>
+          <input name="phone" required class="w-full p-2 border rounded-md" placeholder="+7...">
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Email *</label>
+          <input name="email" type="email" required class="w-full p-2 border rounded-md" placeholder="email@domain.com">
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Комментарий</label>
+          <textarea name="message" rows="3" class="w-full p-2 border rounded-md" placeholder="Город, объем, сроки..."></textarea>
+        </div>
 
+        <!-- ЧЕКБОКС СОГЛАСИЯ -->
+        <div class="flex items-start mt-2">
+          <input 
+            type="checkbox" 
+            id="consent1" 
+            name="consent" 
+            required 
+            class="mt-1 mr-2 h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+          >
+          <label for="consent1" class="text-sm text-gray-700">
+            Я даю согласие на обработку персональных данных в соответствии с 
+            <a href="privacy-policy.html" target="_blank" class="text-blue-600 underline">Политикой конфиденциальности</a>.
+          </label>
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button type="submit" class="flex-1 bg-blue-600 text-white rounded-md px-3 py-2 hover:bg-blue-700">
+            Отправить запрос
+          </button>
+          <button type="button" class="px-3 py-2 rounded-md border hover:bg-gray-50" onclick="closeModal('priceModalOverlay')">
+            Отмена
+          </button>
+        </div>
+      </form>
+    </div>
+  `;
+  overlay.classList.remove('hidden');
+}
+</script>
 // --- Модальное окно: запрос цены ---
 function openPriceRequestModal(productName) {
   const overlay = ensureOverlay('priceModalOverlay');
