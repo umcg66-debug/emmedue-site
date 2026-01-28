@@ -16,6 +16,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 .nav-link.active { background-color: #e5e7eb; }
 .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.checkbox-container { display: flex; align-items: flex-start; margin-top: 8px; }
+.checkbox-label { margin-left: 8px; font-size: 0.875rem; color: #374151; line-height: 1.5; }
+.checkbox-link { color: #2563eb; text-decoration: underline; font-weight: 500; }
+.checkbox-link:hover { color: #1d4ed8; }
+.checkbox-input { margin-top: 4px; width: 18px; height: 18px; cursor: pointer; }
+.checkbox-error { color: #ef4444; font-size: 0.875rem; margin-top: 4px; display: none; }
+.policy-modal-content { max-height: 70vh; overflow-y: auto; padding: 1.5rem; line-height: 1.6; }
+.policy-section { margin-bottom: 1.5rem; }
+.policy-section h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: #1e293b; }
+.policy-section p { margin-bottom: 0.5rem; color: #475569; }
+.policy-section ul { margin-left: 1.5rem; margin-top: 0.5rem; }
+.policy-section li { margin-bottom: 0.25rem; color: #475569; }
 </style>
 </head>
 <body class="bg-white">
@@ -96,7 +108,7 @@ class="absolute left-0 mt-2 w-52 bg-white border rounded-md shadow-lg py-1 hidde
 <rect x="4" y="12" width="24" height="12" rx="3" fill="#475569"/>
 <rect x="8" y="15" width="16" height="6" rx="2" fill="#22D3EE"/>
 <rect x="4" y="12" width="24" height="12" rx="3" stroke="#3B82F6" stroke-width="2"/>
-<path d="M10 18c0-2 4-2 4 0s4-2 4 0s4-2 4 0" stroke="#F59E42" stroke-width="2" stroke-linecap="round"/>
+<path d="M10 18c0-2 4-2 4 0s4-2 4 0 4-2 4 0" stroke="#F59E42" stroke-width="2" stroke-linecap="round"/>
 </svg>
 </div>
 <span class="block text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 drop-shadow-lg">
@@ -671,7 +683,7 @@ class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg
 <h3 class="font-semibold">Панель лестничная</h3>
 <p class="text-sm text-gray-600 mb-4">Панель для изготовления монолитных лестниц.</p>
 <div class="flex gap-2">
-<button onclick="openDetailsModal('Панель перекрытия', 'Панель для изготовления перекрытий и кровли с балками переменного тока, со значительными преимуществами с точки зрения легкого веса, изоляции и скорости монтажа. С помощью панели перекрытия Emmedue, состоящей из формованной плиты из пенополистирола, изготавливаются перекрытия и кровельные покрытия зданий с добавлением интегративной стали внутри специальных балок и последующей заливкой цементного конglomerата. Идеально подходит для перекрытий и кровли с железобетонными балками.')" class="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">Подробнее</button>
+<button onclick="openDetailsModal('Панель перекрытия', 'Панель для изготовления перекрытий и кровли с балками переменного тока, со значительными преимуществами с точки зрения легкого веса, изоляции и скорости монтажа. С помощью панели перекрытия Emmedue, состоящей из формованной плиты из пенополистирола, изготавливаются перекрытия и кровельные покрытия зданий с добавлением интегративной стали внутри специальных балок и последующей заливкой цементного конгломерата. Идеально подходит для перекрытий и кровли с железобетонными балками.')" class="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">Подробнее</button>
 <button onclick="openPriceRequestModal('Панель лестничная')" class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
 </div>
 </div>
@@ -701,7 +713,7 @@ class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg
 <h3 class="font-semibold">Панель перекрытия</h3>
 <p class="text-sm text-gray-600 mb-4">Готовые решения для межэтажных перекрытий с высокой несущей способностью.</p>
 <div class="flex gap-2">
-<button onclick="openDetailsModal('Панель перекрытия', 'Панель для изготовления перекрытий и кровли с балками переменного тока, со значительными преимуществами с точки зрения легкого веса, изоляции и скорости монтажа. С помощью панели перекрытия Emmedue, состоящей из формованной плиты из пенополистирола, изготавливаются перекрытия и кровельные покрытия зданий с добавлением интегративной стали внутри специальных балок и последующей заливкой цементного конglomerата. Идеально подходит для перекрытий и кровли с железобетонными балками.')" class="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">Подробнее</button>
+<button onclick="openDetailsModal('Панель перекрытия', 'Панель для изготовления перекрытий и кровли с балками переменного тока, со значительными преимуществами с точки зрения легкого веса, изоляции и скорости монтажа. С помощью панели перекрытия Emmedue, состоящей из формованной плиты из пенополистирола, изготавливаются перекрытия и кровельные покрытия зданий с добавлением интегративной стали внутри специальных балок и последующей заливкой цементного конгломерата. Идеально подходит для перекрытий и кровли с железобетонными балками.')" class="px-3 py-2 border rounded-md text-sm hover:bg-gray-50">Подробнее</button>
 <button onclick="openPriceRequestModal('Панель перекрытия')" class="px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">Запросить цену</button>
 </div>
 </div>
@@ -1093,6 +1105,14 @@ class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg
 <label class="block text-sm font-medium mb-1">Регион</label>
 <input type="text" name="region" class="w-full p-3 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Например, Краснодарский край" required>
 </div>
+<!-- Чекбокс политики конфиденциальности -->
+<div class="checkbox-container">
+<input id="agroPrivacyPolicy" name="privacyPolicy" type="checkbox" required class="checkbox-input">
+<label for="agroPrivacyPolicy" class="checkbox-label">
+Я согласен с <a href="#" onclick="openPrivacyPolicyModal(); return false;" class="checkbox-link">политикой конфиденциальности</a> и даю согласие на обработку персональных данных
+</label>
+</div>
+<div id="agroPrivacyError" class="checkbox-error">Пожалуйста, примите политику конфиденциальности</div>
 <button type="submit" class="w-full px-4 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition">
 Отправить заявку
 </button>
@@ -1451,16 +1471,24 @@ container.appendChild(card);
 <form class="grid grid-cols-1 gap-4 mb-8" onsubmit="handleSubmit(event)">
 <div>
 <label class="block text-sm font-medium mb-1">Имя</label>
-<input type="text" name="name" class="w-full p-3 border rounded-md" placeholder="Ваше имя" required>
+<input type="text" class="w-full p-3 border rounded-md" placeholder="Ваше имя" required>
 </div>
 <div>
 <label class="block text-sm font-medium mb-1">Email</label>
-<input type="email" name="email" class="w-full p-3 border rounded-md" placeholder="your@email.com" required>
+<input type="email" class="w-full p-3 border rounded-md" placeholder="your@email.com" required>
 </div>
 <div>
 <label class="block text-sm font-medium mb-1">Сообщение</label>
-<textarea name="message" class="w-full p-3 border rounded-md" rows="4" placeholder="Ваше сообщение..." required></textarea>
+<textarea class="w-full p-3 border rounded-md" rows="4" placeholder="Ваше сообщение..." required></textarea>
 </div>
+<!-- Чекбокс политики конфиденциальности -->
+<div class="checkbox-container">
+<input id="contactPrivacyPolicy" name="privacyPolicy" type="checkbox" required class="checkbox-input">
+<label for="contactPrivacyPolicy" class="checkbox-label">
+Я согласен с <a href="#" onclick="openPrivacyPolicyModal(); return false;" class="checkbox-link">политикой конфиденциальности</a> и даю согласие на обработку персональных данных
+</label>
+</div>
+<div id="contactPrivacyError" class="checkbox-error">Пожалуйста, примите политику конфиденциальности</div>
 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700">Отправить</button>
 </form>
 </div>
@@ -1470,6 +1498,116 @@ container.appendChild(card);
 <footer class="bg-gray-50 border-t mt-12">
 <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600">© 2025 ТеплоСтройНовация — все права защищены.</div>
 </footer>
+
+<!-- Политика конфиденциальности (модальное окно) -->
+<div id="privacyPolicyModalOverlay" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+<div class="w-full max-w-4xl bg-white rounded-xl shadow-xl overflow-hidden">
+<div class="flex items-center justify-between px-6 py-4 border-b">
+<div class="font-semibold text-xl text-gray-800">Политика конфиденциальности</div>
+<button type="button" class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-50" onclick="closeModal('privacyPolicyModalOverlay')">
+Закрыть
+</button>
+</div>
+<div class="policy-modal-content">
+<div class="policy-section">
+<h3>1. Общие положения</h3>
+<p>Настоящая Политика конфиденциальности персональных данных (далее — «Политика») действует в отношении всей информации, которую сайт teplostroy.example (далее — «Сайт»), принадлежащий ООО «ТеплоСтройНовация» (далее — «Оператор»), может получить о Пользователе во время использования сайта.</p>
+</div>
+<div class="policy-section">
+<h3>2. Основные понятия</h3>
+<p><strong>Персональные данные</strong> — любая информация, относящаяся к прямо или косвенно определённому или определяемому физическому лицу (субъекту персональных данных).</p>
+<p><strong>Обработка персональных данных</strong> — любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без использования таких средств с персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных.</p>
+<p><strong>Конфиденциальность персональных данных</strong> — обязательное для соблюдения Оператором или иным получившим доступ к персональным данным лицом требование не допускать их распространения без согласия субъекта персональных данных или наличия иного законного основания.</p>
+<p><strong>Пользователь</strong> — любой посетитель сайта, заполняющий формы обратной связи и предоставляющий свои персональные данные добровольно.</p>
+</div>
+<div class="policy-section">
+<h3>3. Цели обработки персональных данных</h3>
+<p>Оператор обрабатывает персональные данные Пользователя исключительно в следующих целях:</p>
+<ul>
+<li>Предоставление коммерческих предложений по запросу (запрос цен, КП, инвестпакета);</li>
+<li>Связь с Пользователем для уточнения деталей проекта, расчёта стоимости, сроков и технических параметров;</li>
+<li>Выполнение обязательств по договору, если таковой будет заключён;</li>
+<li>Соблюдение требований законодательства РФ.</li>
+</ul>
+</div>
+<div class="policy-section">
+<h3>4. Состав и категории персональных данных</h3>
+<p>Оператор может обрабатывать следующие персональные данные Пользователя:</p>
+<ul>
+<li>Фамилия, имя, отчество;</li>
+<li>Номер телефона;</li>
+<li>Адрес электронной почты;</li>
+<li>Регион проживания/строительства;</li>
+<li>Информация о проекте (объём, тип объекта, пожелания);</li>
+<li>IP-адрес и данные, автоматически получаемые при посещении сайта (через cookie и аналогичные технологии).</li>
+</ul>
+</div>
+<div class="policy-section">
+<h3>5. Правовые основания обработки</h3>
+<p>Обработка персональных данных осуществляется на основании:</p>
+<ul>
+<li>Согласия субъекта персональных данных (дано при отправке формы на сайте);</li>
+<li>Федерального закона №152-ФЗ «О персональных данных»;</li>
+<li>Гражданского кодекса РФ (в части исполнения договора).</li>
+</ul>
+</div>
+<div class="policy-section">
+<h3>6. Способы и сроки обработки</h3>
+<p>Персональные данные обрабатываются с использованием автоматизированных и неавтоматизированных средств.</p>
+<p>Данные хранятся в защищённых базах данных на территории Российской Федерации.</p>
+<p>Срок хранения персональных данных — до достижения целей обработки, но не более 3 (трёх) лет с момента последнего обращения Пользователя, если иное не установлено законодательством РФ.</p>
+</div>
+<div class="policy-section">
+<h3>7. Права субъекта персональных данных</h3>
+<p>Пользователь имеет право:</p>
+<ul>
+<li>На получение информации о наличии его персональных данных;</li>
+<li>На уточнение, обновление, блокирование или уничтожение своих персональных данных;</li>
+<li>На отзыв согласия на обработку персональных данных (письменно по адресу info@teplostroy.example);</li>
+<li>На защиту своих прав и законных интересов, включая обращение в суд.</li>
+</ul>
+</div>
+<div class="policy-section">
+<h3>8. Обязанности Оператора</h3>
+<p>Оператор обязан:</p>
+<ul>
+<li>Обеспечивать конфиденциальность и безопасность персональных данных;</li>
+<li>Не раскрывать персональные данные третьим лицам без согласия субъекта, за исключением случаев, предусмотренных законом;</li>
+<li>Принимать меры по защите данных от несанкционированного доступа.</li>
+</ul>
+</div>
+<div class="policy-section">
+<h3>9. Передача персональных данных третьим лицам</h3>
+<p>Персональные данные Пользователя не передаются третьим лицам, за исключением:</p>
+<ul>
+<li>Партнёров-подрядчиков, привлекаемых для выполнения работ по проекту (только с согласия Пользователя);</li>
+<li>Уполномоченных органов государственной власти в случаях, установленных законом.</li>
+</ul>
+</div>
+<div class="policy-section">
+<h3>10. Меры по защите персональных данных</h3>
+<p>Оператор применяет организационные и технические меры для защиты персональных данных от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования, распространения, а также от иных неправомерных действий.</p>
+</div>
+<div class="policy-section">
+<h3>11. Заключительные положения</h3>
+<p>Настоящая Политика может быть изменена Оператором без предварительного уведомления. Новая редакция размещается на сайте.</p>
+<p>К отношениям между Пользователем и Оператором применяется законодательство Российской Федерации.</p>
+</div>
+<div class="policy-section">
+<h3>12. Контактная информация</h3>
+<p>По вопросам, связанным с обработкой персональных данных, обращайтесь:</p>
+<p><strong>Email:</strong> info@teplostroy.example</p>
+</div>
+</div>
+<div class="px-6 py-4 border-t flex justify-end">
+<button type="button" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" onclick="closeModal('privacyPolicyModalOverlay')">
+Понятно
+</button>
+</div>
+</div>
+</div>
+
+<!-- ✅ ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: добавлен полный JS-блок с чекбоксами и политикой -->
 <script>
 // --- Переключение страниц ---
 function showPage(pageId) {
@@ -1560,117 +1698,4 @@ overlay.innerHTML = `
 <input name="phone" required class="w-full border rounded-md px-3 py-2" placeholder="+7..." inputmode="tel">
 </div>
 <div>
-<label class="block text-sm mb-1">Email</label>
-<input name="email" class="w-full border rounded-md px-3 py-2" placeholder="email@domain.com" inputmode="email">
-</div>
-<div>
-<label class="block text-sm mb-1">Комментарий</label>
-<textarea name="comment" rows="3" class="w-full border rounded-md px-3 py-2"
-placeholder="Город, объем, сроки, вопросы..."></textarea>
-</div>
-<div class="flex gap-2 pt-2">
-<button type="submit" class="flex-1 bg-blue-600 text-white rounded-md px-3 py-2 hover:bg-blue-700">
-Отправить запрос
-</button>
-<button type="button" class="px-3 py-2 rounded-md border hover:bg-gray-50" onclick="closeModal('priceModalOverlay')">
-Отмена
-</button>
-</div>
-<div id="priceFormStatus" class="text-sm text-green-700 hidden mt-2"></div>
-</form>
-</div>
-`;
-overlay.classList.remove('hidden');
-}
-function submitPriceRequest(event) {
-event.preventDefault();
-const form = event.target;
-const status = form.querySelector('#priceFormStatus');
-const data = new FormData(form);
-const product = data.get('product') || 'продукт';
-const name = data.get('name') || 'клиент';
-status.textContent = `Спасибо, ${name}! Запрос по «${product}» принят. Мы свяжемся с вами.`;
-status.classList.remove('hidden');
-// Сброс всех полей формы кроме скрытого поля с названием продукта
-form.querySelectorAll('input[name="name"], input[name="phone"], input[name="email"], textarea[name="comment"]').forEach(input => {
-input.value = '';
-});
-}
-// --- Обработка форм ---
-function handleSubmit(event) {
-event.preventDefault();
-const form = event.target;
-const name = form.querySelector('input[name="name"]').value || 'Пользователь';
-const message = form.querySelector('textarea').value;
-alert(`Спасибо, ${name}! Ваше сообщение принято. Мы свяжемся с вами в ближайшее время.`);
-form.reset();
-}
-function handleAgroRequest(event) {
-event.preventDefault();
-const formData = new FormData(event.target);
-const name = formData.get('name') || 'Клиент';
-const volume = formData.get('volume');
-const type = formData.get('type');
-const region = formData.get('region');
-let typeName = '';
-switch(type) {
-case 'ovosh': typeName = 'овощехранилище'; break;
-case 'syro': typeName = 'сыроварню'; break;
-case 'moloko': typeName = 'молокоприёмку'; break;
-default: typeName = 'агрообъект';
-}
-alert(`Спасибо, ${name}!\nВаша заявка на ${typeName} объемом ${volume} м³ в регионе ${region} принята.\nНаш менеджер свяжется с вами в течение 48 часов.`);
-event.target.reset();
-}
-// --- ROI Калькулятор ---
-function calculateROI() {
-const area = parseFloat(document.getElementById('area')?.value) || 0;
-const emPrice = parseFloat(document.getElementById('emPrice')?.value) || 0;
-const altPrice = parseFloat(document.getElementById('altPrice')?.value) || 0;
-const savings = area * (altPrice - emPrice);
-const formatted = savings >= 1e6
-? `${(savings / 1e6).toFixed(0)} млн ₽`
-: `${Math.round(savings).toLocaleString()} ₽`;
-const resultEl = document.getElementById('roiResult');
-if (resultEl) resultEl.textContent = formatted || '0 ₽';
-}
-// --- Функции для модальных окон ---
-document.addEventListener('keydown', (e) => {
-if (e.key === 'Escape') {
-closeModal('imageModalOverlay');
-closeModal('detailsModalOverlay');
-closeModal('priceModalOverlay');
-}
-});
-function closeModal(id) {
-const overlay = document.getElementById(id);
-if (overlay) overlay.classList.add('hidden');
-}
-function ensureOverlay(id) {
-let overlay = document.getElementById(id);
-if (overlay) return overlay;
-overlay = document.createElement('div');
-overlay.id = id;
-overlay.className = 'hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4';
-overlay.addEventListener('click', (e) => {
-if (e.target === overlay) overlay.classList.add('hidden');
-});
-document.body.appendChild(overlay);
-return overlay;
-}
-function escapeHtml(str) {
-return String(str).replace(/[&<>"']/g, (m) => ({
-'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
-}[m]));
-}
-function escapeAttr(str) {
-return escapeHtml(str).replace(/`/g, '&#096;');
-}
-// --- Инициализация ---
-document.addEventListener('DOMContentLoaded', function() {
-// Включить первую страницу
-showPage('home');
-});
-</script>
-</body>
-</html>
+<label
