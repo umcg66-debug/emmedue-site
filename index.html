@@ -1634,6 +1634,27 @@ container.appendChild(card);
 
 <!-- ✅ ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: добавлен полный JS-блок с чекбоксами и политикой -->
 <script>
+const pageTitles = {
+home: 'Главная',
+system: 'Система',
+products: 'Продукты',
+design: 'Проектирование',
+agro: 'АгроСтрой',
+comparison: 'Сравнение',
+investor: 'Инвестору',
+gallery: 'Кейсы',
+docs: 'Техдоки',
+contact: 'Контакты'
+};
+
+function trackGaEvent(eventName, params) {
+if (typeof gtag === 'function') gtag('event', eventName, params);
+}
+
+function trackMetrikaGoal(goalName, params) {
+if (typeof ym === 'function') ym(106610685, 'reachGoal', goalName, params);
+}
+
 // --- Переключение страниц ---
 function showPage(pageId) {
 document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
@@ -1645,9 +1666,51 @@ if (activeNavButton) activeNavButton.classList.add('active');
 window.scrollTo(0, 0);
 // --- Analytics: SPA pageview ---
 try { history.replaceState(null, '', `#${pageId}`); } catch(e) { location.hash = pageId; }
-if (typeof ym === 'function') ym(106610685, 'hit', `/${pageId}`, { title: `Раздел: ${pageId}` });
-if (typeof gtag === 'function') gtag('event', 'page_view', { page_title: pageId, page_path: `${location.pathname}#${pageId}`, page_location: `${location.origin}${location.pathname}#${pageId}` });
+const pageTitle = pageTitles[pageId] || pageId;
+if (typeof ym === 'function') ym(106610685, 'hit', `${location.origin}${location.pathname}#${pageId}`, { title: pageTitle, referer: document.referrer });
+if (typeof gtag === 'function') gtag('event', 'page_view', { page_title: pageTitle, page_path: `#${pageId}`, page_location: `${location.origin}${location.pathname}#${pageId}` });
 }
+
+function initPageFromHash() {
+const pageId = location.hash ? location.hash.substring(1) : 'home';
+if (document.getElementById(pageId)) {
+showPage(pageId);
+} else {
+showPage('home');
+}
+}
+
+window.addEventListener('DOMContentLoaded', initPageFromHash);
+window.addEventListener('hashchange', initPageFromHash);
+
+document.addEventListener('click', (event) => {
+const target = event.target.closest('a, button');
+if (!target) return;
+const labelText = (target.textContent || '').trim();
+const onclickAttr = target.getAttribute('onclick') || '';
+const href = target.getAttribute('href') || '';
+const isPdfLink = href.toLowerCase().endsWith('.pdf');
+
+if (labelText.includes('Запросить инвестпакет')) {
+trackGaEvent('click', { event_category: 'CTA', event_label: 'request_investment' });
+trackMetrikaGoal('request_investment');
+}
+
+if (labelText.includes('Запросить цену') || onclickAttr.includes('openPriceRequestModal')) {
+trackGaEvent('click', { event_category: 'CTA', event_label: 'request_price' });
+trackMetrikaGoal('request_price', { product: labelText });
+}
+
+if (labelText === 'Подробнее' || onclickAttr.includes('openDetailsModal')) {
+trackGaEvent('click', { event_category: 'CTA', event_label: 'product_info' });
+trackMetrikaGoal('product_info', { title: labelText });
+}
+
+if ((labelText.includes('Скачать') || labelText.includes('Презентация') || isPdfLink) && !onclickAttr.includes('trackDownload')) {
+trackGaEvent('click', { event_category: 'CTA', event_label: 'download' });
+trackMetrikaGoal('download_pdf', { file: href || labelText });
+}
+});
 // --- Мобильное меню ---
 function toggleMobileMenu() {
 const menu = document.getElementById('mobileMenu');
