@@ -1,0 +1,89 @@
+//@version=6
+indicator('Импульс + RSI + MA + Заливка (v6)', overlay = true)
+
+// === ПАРАМЕТРЫ ===
+lengthATR = input.int(14, title = 'ATR Период')
+volMultiplier = input.float(1.5, title = 'Множитель волатильности (ATR)')
+volPeriod = input.int(20, title = 'Период среднего объёма')
+
+earlySignalMode = input.bool(false, title = 'Early signal mode', tooltip = 'Early mode даёт более ранние сигналы на текущем баре, может быть более агрессивным.')
+
+rsiPeriod = input.int(14, title = 'RSI Период', group = 'RSI')
+showRSI = input.bool(true, title = 'Показать RSI', group = 'RSI')
+
+// MA параметры
+showMA20 = input.bool(true, 'Показать MA20', group = 'MA')
+showMA50 = input.bool(true, 'Показать MA50', group = 'MA')
+showMA200 = input.bool(true, 'Показать MA200', group = 'MA')
+
+// === РАСЧЁТЫ ===
+atr = ta.atr(lengthATR)
+avgVol = ta.sma(volume, volPeriod)
+
+ma20 = ta.sma(close, 20)
+ma50 = ta.sma(close, 50)
+ma200 = ta.sma(close, 200)
+
+rsi = ta.rsi(close, rsiPeriod)
+
+// === ИМПУЛЬСЫ ===
+priceRange = high - low
+rangeThreshold = atr * volMultiplier
+dirUpConfirmed = close > open
+dirDownConfirmed = close < open
+dirUpEarly = high > open
+dirDownEarly = low < open
+
+// В обычном режиме направление подтверждается закрытием бара.
+isImpulseUp = dirUpConfirmed and volume > avgVol and priceRange > rangeThreshold
+isImpulseDown = dirDownConfirmed and volume > avgVol and priceRange > rangeThreshold
+
+// В Early mode направление берётся по движению от open к high/low,
+// чтобы сигнал мог появиться раньше на текущем баре.
+isImpulseUpEarly = dirUpEarly and volume > avgVol and priceRange > rangeThreshold
+isImpulseDownEarly = dirDownEarly and volume > avgVol and priceRange > rangeThreshold
+
+// Early mode допускает сигнал на текущем баре (реалтайм), чтобы снизить лаг.
+// На истории сигналы остаются подтверждёнными (barstate.isconfirmed) и не перерисовываются.
+allowSignalNow = earlySignalMode ? true : barstate.isconfirmed
+rawLong = allowSignalNow and (earlySignalMode ? isImpulseUpEarly : isImpulseUp)
+rawShort = allowSignalNow and (earlySignalMode ? isImpulseDownEarly : isImpulseDown)
+
+// === ЗАЩИТА ОТ ПОВТОРНЫХ СИГНАЛОВ ===
+var int lastSignal = 0 // 1 = long, -1 = short, 0 = none
+longSignal = rawLong and lastSignal != 1
+shortSignal = rawShort and lastSignal != -1
+
+if longSignal
+    lastSignal := 1
+else if shortSignal
+    lastSignal := -1
+
+// === ТРЕУГОЛЬНИКИ ВМЕСТО СТРЕЛОК ===
+plotshape(longSignal, title = 'Импульс вверх', location = location.belowbar, color = color.green, style = shape.triangleup, size = size.small)
+plotshape(shortSignal, title = 'Импульс вниз', location = location.abovebar, color = color.red, style = shape.triangledown, size = size.small)
+
+// === ЗАЛИВКА ФОНА ===
+bgcolor(longSignal ? color.new(color.green, 85) : na, title = 'Фон вверх')
+bgcolor(shortSignal ? color.new(color.red, 85) : na, title = 'Фон вниз')
+
+// === MA ===
+plot(showMA20 ? ma20 : na, title = 'MA20', color = color.rgb(10, 236, 32))
+plot(showMA50 ? ma50 : na, title = 'MA50', color = color.rgb(241, 9, 9))
+plot(showMA200 ? ma200 : na, title = 'MA200', color = color.rgb(12, 60, 230))
+
+// === АЛЕРТЫ ===
+alertcondition(longSignal, title = 'Long Entry', message = 'Long Entry: импульсное движение вверх!')
+alertcondition(shortSignal, title = 'Short Entry', message = 'Short Entry: импульсное движение вниз!')
+alertcondition(longSignal, title = 'Алерт Вверх', message = 'Импульсное движение вверх!')
+alertcondition(shortSignal, title = 'Алерт Вниз', message = 'Импульсное движение вниз!')
+
+// === RSI (отдельно) ===
+rsiLine = showRSI ? rsi : na
+plot(rsiLine, title = 'RSI', color = color.purple, linewidth = 2, display = display.none)
+
+// === КОММЕНТАРИИ ===
+// Ранее сигнал задерживался из-за строгого подтверждения направления на закрытии бара и фильтра объёма/ATR.
+// Для ускорения добавлен Early signal mode: направление определяется по high/low относительно open,
+// что позволяет получать сигнал на текущем баре (real-time).
+// Включить Early mode можно в настройках индикатора: Early signal mode.
