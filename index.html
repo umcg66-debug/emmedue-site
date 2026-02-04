@@ -7,6 +7,29 @@
 <title>Emmedue — системы панелей для инвесторов | ТеплоСтройНовация</title>
 <!-- Фавиконка -->
 <link rel="icon" type="image/png" href="logo.png">
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X9L5Y0RYE9"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-X9L5Y0RYE9', { send_page_view: false });
+</script>
+<!-- Яндекс.Метрика -->
+<script>
+(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();
+for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ym(106610685, "init", {
+clickmap:true,
+trackLinks:true,
+accurateTrackBounce:true,
+webvisor:true
+});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/106610685" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
@@ -633,7 +656,7 @@ class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg
 </div>
 <!-- Кнопка "Скачать техдок" -->
 <div class="text-center">
-<a href="79536269096.pdf" class="inline-block px-4 py-2 border rounded-md hover:bg-gray-50" download>Скачать техдок</a>
+<a href="79536269096.pdf" class="inline-block px-4 py-2 border rounded-md hover:bg-gray-50" download onclick="trackDownload('79536269096.pdf')">Скачать техдок</a>
 </div>
 </div> <!-- Конец max-w-6xl -->
 </div> <!-- Конец SYSTEM PAGE -->
@@ -1627,7 +1650,23 @@ document.querySelectorAll('.nav-link, nav button, #mobileMenu button').forEach(l
 const activeNavButton = document.querySelector(`nav button[onclick="showPage('${pageId}')"]`);
 if (activeNavButton) activeNavButton.classList.add('active');
 window.scrollTo(0, 0);
+try { history.replaceState(null, '', `#${pageId}`); } catch(e) { location.hash = pageId; }
+if (typeof ym === 'function') {
+ym(106610685, 'hit', `/${pageId}`, { title: `Раздел: ${pageId}` });
 }
+if (typeof gtag === 'function') {
+gtag('event', 'page_view', {
+page_title: pageId,
+page_path: `${location.pathname}#${pageId}`,
+page_location: `${location.origin}${location.pathname}#${pageId}`
+});
+}
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+const pageId = location.hash ? location.hash.replace('#', '') : 'home';
+showPage(pageId || 'home');
+});
 // --- Мобильное меню ---
 function toggleMobileMenu() {
 const menu = document.getElementById('mobileMenu');
@@ -1849,6 +1888,11 @@ const formatted = savings >= 1e6
 : `${Math.round(savings).toLocaleString()} ₽`;
 const resultEl = document.getElementById('roiResult');
 if (resultEl) resultEl.textContent = formatted || '0 ₽';
+}
+
+function trackDownload(fileName) {
+if (typeof ym === 'function') ym(106610685, 'reachGoal', 'download_pdf', { file: fileName });
+if (typeof gtag === 'function') gtag('event', 'file_download', { file_name: fileName });
 }
 </script>
 
