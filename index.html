@@ -1634,27 +1634,6 @@ container.appendChild(card);
 
 <!-- ✅ ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: добавлен полный JS-блок с чекбоксами и политикой -->
 <script>
-const pageTitles = {
-home: 'Главная',
-system: 'Система',
-products: 'Продукты',
-design: 'Проектирование',
-agro: 'АгроСтрой',
-comparison: 'Сравнение',
-investor: 'Инвестору',
-gallery: 'Кейсы',
-docs: 'Техдоки',
-contact: 'Контакты'
-};
-
-function trackGaEvent(eventName, params) {
-if (typeof gtag === 'function') gtag('event', eventName, params);
-}
-
-function trackMetrikaGoal(goalName, params) {
-if (typeof ym === 'function') ym(106610685, 'reachGoal', goalName, params);
-}
-
 // --- Переключение страниц ---
 function showPage(pageId) {
 document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
@@ -1664,52 +1643,22 @@ document.querySelectorAll('.nav-link, nav button, #mobileMenu button').forEach(l
 const activeNavButton = document.querySelector(`nav button[onclick="showPage('${pageId}')"]`);
 if (activeNavButton) activeNavButton.classList.add('active');
 window.scrollTo(0, 0);
-// --- Analytics: SPA pageview ---
 try { history.replaceState(null, '', `#${pageId}`); } catch(e) { location.hash = pageId; }
-const pageTitle = pageTitles[pageId] || pageId;
-if (typeof ym === 'function') ym(106610685, 'hit', `${location.origin}${location.pathname}#${pageId}`, { title: pageTitle, referer: document.referrer });
-if (typeof gtag === 'function') gtag('event', 'page_view', { page_title: pageTitle, page_path: `#${pageId}`, page_location: `${location.origin}${location.pathname}#${pageId}` });
+if (typeof ym === 'function') {
+ym(106610685, 'hit', `/${pageId}`, { title: `Раздел: ${pageId}` });
 }
-
-function initPageFromHash() {
-const pageId = location.hash ? location.hash.substring(1) : 'home';
-if (document.getElementById(pageId)) {
-showPage(pageId);
-} else {
-showPage('home');
+if (typeof gtag === 'function') {
+gtag('event', 'page_view', {
+page_title: pageId,
+page_path: `${location.pathname}#${pageId}`,
+page_location: `${location.origin}${location.pathname}#${pageId}`
+});
 }
 }
 
-window.addEventListener('DOMContentLoaded', initPageFromHash);
-window.addEventListener('hashchange', initPageFromHash);
-
-document.addEventListener('click', (event) => {
-const target = event.target.closest('a, button');
-if (!target) return;
-const labelText = (target.textContent || '').trim();
-const onclickAttr = target.getAttribute('onclick') || '';
-const href = target.getAttribute('href') || '';
-const isPdfLink = href.toLowerCase().endsWith('.pdf');
-
-if (labelText.includes('Запросить инвестпакет')) {
-trackGaEvent('click', { event_category: 'CTA', event_label: 'request_investment' });
-trackMetrikaGoal('request_investment');
-}
-
-if (labelText.includes('Запросить цену') || onclickAttr.includes('openPriceRequestModal')) {
-trackGaEvent('click', { event_category: 'CTA', event_label: 'request_price' });
-trackMetrikaGoal('request_price', { product: labelText });
-}
-
-if (labelText === 'Подробнее' || onclickAttr.includes('openDetailsModal')) {
-trackGaEvent('click', { event_category: 'CTA', event_label: 'product_info' });
-trackMetrikaGoal('product_info', { title: labelText });
-}
-
-if ((labelText.includes('Скачать') || labelText.includes('Презентация') || isPdfLink) && !onclickAttr.includes('trackDownload')) {
-trackGaEvent('click', { event_category: 'CTA', event_label: 'download' });
-trackMetrikaGoal('download_pdf', { file: href || labelText });
-}
+window.addEventListener('DOMContentLoaded', () => {
+const pageId = location.hash ? location.hash.replace('#', '') : 'home';
+showPage(pageId || 'home');
 });
 // --- Мобильное меню ---
 function toggleMobileMenu() {
@@ -1741,8 +1690,6 @@ overlay.classList.remove('hidden');
 }
 // --- Модальное окно: подробности товара ---
 function openDetailsModal(title, text) {
-if (typeof ym === 'function') ym(106610685, 'reachGoal', 'product_info', { title: title || '' });
-if (typeof gtag === 'function') gtag('event', 'product_info', { item_name: title || '' });
 const overlay = ensureOverlay('detailsModalOverlay');
 overlay.innerHTML = `
 <div class="w-full max-w-lg bg-white rounded-xl shadow-xl overflow-hidden">
@@ -1769,8 +1716,6 @@ overlay.classList.remove('hidden');
 }
 // --- Модальное окно: запрос цены ---
 function openPriceRequestModal(productName) {
-if (typeof ym === 'function') ym(106610685, 'reachGoal', 'request_price_open', { product: productName || '' });
-if (typeof gtag === 'function') gtag('event', 'request_price_open', { item_name: productName || '' });
 const overlay = ensureOverlay('priceModalOverlay');
 overlay.innerHTML = `
 <div class="w-full max-w-lg bg-white rounded-xl shadow-xl overflow-hidden">
@@ -1896,8 +1841,6 @@ headers: {
 })
 .then((response) => {
 if (response.ok) {
-if (typeof ym === 'function') ym(106610685, 'reachGoal', 'lead_submit');
-if (typeof gtag === 'function') gtag('event', 'generate_lead');
 setFormStatus(form, 'Спасибо! Заявка отправлена.', 'success');
 form.reset();
 return;
